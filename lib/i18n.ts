@@ -71,7 +71,7 @@ export type TranslationKey =
 
 export const translations: Record<TranslationKey, Record<Lang, string>> = {
   appName: {
-    en: "Maniama's Civics Helper",
+    en: "Maniamma's Civics Helper",
     ml: "മണിയമ്മയുടെ സിവിക്സ് ഹെൽപ്പർ",
   },
   home: { en: "Home", ml: "ഹോം" },
@@ -102,11 +102,11 @@ export const translations: Record<TranslationKey, Record<Lang, string>> = {
   missed: { en: "Missed", ml: "തെറ്റിയത്" },
   noMistakes: { en: "No Mistakes!", ml: "തെറ്റുകൾ ഇല്ല!" },
   noMistakesDesc: {
-    en: "Maniama, you haven't missed any questions! Wonderful!",
+    en: "Maniamma, you haven't missed any questions! Wonderful!",
     ml: "മണിയമ്മേ, ഒരു ചോദ്യവും തെറ്റിയിട്ടില്ല! വളരെ നന്നായി!",
   },
   clearConfirm: {
-    en: "Maniama, are you sure you want to clear all mistakes?",
+    en: "Maniamma, are you sure you want to clear all mistakes?",
     ml: "മണിയമ്മേ, എല്ലാ തെറ്റുകളും മായ്ക്കണമെന്ന് ഉറപ്പാണോ?",
   },
   yes: { en: "Yes", ml: "അതെ" },
@@ -114,15 +114,15 @@ export const translations: Record<TranslationKey, Record<Lang, string>> = {
   cancel: { en: "Cancel", ml: "റദ്ദാക്കുക" },
   quizComplete: { en: "Quiz Complete!", ml: "ക്വിസ് പൂർത്തിയായി!" },
   quizCompleteDesc: {
-    en: "Well done, Maniama! You answered all the questions.",
+    en: "Well done, Maniamma! You answered all the questions.",
     ml: "മണിയമ്മേ, നന്നായി! എല്ലാ ചോദ്യങ്ങൾക്കും ഉത്തരം നൽകി.",
   },
   tryAgain: { en: "Try Again", ml: "വീണ്ടും ശ്രമിക്കുക" },
   goHome: { en: "Go Home", ml: "ഹോം പേജിലേക്ക്" },
   questionOf: { en: "Question", ml: "ചോദ്യം" },
-  wellDone: { en: "Excellent, Maniama!", ml: "മണിയമ്മേ, അടിപൊളി!" },
+  wellDone: { en: "Excellent, Maniamma!", ml: "മണിയമ്മേ, അടിപൊളി!" },
   keepTrying: {
-    en: "Keep going, Maniama! You're learning!",
+    en: "Keep going, Maniamma! You're learning!",
     ml: "മണിയമ്മേ, തുടരൂ! പഠിച്ചുകൊണ്ടിരിക്കുന്നു!",
   },
   speechUnavailable: {
@@ -136,7 +136,7 @@ export const translations: Record<TranslationKey, Record<Lang, string>> = {
   },
   progress: { en: "Progress", ml: "പുരോഗതി" },
   greeting: {
-    en: "Welcome, Maniama!",
+    en: "Welcome, Maniamma!",
     ml: "സ്വാഗതം, മണിയമ്മേ!",
   },
   homeSubtitle: {
@@ -144,36 +144,36 @@ export const translations: Record<TranslationKey, Record<Lang, string>> = {
     ml: "നമുക്ക് ഒരുമിച്ച് സിവിക്സ് ടെസ്റ്റിന് പഠിക്കാം",
   },
   homeHelp: {
-    en: "Maniama, tap a big button below to start. You can do this!",
+    en: "Maniamma, tap a big button below to start. You can do this!",
     ml: "മണിയമ്മേ, തുടങ്ങാൻ താഴെയുള്ള ഒരു ബട്ടൺ അമർത്തൂ. നിങ്ങൾക്ക് ഇത് കഴിയും!",
   },
   quizEncourage: {
-    en: "You're doing great, Maniama! Take your time.",
+    en: "You're doing great, Maniamma! Take your time.",
     ml: "മണിയമ്മേ, നന്നായി പോകുന്നു! സമയം എടുത്തോളൂ.",
   },
   practiceEncourage: {
-    en: "Maniama, think carefully and then see the answer.",
+    en: "Maniamma, think carefully and then see the answer.",
     ml: "മണിയമ്മേ, നന്നായി ആലോചിക്കൂ, എന്നിട്ട് ഉത്തരം നോക്കൂ.",
   },
   mistakesEncourage: {
-    en: "Don't worry, Maniama! Mistakes help us learn.",
+    en: "Don't worry, Maniamma! Mistakes help us learn.",
     ml: "മണിയമ്മേ, വിഷമിക്കേണ്ട! തെറ്റുകൾ പഠിക്കാൻ സഹായിക്കും.",
   },
   greatScore: {
-    en: "Amazing, Maniama! You're almost ready!",
+    en: "Amazing, Maniamma! You're almost ready!",
     ml: "മണിയമ്മേ, ഗംഭീരം! ഏകദേശം തയ്യാറായി!",
   },
   goodScore: {
-    en: "Good effort, Maniama! Let's try again!",
+    en: "Good effort, Maniamma! Let's try again!",
     ml: "മണിയമ്മേ, നല്ല ശ്രമം! നമുക്ക് വീണ്ടും ശ്രമിക്കാം!",
   },
   practiceSelectHelp: {
-    en: "Maniama, pick a topic you'd like to study.",
+    en: "Maniamma, pick a topic you'd like to study.",
     ml: "മണിയമ്മേ, പഠിക്കാൻ ആഗ്രഹിക്കുന്ന വിഷയം തിരഞ്ഞെടുക്കൂ.",
   },
   login: { en: "Login", ml: "ലോഗിൻ" },
   enterPin: {
-    en: "Enter your 4-digit PIN, Maniama",
+    en: "Enter your 4-digit PIN, Maniamma",
     ml: "മണിയമ്മേ, നിങ്ങളുടെ 4 അക്ക പിൻ നമ്പർ നൽകുക",
   },
   pinPlaceholder: { en: "Enter PIN", ml: "പിൻ നൽകുക" },
@@ -183,7 +183,7 @@ export const translations: Record<TranslationKey, Record<Lang, string>> = {
     ml: "തെറ്റായ പിൻ. വീണ്ടും ശ്രമിക്കുക.",
   },
   loginWelcome: {
-    en: "Welcome back, Maniama!",
+    en: "Welcome back, Maniamma!",
     ml: "വീണ്ടും സ്വാഗതം, മണിയമ്മേ!",
   },
   dashboard: { en: "My Progress", ml: "എന്റെ പുരോഗതി" },

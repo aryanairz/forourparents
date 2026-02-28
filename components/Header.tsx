@@ -23,7 +23,7 @@ export default function Header() {
             className="rounded-sm flex-shrink-0 sm:w-7 sm:h-7"
           />
           <span className="truncate">
-            {lang === "en" ? "Maniama's Helper" : "മണിയമ്മയുടെ ഹെൽപ്പർ"}
+            {lang === "en" ? "Maniamma's Helper" : "മണിയമ്മയുടെ ഹെൽപ്പർ"}
           </span>
         </Link>
 
