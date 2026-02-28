@@ -10,21 +10,7 @@ interface ReadAloudProps {
   lang: Lang;
 }
 
-/**
- * Checks whether any voice is available for the given BCP-47 language tag.
- * On iOS, getVoices() returns [] until the voiceschanged event fires,
- * so we also accept a cached list.
- */
-function hasVoiceFor(langTag: string, voices: SpeechSynthesisVoice[]): boolean {
-  const prefix = langTag.split("-")[0].toLowerCase(); // "ml", "en", etc.
-  return voices.some(
-    (v) =>
-      v.lang.toLowerCase().startsWith(prefix + "-") ||
-      v.lang.toLowerCase() === prefix,
-  );
-}
-
-/** Pick the best voice for a language tag, preferring local/high-quality voices. */
+/** Pick the best Web Speech voice for a language tag. */
 function pickVoice(
   langTag: string,
   voices: SpeechSynthesisVoice[],
@@ -36,31 +22,43 @@ function pickVoice(
       v.lang.toLowerCase() === prefix,
   );
   if (matches.length === 0) return null;
-  // Prefer a local (non-network) voice for reliability
   return matches.find((v) => v.localService) ?? matches[0];
+}
+
+/** Build the full text string to speak (numbered options). */
+function buildText(
+  text: BilingualText,
+  options: BilingualText[] | undefined,
+  lang: Lang,
+): string {
+  let fullText = text[lang];
+  if (options && options.length > 0) {
+    const optionText = options
+      .map((opt, i) => `${i + 1}. ${opt[lang]}`)
+      .join(". ... ");
+    fullText += ". ... " + optionText;
+  }
+  return fullText;
 }
 
 export default function ReadAloud({ text, options, lang }: ReadAloudProps) {
   const [speaking, setSpeaking] = useState(false);
-  const [fallback, setFallback] = useState(false); // true = reading English because no ML voice
+  const [loading, setLoading] = useState(false);
   const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
   const resumeTimer = useRef<ReturnType<typeof setInterval> | null>(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  // Load voices — iOS fires voiceschanged asynchronously
+  // Load Web Speech voices — iOS fires voiceschanged asynchronously
   useEffect(() => {
     if (typeof window === "undefined" || !window.speechSynthesis) return;
-
     const load = () => {
       const v = window.speechSynthesis.getVoices();
       if (v.length > 0) setVoices(v);
     };
-
-    load(); // Immediate attempt (works on most Android / desktop)
+    load();
     window.speechSynthesis.addEventListener("voiceschanged", load);
-    // iOS backup: poll a few times
     const t1 = setTimeout(load, 250);
     const t2 = setTimeout(load, 1000);
-
     return () => {
       window.speechSynthesis.removeEventListener("voiceschanged", load);
       clearTimeout(t1);
@@ -68,35 +66,21 @@ export default function ReadAloud({ text, options, lang }: ReadAloudProps) {
     };
   }, []);
 
-  // Reset state when question / language changes
+  // Stop everything when question / language changes
   useEffect(() => {
-    setSpeaking(false);
-    setFallback(false);
-    window.speechSynthesis?.cancel();
-    if (resumeTimer.current) {
-      clearInterval(resumeTimer.current);
-      resumeTimer.current = null;
-    }
+    stopAll();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [text, lang]);
 
-  // Cleanup on unmount
   useEffect(() => {
-    return () => {
-      window.speechSynthesis?.cancel();
-      if (resumeTimer.current) clearInterval(resumeTimer.current);
-    };
+    return () => stopAll();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  /**
-   * iOS pauses speech after ~15 seconds of audio.
-   * The workaround is to call resume() on a short interval while speaking.
-   */
   const startResumeLoop = useCallback(() => {
     if (resumeTimer.current) clearInterval(resumeTimer.current);
     resumeTimer.current = setInterval(() => {
-      if (window.speechSynthesis?.speaking) {
-        window.speechSynthesis.resume();
-      }
+      if (window.speechSynthesis?.speaking) window.speechSynthesis.resume();
     }, 5000);
   }, []);
 
@@ -107,89 +91,92 @@ export default function ReadAloud({ text, options, lang }: ReadAloudProps) {
     }
   }, []);
 
-  const speak = () => {
-    if (typeof window === "undefined" || !window.speechSynthesis) return;
-
-    // Stop any current speech
-    window.speechSynthesis.cancel();
+  const stopAll = () => {
+    window.speechSynthesis?.cancel();
     stopResumeLoop();
-
-    // Determine whether we have a voice for the selected language
-    const wantMalayalam = lang === "ml";
-    const hasMl = hasVoiceFor("ml-IN", voices);
-    const useLang = wantMalayalam && !hasMl ? "en" : lang;
-    const usingFallback = wantMalayalam && !hasMl;
-    setFallback(usingFallback);
-
-    // Build the full text — use numbered options (1, 2, 3, 4) to avoid confusion
-    let fullText = text[useLang];
-    if (options && options.length > 0) {
-      const optionText = options
-        .map((opt, i) => `${i + 1}. ${opt[useLang]}`)
-        .join(". ... ");
-      fullText += ". ... " + optionText;
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.src = "";
+      audioRef.current = null;
     }
+    setSpeaking(false);
+    setLoading(false);
+  };
 
-    // Small delay after cancel() — iOS needs it
+  /** Speak using Google Cloud TTS — returns a real Malayalam voice, works on all devices. */
+  const speakWithGoogleTTS = async (fullText: string) => {
+    setLoading(true);
+    try {
+      const res = await fetch("/api/tts", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text: fullText, lang }),
+      });
+      if (!res.ok) throw new Error("TTS API failed");
+      const { audioContent } = await res.json();
+
+      const audio = new Audio(`data:audio/mp3;base64,${audioContent}`);
+      audioRef.current = audio;
+      audio.onplay = () => { setSpeaking(true); setLoading(false); };
+      audio.onended = () => { setSpeaking(false); audioRef.current = null; };
+      audio.onerror = () => { setSpeaking(false); setLoading(false); audioRef.current = null; };
+      await audio.play();
+    } catch {
+      setSpeaking(false);
+      setLoading(false);
+    }
+  };
+
+  /** Speak using native Web Speech API — good for English on iOS/desktop. */
+  const speakWithWebSpeech = (fullText: string) => {
+    window.speechSynthesis.cancel();
     setTimeout(() => {
       const utterance = new SpeechSynthesisUtterance(fullText);
-      utterance.lang = useLang === "ml" ? "ml-IN" : "en-US";
-      utterance.rate = 0.8; // Slow for elderly users
-
-      // Try to use the best matching voice
-      const voice = pickVoice(utterance.lang, voices);
+      utterance.lang = "en-US";
+      utterance.rate = 0.85;
+      const voice = pickVoice("en-US", voices);
       if (voice) utterance.voice = voice;
-
-      utterance.onstart = () => {
-        setSpeaking(true);
-        startResumeLoop(); // iOS 15-second workaround
-      };
-      utterance.onend = () => {
-        setSpeaking(false);
-        stopResumeLoop();
-      };
+      utterance.onstart = () => { setSpeaking(true); startResumeLoop(); };
+      utterance.onend = () => { setSpeaking(false); stopResumeLoop(); };
       utterance.onerror = (e) => {
-        // "interrupted" fires on cancel() — not a real error
         if (e.error === "interrupted" || e.error === "canceled") return;
         setSpeaking(false);
         stopResumeLoop();
       };
-
       window.speechSynthesis.speak(utterance);
     }, 100);
   };
 
-  const stop = () => {
-    window.speechSynthesis?.cancel();
-    setSpeaking(false);
-    stopResumeLoop();
+  const speak = () => {
+    const fullText = buildText(text, options, lang);
+    // Malayalam always uses Google TTS — iOS has no built-in Malayalam voice
+    // English uses native Web Speech API (faster, no API call needed)
+    if (lang === "ml") {
+      speakWithGoogleTTS(fullText);
+    } else {
+      if (typeof window !== "undefined" && window.speechSynthesis) {
+        speakWithWebSpeech(fullText);
+      } else {
+        speakWithGoogleTTS(fullText);
+      }
+    }
   };
 
-  // Don't render if speech synthesis isn't available at all
-  if (typeof window !== "undefined" && !window.speechSynthesis) return null;
-
   return (
-    <div className="space-y-1.5">
-      <button
-        onClick={speaking ? stop : speak}
-        className={`min-h-[44px] sm:min-h-[48px] px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl text-base sm:text-lg font-semibold
-                    transition-all active:scale-95 w-full
-                    ${
-                      speaking
-                        ? "bg-orange-100 border-2 border-orange-400 text-orange-700"
-                        : "bg-blue-50 border-2 border-blue-200 text-primary hover:bg-blue-100"
-                    }`}
-      >
-        {speaking ? "⏹ Stop" : t("readAloud", lang)}
-      </button>
-      {/* Show a note when falling back to English because no Malayalam voice exists */}
-      {fallback && speaking && (
-        <p className="text-xs text-center text-orange-600 bg-orange-50 rounded-lg px-2 py-1.5">
-          {lang === "ml"
-            ? "മലയാളം ശബ്ദം ലഭ്യമല്ല — ഇംഗ്ലീഷിൽ വായിക്കുന്നു"
-            : "Malayalam voice not available — reading in English"}
-        </p>
-      )}
-    </div>
+    <button
+      onClick={speaking ? stopAll : speak}
+      disabled={loading}
+      className={`min-h-[44px] sm:min-h-[48px] px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl text-base sm:text-lg font-semibold
+                  transition-all active:scale-95 w-full
+                  ${
+                    loading
+                      ? "bg-gray-100 border-2 border-gray-300 text-gray-400 cursor-wait"
+                      : speaking
+                      ? "bg-orange-100 border-2 border-orange-400 text-orange-700"
+                      : "bg-blue-50 border-2 border-blue-200 text-primary hover:bg-blue-100"
+                  }`}
+    >
+      {loading ? "⏳ Loading..." : speaking ? "⏹ Stop" : t("readAloud", lang)}
+    </button>
   );
 }
