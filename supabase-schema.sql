@@ -1,4 +1,4 @@
--- Supabase Database Setup for Maniamma's Civics Helper
+-- Supabase Database Setup for Maniama's Civics Helper
 -- Run this SQL in your Supabase SQL Editor
 
 -- Create users table
@@ -65,5 +65,5 @@ CREATE POLICY "Users can read own quiz attempts" ON quiz_attempts
 CREATE POLICY "Users can insert own quiz attempts" ON quiz_attempts
   FOR INSERT WITH CHECK (true);
 
--- Insert Maniamma's account (you can customize the PIN)
+-- Insert Maniama's account (you can customize the PIN)
 INSERT INTO users (name, pin) VALUES ('മണിയമ്മ', '1234');

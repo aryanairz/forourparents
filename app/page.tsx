@@ -25,7 +25,7 @@ export default function HomePage() {
 
   return (
     <div className="space-y-6">
-      {/* Greeting for Maniamma */}
+      {/* Greeting for Maniama */}
       <div className="text-center py-4 sm:py-6 space-y-2 sm:space-y-3">
         <div className="flex justify-center">
           <Image
@@ -108,7 +108,7 @@ export default function HomePage() {
         <p className="text-base text-green-800">
           {lang === "en" ? (
             <>
-              🌟 Maniamma, you can switch to <strong>മലയാളം</strong> anytime
+              🌟 Maniama, you can switch to <strong>മലയാളം</strong> anytime
               using the button at the top!
             </>
           ) : (

@@ -1,6 +1,6 @@
-# Maniamma's Civics Test Helper - Setup Guide
+# Maniama's Civics Test Helper - Setup Guide
 
-A bilingual (English/Malayalam) civics test helper website designed for your grandmother Maniamma! 🙏🇺🇸
+A bilingual (English/Malayalam) civics test helper website designed for your grandmother Maniama! 🙏🇺🇸
 
 ## Features
 
@@ -27,7 +27,7 @@ npm install
 1. Go to [https://supabase.com](https://supabase.com) and create a free account
 2. Click "New Project"
 3. Fill in:
-   - **Project Name**: `maniamma-civics`
+   - **Project Name**: `Maniama-civics`
    - **Database Password**: (save this somewhere safe)
    - **Region**: Choose closest to your location
 4. Wait 2-3 minutes for project to be created
@@ -82,7 +82,7 @@ The app will open at [http://localhost:3000](http://localhost:3000)
 
 The database comes with a default user:
 
-- **Name**: മണിയമ്മ (Maniamma)
+- **Name**: മണിയമ്മ (Maniama)
 - **PIN**: 1234
 
 ## Deployment (Optional)
@@ -100,7 +100,7 @@ The database comes with a default user:
 
 Your app will be live at `https://your-project.vercel.app`
 
-## How Maniamma Can Use It
+## How Maniama Can Use It
 
 ### On Her First Device
 
@@ -181,7 +181,7 @@ ManiAmam/
 
 ## Support
 
-If Maniamma needs help or you want to:
+If Maniama needs help or you want to:
 
 - Add more questions
 - Change the default PIN
