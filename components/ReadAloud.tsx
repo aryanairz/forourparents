@@ -117,9 +117,19 @@ export default function ReadAloud({ text, options, lang }: ReadAloudProps) {
 
       const audio = new Audio(`data:audio/mp3;base64,${audioContent}`);
       audioRef.current = audio;
-      audio.onplay = () => { setSpeaking(true); setLoading(false); };
-      audio.onended = () => { setSpeaking(false); audioRef.current = null; };
-      audio.onerror = () => { setSpeaking(false); setLoading(false); audioRef.current = null; };
+      audio.onplay = () => {
+        setSpeaking(true);
+        setLoading(false);
+      };
+      audio.onended = () => {
+        setSpeaking(false);
+        audioRef.current = null;
+      };
+      audio.onerror = () => {
+        setSpeaking(false);
+        setLoading(false);
+        audioRef.current = null;
+      };
       await audio.play();
     } catch {
       setSpeaking(false);
@@ -136,8 +146,14 @@ export default function ReadAloud({ text, options, lang }: ReadAloudProps) {
       utterance.rate = 0.85;
       const voice = pickVoice("en-US", voices);
       if (voice) utterance.voice = voice;
-      utterance.onstart = () => { setSpeaking(true); startResumeLoop(); };
-      utterance.onend = () => { setSpeaking(false); stopResumeLoop(); };
+      utterance.onstart = () => {
+        setSpeaking(true);
+        startResumeLoop();
+      };
+      utterance.onend = () => {
+        setSpeaking(false);
+        stopResumeLoop();
+      };
       utterance.onerror = (e) => {
         if (e.error === "interrupted" || e.error === "canceled") return;
         setSpeaking(false);
@@ -172,8 +188,8 @@ export default function ReadAloud({ text, options, lang }: ReadAloudProps) {
                     loading
                       ? "bg-gray-100 border-2 border-gray-300 text-gray-400 cursor-wait"
                       : speaking
-                      ? "bg-orange-100 border-2 border-orange-400 text-orange-700"
-                      : "bg-blue-50 border-2 border-blue-200 text-primary hover:bg-blue-100"
+                        ? "bg-orange-100 border-2 border-orange-400 text-orange-700"
+                        : "bg-blue-50 border-2 border-blue-200 text-primary hover:bg-blue-100"
                   }`}
     >
       {loading ? "⏳ Loading..." : speaking ? "⏹ Stop" : t("readAloud", lang)}
