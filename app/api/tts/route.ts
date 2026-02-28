@@ -1,12 +1,23 @@
 import { NextRequest, NextResponse } from "next/server";
-import { MsEdgeTTS, OUTPUT_FORMAT } from "msedge-tts";
 
-// ml-IN-MidhunNeural = natural Malayalam male voice (Microsoft Edge)
-// en-US-JennyNeural  = natural English female voice
-const VOICE_MAP: Record<string, string> = {
-  ml: "ml-IN-MidhunNeural",
-  en: "en-US-JennyNeural",
+const LANG_MAP: Record<string, string> = {
+  ml: "ml",
+  en: "en",
 };
+
+/** Split text into chunks ≤ 200 chars at sentence/word boundaries */
+function chunkText(text: string, max = 190): string[] {
+  const chunks: string[] = [];
+  let remaining = text;
+  while (remaining.length > max) {
+    let cut = remaining.lastIndexOf(" ", max);
+    if (cut < 50) cut = max;
+    chunks.push(remaining.slice(0, cut).trim());
+    remaining = remaining.slice(cut).trim();
+  }
+  if (remaining) chunks.push(remaining);
+  return chunks;
+}
 
 export async function POST(req: NextRequest) {
   const { text, lang } = await req.json();
@@ -15,27 +26,41 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Missing text or lang" }, { status: 400 });
   }
 
-  const voice = VOICE_MAP[lang] ?? VOICE_MAP["en"];
+  const tl = LANG_MAP[lang] ?? "en";
+  const chunks = chunkText(text);
 
   try {
-    const tts = new MsEdgeTTS();
-    await tts.setMetadata(voice, OUTPUT_FORMAT.AUDIO_24KHZ_48KBITRATE_MONO_MP3);
+    const buffers: ArrayBuffer[] = [];
 
-    const audioBuffer: Buffer[] = [];
-    const { audioStream } = await tts.toStream(text);
+    for (const chunk of chunks) {
+      const url =
+        `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(chunk)}&tl=${tl}&client=tw-ob&ttsspeed=0.8`;
 
-    await new Promise<void>((resolve, reject) => {
-      audioStream.on("data", (chunk: Buffer) => audioBuffer.push(chunk));
-      audioStream.on("end", resolve);
-      audioStream.on("error", reject);
-    });
+      const response = await fetch(url, {
+        headers: {
+          "User-Agent":
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120.0.0.0 Safari/537.36",
+          "Referer": "https://translate.google.com/",
+        },
+      });
 
-    const mp3 = Buffer.concat(audioBuffer);
-    const audioContent = mp3.toString("base64");
+      if (!response.ok) throw new Error(`Google TTS chunk failed: ${response.status}`);
+      buffers.push(await response.arrayBuffer());
+    }
 
+    // Concatenate all MP3 chunks
+    const totalLength = buffers.reduce((sum, b) => sum + b.byteLength, 0);
+    const combined = new Uint8Array(totalLength);
+    let offset = 0;
+    for (const buf of buffers) {
+      combined.set(new Uint8Array(buf), offset);
+      offset += buf.byteLength;
+    }
+
+    const audioContent = Buffer.from(combined).toString("base64");
     return NextResponse.json({ audioContent });
   } catch (err) {
-    console.error("msedge-tts error:", err);
+    console.error("TTS error:", err);
     return NextResponse.json({ error: "TTS failed" }, { status: 502 });
   }
 }
