@@ -44,9 +44,9 @@ export default function HomePage() {
               <h1 
                 className={lang === "en" 
                   ? "text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-900 tracking-tight leading-[1.15]" 
-                  : "text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold text-gray-900 tracking-normal leading-[2.5]"
+                  : "text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold text-gray-900 tracking-normal leading-[1.6]"
                 }
-                style={lang === "ml" ? { lineHeight: '2.5' } : undefined}
+                style={lang === "ml" ? { lineHeight: '1.6' } : undefined}
               >
                 {lang === "en" ? (
                   <>Help Your Parents Pass the U.S. Citizenship Test</>
@@ -57,9 +57,9 @@ export default function HomePage() {
               <p 
                 className={lang === "en" 
                   ? "text-base sm:text-lg text-gray-600 leading-relaxed max-w-lg mx-auto md:mx-0" 
-                  : "text-base sm:text-lg text-gray-600 leading-[2] max-w-lg mx-auto md:mx-0"
+                  : "text-base sm:text-lg text-gray-600 leading-[1.8] max-w-lg mx-auto md:mx-0"
                 }
-                style={lang === "ml" ? { lineHeight: '2' } : undefined}
+                style={lang === "ml" ? { lineHeight: '1.8' } : undefined}
               >
                 {lang === "en"
                   ? "Practice the civics test in Malayalam. Built for the 50/20, 55/15, and 65/20 citizenship rules under U.S. immigration law."
