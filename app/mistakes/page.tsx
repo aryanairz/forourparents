@@ -10,7 +10,7 @@ import {
   topicLabels,
   BilingualText,
 } from "@/data/questions";
-import { getMistakes, clearAllMistakes, removeMistake } from "@/lib/storage";
+import { getMistakes, clearAllMistakes, removeMistake, getCurrentUser } from "@/lib/storage";
 import QuestionCard from "@/components/QuestionCard";
 import OptionButton from "@/components/OptionButton";
 import ReadAloud from "@/components/ReadAloud";
@@ -45,6 +45,7 @@ function shuffleOptions(q: Question): {
 export default function MistakesPage() {
   const { lang, mounted } = useLanguage();
   const [state, setState] = useState<MistakeState>("list");
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [mistakeIds, setMistakeIds] = useState<string[]>([]);
   const [mistakeQuestions, setMistakeQuestions] = useState<Question[]>([]);
 
@@ -74,7 +75,10 @@ export default function MistakesPage() {
   }, []);
 
   useEffect(() => {
-    if (mounted) refreshMistakes();
+    if (mounted) {
+      setIsLoggedIn(!!getCurrentUser());
+      refreshMistakes();
+    }
   }, [mounted, refreshMistakes]);
 
   const startReview = () => {
@@ -124,6 +128,46 @@ export default function MistakesPage() {
     return (
       <div className="flex items-center justify-center min-h-[60vh]">
         <div className="w-10 h-10 border-4 border-primary border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
+  }
+
+  // ── Not logged in gate ──
+  if (!isLoggedIn) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[60vh] space-y-6 text-center px-4">
+        <div className="text-6xl">📋</div>
+        <h2 className="text-2xl sm:text-3xl font-bold text-gray-900">
+          {lang === "en"
+            ? "Track Your Mistakes"
+            : "നിങ്ങളുടെ തെറ്റുകൾ ട്രാക്ക് ചെയ്യുക"}
+        </h2>
+        <p className="text-base sm:text-lg text-gray-500 max-w-xs leading-relaxed">
+          {lang === "en"
+            ? "Create a free account to save and review the questions you got wrong."
+            : "നിങ്ങൾ തെറ്റായി ഉത്തരം നൽകിയ ചോദ്യങ്ങൾ സംരക്ഷിക്കാനും അവലോകനം ചെയ്യാനും ഒരു സൗജന്യ അക്കൗണ്ട് സൃഷ്ടിക്കുക."}
+        </p>
+        <Link
+          href="/login"
+          className="w-full max-w-xs min-h-[60px] bg-primary hover:bg-primary-dark text-white
+                     text-xl font-bold rounded-2xl shadow-lg
+                     flex items-center justify-center px-6 py-4
+                     transition-all active:scale-[0.97] no-underline"
+        >
+          {lang === "en" ? "Create Account" : "അക്കൗണ്ട് സൃഷ്ടിക്കുക"}
+        </Link>
+        <Link
+          href="/login"
+          className="text-primary font-semibold text-base hover:underline no-underline"
+        >
+          {lang === "en" ? "Already have an account? Log in →" : "ഇതിനകം അക്കൗണ്ട് ഉണ്ടോ? ലോഗിൻ →"}
+        </Link>
+        <Link
+          href="/"
+          className="text-gray-400 text-sm hover:underline no-underline"
+        >
+          ← {t("goHome", lang)}
+        </Link>
       </div>
     );
   }

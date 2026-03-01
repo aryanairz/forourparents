@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
 import { useLanguage } from "@/lib/LanguageContext";
 import { t } from "@/lib/i18n";
@@ -11,6 +11,8 @@ import OptionButton from "@/components/OptionButton";
 import ProgressBar from "@/components/ProgressBar";
 import ReadAloud from "@/components/ReadAloud";
 
+/* ── helpers ───────────────────────────────────────── */
+
 function shuffle<T>(arr: T[]): T[] {
   const a = [...arr];
   for (let i = a.length - 1; i > 0; i--) {
@@ -20,47 +22,104 @@ function shuffle<T>(arr: T[]): T[] {
   return a;
 }
 
-function shuffleOptions(q: Question): {
-  options: BilingualText[];
-  correctIndex: number;
+/** Split a bilingual text that uses " / " to list alternatives */
+function splitBilingual(bt: BilingualText): BilingualText[] {
+  const enParts = bt.en.split(" / ");
+  const mlParts = bt.ml.split(" / ");
+  // safeguard: if counts don't match, return the original unsplit
+  if (enParts.length !== mlParts.length) return [bt];
+  return enParts.map((en, i) => ({ en: en.trim(), ml: mlParts[i].trim() }));
+}
+
+/** Does this text contain multiple slash-separated answers? */
+function isMultiAnswer(bt: BilingualText): boolean {
+  return bt.en.includes(" / ");
+}
+
+/**
+ * Pick a random question from the pool, splitting multi-answer
+ * correct options into a single answer per appearance.
+ * Returns a Question with exactly 4 single-item options.
+ */
+function pickQuestion(pool: Question[], lastId: string | null): {
+  question: Question;
+  displayOptions: BilingualText[];
+  displayCorrectIndex: number;
 } {
-  const indices = q.options.map((_, i) => i);
-  for (let i = indices.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [indices[i], indices[j]] = [indices[j], indices[i]];
+  // Pick a question that isn't the same as the last one
+  let q: Question;
+  if (pool.length <= 1) {
+    q = pool[0];
+  } else {
+    do {
+      q = pool[Math.floor(Math.random() * pool.length)];
+    } while (q.id === lastId);
   }
+
+  const correctOption = q.options[q.correctIndex];
+  const wrongOptions = q.options.filter((_, i) => i !== q.correctIndex);
+
+  // Split multi-answer correct option → pick one at random
+  let chosenCorrect: BilingualText;
+  if (isMultiAnswer(correctOption)) {
+    const parts = splitBilingual(correctOption);
+    chosenCorrect = parts[Math.floor(Math.random() * parts.length)];
+  } else {
+    chosenCorrect = correctOption;
+  }
+
+  // For wrong options, also split any multi-answer ones and pick one each
+  const expandedWrong: BilingualText[] = wrongOptions.map((wo) => {
+    if (isMultiAnswer(wo)) {
+      const parts = splitBilingual(wo);
+      return parts[Math.floor(Math.random() * parts.length)];
+    }
+    return wo;
+  });
+
+  // Build 4 options: 1 correct + 3 wrong, shuffled
+  const allOpts: { opt: BilingualText; isCorrect: boolean }[] = [
+    { opt: chosenCorrect, isCorrect: true },
+    ...expandedWrong.map((opt) => ({ opt, isCorrect: false })),
+  ];
+  const shuffled = shuffle(allOpts);
+
   return {
-    options: indices.map((i) => q.options[i]),
-    correctIndex: indices.indexOf(q.correctIndex),
+    question: q,
+    displayOptions: shuffled.map((s) => s.opt),
+    displayCorrectIndex: shuffled.findIndex((s) => s.isCorrect),
   };
 }
 
+/* ── component ─────────────────────────────────────── */
+
 export default function QuizPage() {
   const { lang, mounted } = useLanguage();
-  const [shuffled, setShuffled] = useState<Question[]>([]);
-  const [currentIdx, setCurrentIdx] = useState(0);
+  const lastIdRef = useRef<string | null>(null);
+
+  const [currentQ, setCurrentQ] = useState<Question | null>(null);
+  const [displayOptions, setDisplayOptions] = useState<BilingualText[]>([]);
+  const [displayCorrectIndex, setDisplayCorrectIndex] = useState(0);
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
   const [correctCount, setCorrectCount] = useState(0);
   const [attempted, setAttempted] = useState(0);
   const [finished, setFinished] = useState(false);
-  const [displayOptions, setDisplayOptions] = useState<BilingualText[]>([]);
-  const [displayCorrectIndex, setDisplayCorrectIndex] = useState(0);
 
-  useEffect(() => {
-    setShuffled(shuffle(questions));
+  const nextQuestion = useCallback(() => {
+    const { question, displayOptions: opts, displayCorrectIndex: ci } =
+      pickQuestion(questions, lastIdRef.current);
+    lastIdRef.current = question.id;
+    setCurrentQ(question);
+    setDisplayOptions(opts);
+    setDisplayCorrectIndex(ci);
+    setSelectedOption(null);
   }, []);
 
-  const currentQ = shuffled[currentIdx];
-  const answered = selectedOption !== null;
-
-  // Shuffle options whenever the question changes
   useEffect(() => {
-    if (currentQ) {
-      const { options, correctIndex } = shuffleOptions(currentQ);
-      setDisplayOptions(options);
-      setDisplayCorrectIndex(correctIndex);
-    }
-  }, [currentQ?.id, currentIdx]);
+    if (mounted) nextQuestion();
+  }, [mounted, nextQuestion]);
+
+  const answered = selectedOption !== null;
 
   const handleSelect = useCallback(
     (idx: number) => {
@@ -76,27 +135,24 @@ export default function QuizPage() {
     [answered, currentQ, displayCorrectIndex],
   );
 
-  const handleNext = async () => {
-    if (currentIdx + 1 >= shuffled.length) {
-      setFinished(true);
-      // Save quiz attempt to database
-      saveQuizAttempt("quiz", attempted, correctCount);
-      return;
-    }
-    setCurrentIdx((p) => p + 1);
-    setSelectedOption(null);
+  const handleNext = () => {
+    nextQuestion();
+  };
+
+  const handleFinish = () => {
+    setFinished(true);
+    if (attempted > 0) saveQuizAttempt("quiz", attempted, correctCount);
   };
 
   const handleRestart = () => {
-    setShuffled(shuffle(questions));
-    setCurrentIdx(0);
-    setSelectedOption(null);
+    lastIdRef.current = null;
     setCorrectCount(0);
     setAttempted(0);
     setFinished(false);
+    nextQuestion();
   };
 
-  if (!mounted || shuffled.length === 0) {
+  if (!mounted || !currentQ) {
     return (
       <div className="flex items-center justify-center min-h-[60vh]">
         <div className="w-10 h-10 border-4 border-primary border-t-transparent rounded-full animate-spin" />
@@ -175,15 +231,12 @@ export default function QuizPage() {
       <ProgressBar
         attempted={attempted}
         correct={correctCount}
-        total={shuffled.length}
         lang={lang}
       />
 
       <QuestionCard
         question={currentQ.question}
         lang={lang}
-        number={currentIdx + 1}
-        total={shuffled.length}
       />
 
       {/* Read aloud */}
@@ -246,11 +299,21 @@ export default function QuizPage() {
             className="w-full min-h-[52px] sm:min-h-[56px] bg-primary text-white text-lg sm:text-xl font-bold
                        rounded-xl px-5 sm:px-6 py-3 sm:py-4 active:scale-[0.97] transition-all"
           >
-            {currentIdx + 1 >= shuffled.length
-              ? `🏁 ${t("quizComplete", lang)}`
-              : `→ ${t("next", lang)}`}
+            → {t("next", lang)}
           </button>
         </div>
+      )}
+
+      {/* Finish quiz button — always visible */}
+      {attempted > 0 && (
+        <button
+          onClick={handleFinish}
+          className="w-full min-h-[48px] bg-gray-100 text-gray-600 text-base font-semibold
+                     rounded-xl px-4 py-3 active:scale-[0.97] transition-all mt-2
+                     hover:bg-gray-200"
+        >
+          🏁 {lang === "en" ? "Finish Quiz" : "ക്വിസ് അവസാനിപ്പിക്കുക"}
+        </button>
       )}
     </div>
   );

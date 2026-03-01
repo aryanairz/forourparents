@@ -104,7 +104,7 @@ export default function PracticePage() {
           {t("selectTopic", lang)}
         </h2>
 
-        {/* Encouragement for Maniamma */}
+        {/* Encouragement */}
         <div className="bg-yellow-50 rounded-xl p-4 border border-yellow-200 text-center">
           <p className="text-base text-yellow-800 font-medium">
             {t("practiceSelectHelp", lang)}

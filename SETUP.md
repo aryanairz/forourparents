@@ -1,6 +1,6 @@
-# Maniamma's Civics Test Helper - Setup Guide
+# For Our Parents - Setup Guide
 
-A bilingual (English/Malayalam) civics test helper website designed for your grandmother Maniamma! 🙏🇺🇸
+A bilingual (English/Malayalam) civics test study tool helping Malayalam-speaking elders prepare for the U.S. citizenship naturalization test. 🇺🇸
 
 ## Features
 
@@ -27,7 +27,7 @@ npm install
 1. Go to [https://supabase.com](https://supabase.com) and create a free account
 2. Click "New Project"
 3. Fill in:
-   - **Project Name**: `Maniamma-civics`
+   - **Project Name**: `for-our-parents`
    - **Database Password**: (save this somewhere safe)
    - **Region**: Choose closest to your location
 4. Wait 2-3 minutes for project to be created
@@ -82,8 +82,10 @@ The app will open at [http://localhost:3000](http://localhost:3000)
 
 The database comes with a default user:
 
-- **Name**: മണിയമ്മ (Maniamma)
+- **Name**: Default user (მණिയമ്മ)
 - **PIN**: 1234
+
+You can add additional users via the Supabase dashboard.
 
 ## Deployment (Optional)
 
@@ -100,12 +102,12 @@ The database comes with a default user:
 
 Your app will be live at `https://your-project.vercel.app`
 
-## How Maniamma Can Use It
+## How Users Can Get Started
 
-### On Her First Device
+### On Their First Device
 
 1. Open the website
-2. Click the **Login** button (🙏🇺🇸)
+2. Click the **Login** button
 3. Enter PIN: `1234`
 4. Start practicing!
 
@@ -137,7 +139,6 @@ Just repeat the login steps on any phone, tablet, or computer. All progress sync
 ### "Invalid PIN" error
 
 - Default PIN is `1234`
-- User name must be exactly: **മണിയമ്മ**
 - Check the `users` table in Supabase to verify the user exists
 
 ### Questions not loading
@@ -154,7 +155,7 @@ Just repeat the login steps on any phone, tablet, or computer. All progress sync
 ## Project Structure
 
 ```
-Maniammam/
+for-our-parents/
 ├── app/                    # Next.js pages
 │   ├── page.tsx           # Home page
 │   ├── quiz/              # Quiz mode
@@ -181,14 +182,12 @@ Maniammam/
 
 ## Support
 
-If Maniamma needs help or you want to:
+Want to contribute?
 
 - Add more questions
 - Change the default PIN
-- Add more family members as users
+- Add more users
 - Customize the UI colors/sizing
-
-Just let me know! This was built with love for your grandmother's success! 🙏❤️
 
 ---
 
@@ -198,6 +197,6 @@ Just let me know! This was built with love for your grandmother's success! 🙏�
 - TypeScript (type safety)
 - Tailwind CSS (styling)
 - Supabase (database & auth)
-- Web Speech API (text-to-speech)
+- Microsoft Edge TTS (text-to-speech)
 
-**Made with ❤️ for മണിയമ്മ**
+**Made with ❤️ by For Our Parents**

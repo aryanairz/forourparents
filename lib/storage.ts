@@ -31,6 +31,10 @@ export function setStoredLanguage(lang: Lang): void {
 export interface User {
   id: string;
   name: string;
+  firstName?: string;
+  lastName?: string;
+  email?: string;
+  phone?: string;
 }
 
 export function getCurrentUser(): User | null {
@@ -90,6 +94,77 @@ export async function loginUser(
 
 export function logoutUser(): void {
   setCurrentUser(null);
+}
+
+// ── Signup ───────────────────────────────────────────
+
+export async function signupUser(
+  firstName: string,
+  lastName: string,
+  email: string,
+  pin: string,
+  phone?: string,
+): Promise<{ user: User | null; errorMsg?: string }> {
+  try {
+    const name = `${firstName.trim()} ${lastName.trim()}`;
+    const { data, error } = await supabase
+      .from("users")
+      // @ts-ignore - Types will work once Supabase credentials are configured
+      .insert({ name, first_name: firstName.trim(), last_name: lastName.trim(), email: email.trim().toLowerCase(), pin, phone: phone?.trim() || null })
+      .select("id, name")
+      .single<{ id: string; name: string }>();
+
+    if (error) {
+      console.error("Supabase signup error:", error);
+      return { user: null, errorMsg: error.message };
+    }
+    if (!data) return { user: null, errorMsg: "No data returned" };
+    return {
+      user: { id: data.id, name: data.name, firstName: firstName.trim(), lastName: lastName.trim(), email: email.trim().toLowerCase(), phone: phone?.trim() || undefined },
+    };
+  } catch (e) {
+    console.error("Signup exception:", e);
+    return { user: null, errorMsg: String(e) };
+  }
+}
+
+// ── Login by name + pin (flexible) ───────────────────
+
+export async function loginUserByNamePin(
+  email: string,
+  pin: string,
+): Promise<User | null> {
+  try {
+    // @ts-ignore - Types will work once Supabase credentials are configured
+    const { data, error } = await supabase
+      .from("users")
+      .select("id, name, first_name, last_name, email, phone")
+      .eq("email", email.trim().toLowerCase())
+      .eq("pin", pin)
+      .single<{ id: string; name: string; first_name?: string; last_name?: string; email?: string; phone?: string }>();
+
+    if (error || !data) return null;
+
+    const user: User = {
+      id: data.id,
+      name: data.name,
+      firstName: data.first_name,
+      lastName: data.last_name,
+      email: data.email,
+      phone: data.phone,
+    };
+    setCurrentUser(user);
+
+    await supabase
+      .from("users")
+      // @ts-expect-error - Types will work once Supabase credentials are configured
+      .update({ last_active: new Date().toISOString() })
+      .eq("id", data.id);
+
+    return user;
+  } catch {
+    return null;
+  }
 }
 
 // ── Mistakes (localStorage - works offline, no login needed) ─────
