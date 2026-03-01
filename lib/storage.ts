@@ -120,6 +120,10 @@ export async function signupUser(
 
     if (error) {
       console.error("Supabase signup error:", error);
+      // Check for duplicate email error
+      if (error.code === '23505' && error.message.includes('users_email_key')) {
+        return { user: null, errorMsg: "This email already has an account. Please login instead." };
+      }
       return { user: null, errorMsg: error.message };
     }
     if (!data) return { user: null, errorMsg: "No data returned" };
