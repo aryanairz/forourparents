@@ -41,20 +41,26 @@ export default function HomePage() {
           <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-12 lg:gap-16 max-w-7xl mx-auto">
             {/* Left — text */}
             <div className="flex-1 text-center md:text-left space-y-5 max-w-2xl">
-              <h1 className={`text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-gray-900 ${
-                lang === "en" 
-                  ? "font-extrabold tracking-tight leading-[1.15]" 
-                  : "font-bold tracking-normal leading-[1.8]"
-              }`}>
+              <h1 
+                className={lang === "en" 
+                  ? "text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-900 tracking-tight leading-[1.15]" 
+                  : "text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold text-gray-900 tracking-normal leading-[2.5]"
+                }
+                style={lang === "ml" ? { lineHeight: '2.5' } : undefined}
+              >
                 {lang === "en" ? (
                   <>Help Your Parents Pass the U.S. Citizenship Test</>
                 ) : (
                   <>നിങ്ങളുടെ മാതാപിതാക്കളെ യു.എസ്. പൗരത്വ ടെസ്റ്റ് പാസാക്കാൻ സഹായിക്കുക</>
                 )}
               </h1>
-              <p className={`text-base sm:text-lg text-gray-600 max-w-lg mx-auto md:mx-0 ${
-                lang === "en" ? "leading-relaxed" : "leading-loose"
-              }`}>
+              <p 
+                className={lang === "en" 
+                  ? "text-base sm:text-lg text-gray-600 leading-relaxed max-w-lg mx-auto md:mx-0" 
+                  : "text-base sm:text-lg text-gray-600 leading-[2] max-w-lg mx-auto md:mx-0"
+                }
+                style={lang === "ml" ? { lineHeight: '2' } : undefined}
+              >
                 {lang === "en"
                   ? "Practice the civics test in Malayalam. Built for the 50/20, 55/15, and 65/20 citizenship rules under U.S. immigration law."
                   : "മലയാളത്തിൽ സിവിക്സ് ടെസ്റ്റ് പരിശീലിക്കുക. യു.എസ്. ഇമിഗ്രേഷൻ നിയമത്തിലെ 50/20, 55/15, 65/20 പൗരത്വ നിയമങ്ങൾക്കായി നിർമ്മിച്ചത്."}
