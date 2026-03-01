@@ -175,7 +175,7 @@ export default function MistakesPage() {
   // ── Confirm Clear ──
   if (state === "confirm-clear") {
     return (
-      <div className="space-y-6 text-center py-12">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 py-12 text-center space-y-6">
         <div className="text-5xl">⚠️</div>
         <p className="text-xl font-semibold text-gray-900">
           {t("clearConfirm", lang)}
@@ -207,14 +207,15 @@ export default function MistakesPage() {
     const answered = selectedOption !== null;
 
     return (
-      <div className="space-y-4">
-        <div className="flex items-center gap-3 mb-2">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 py-6 sm:py-8 space-y-5">
+        <div className="flex items-center gap-3 mb-4">
           <button
             onClick={() => {
               refreshMistakes();
               setState("list");
             }}
-            className="min-h-[44px] px-4 py-2 rounded-lg bg-gray-100 text-gray-700
+            className="min-h-[44px] px-5 py-2.5 rounded-xl bg-white hover:bg-gray-50
+                       text-gray-700 border border-gray-200 shadow-sm
                        font-semibold text-base active:scale-95 transition-all"
           >
             ← {t("back", lang)}
@@ -306,11 +307,12 @@ export default function MistakesPage() {
 
   // ── Mistake list ──
   return (
-    <div className="space-y-5">
-      <div className="flex items-center gap-3 mb-2">
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
+      <div className="flex items-center gap-3 mb-6">
         <Link
           href="/"
-          className="min-h-[44px] px-4 py-2 rounded-lg bg-gray-100 text-gray-700
+          className="min-h-[44px] px-5 py-2.5 rounded-xl bg-white hover:bg-gray-50
+                     text-gray-700 border border-gray-200 shadow-sm
                      font-semibold text-base active:scale-95 transition-all no-underline"
         >
           ← {t("home", lang)}

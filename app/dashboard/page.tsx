@@ -82,12 +82,13 @@ export default function DashboardPage() {
   )[0];
 
   return (
-    <div className="space-y-5">
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 py-6 sm:py-8 space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between mb-2">
+      <div className="flex items-center justify-between mb-6">
         <Link
           href="/"
-          className="min-h-[44px] px-4 py-2 rounded-lg bg-gray-100 text-gray-700
+          className="min-h-[44px] px-5 py-2.5 rounded-xl bg-white hover:bg-gray-50
+                     text-gray-700 border border-gray-200 shadow-sm
                      font-semibold text-base active:scale-95 transition-all no-underline"
         >
           ← {t("home", lang)}

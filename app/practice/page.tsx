@@ -89,11 +89,12 @@ export default function PracticePage() {
   // ── Topic Selection ──
   if (state === "select-topic") {
     return (
-      <div className="space-y-5">
-        <div className="flex items-center gap-3 mb-2">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
+        <div className="flex items-center gap-3 mb-6">
           <Link
             href="/"
-            className="min-h-[44px] px-4 py-2 rounded-lg bg-gray-100 text-gray-700
+            className="min-h-[44px] px-5 py-2.5 rounded-xl bg-white hover:bg-gray-50
+                       text-gray-700 border border-gray-200 shadow-sm
                        font-semibold text-base active:scale-95 transition-all no-underline"
           >
             ← {t("home", lang)}
@@ -170,7 +171,7 @@ export default function PracticePage() {
   if (state === "done") {
     const missed = attempted - correct;
     return (
-      <div className="space-y-6 text-center py-8">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12 text-center space-y-6">
         <div className="text-6xl mb-4">🎉</div>
         <h2 className="text-q-large font-bold text-primary">
           {t("quizComplete", lang)}
@@ -225,8 +226,8 @@ export default function PracticePage() {
   if (!currentQ) return null;
 
   return (
-    <div className="space-y-4">
-      <div className="flex items-center gap-3 mb-2">
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 py-6 sm:py-8 space-y-5">
+      <div className="flex items-center gap-3 mb-4">
         <button
           onClick={() => setState("select-topic")}
           className="min-h-[44px] px-4 py-2 rounded-lg bg-gray-100 text-gray-700
