@@ -36,7 +36,7 @@ export default function RootLayout({
       <body>
         <LanguageProvider>
           <Header />
-          <main className="max-w-4xl mx-auto px-4 sm:px-5 py-6 sm:py-8 pb-20">
+          <main className="py-6 sm:py-8 pb-20">
             {children}
           </main>
         </LanguageProvider>

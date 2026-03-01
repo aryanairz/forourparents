@@ -17,7 +17,7 @@ export default function Header() {
 
   return (
     <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-100">
-      <div className="max-w-5xl mx-auto flex items-center justify-between px-4 sm:px-6 py-2.5">
+      <div className="max-w-7xl mx-auto flex items-center justify-between px-4 sm:px-6 lg:px-8 py-2.5">
         {/* Logo */}
         <Link
           href="/"
@@ -45,6 +45,9 @@ export default function Header() {
           </Link>
           <Link href="/eligibility" className="px-3 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 rounded-lg hover:bg-gray-50 no-underline transition-colors">
             {lang === "en" ? "Do You Qualify?" : "യോഗ്യത?"}
+          </Link>
+          <Link href="#help" className="px-3 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 rounded-lg hover:bg-gray-50 no-underline transition-colors">
+            {lang === "en" ? "Help" : "സഹായം"}
           </Link>
         </nav>
 

@@ -24,52 +24,64 @@ export default function HomePage() {
   }
 
   return (
-    <div className="space-y-0">
+    <div className="-mx-4 sm:-mx-5">
       {/* ── Hero Section ── */}
-      <section className="relative bg-gradient-to-br from-orange-50 via-amber-50 to-orange-100 rounded-3xl overflow-hidden px-6 sm:px-10 pt-10 pb-6 sm:pt-14 sm:pb-8 -mx-4 sm:-mx-5">
-        <div className="flex flex-col md:flex-row items-center gap-6 md:gap-10 max-w-4xl mx-auto">
-          {/* Left — text */}
-          <div className="flex-1 text-center md:text-left space-y-4">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 leading-tight tracking-tight">
-              {lang === "en" ? (
-                <>Help Your Parents Pass the U.S. Citizenship Test</>
-              ) : (
-                <>നിങ്ങളുടെ മാതാപിതാക്കളെ യു.എസ്. പൗരത്വ ടെസ്റ്റ് പാസാക്കാൻ സഹായിക്കുക</>
-              )}
-            </h1>
-            <p className="text-base sm:text-lg text-gray-600 leading-relaxed max-w-md mx-auto md:mx-0">
-              {lang === "en"
-                ? "Practice the civics test in Malayalam. Built for the 50/20, 55/15, and 65/20 citizenship rules under U.S. immigration law."
-                : "മലയാളത്തിൽ സിവിക്സ് ടെസ്റ്റ് പരിശീലിക്കുക. യു.എസ്. ഇമിഗ്രേഷൻ നിയമത്തിലെ 50/20, 55/15, 65/20 പൗരത്വ നിയമങ്ങൾക്കായി നിർമ്മിച്ചത്."}
-            </p>
-            <div className="pt-2">
-              <Link
-                href="/quiz"
-                className="inline-flex items-center gap-2 min-h-[52px] sm:min-h-[56px]
-                           bg-orange-500 hover:bg-orange-600 text-white
-                           text-lg sm:text-xl font-bold rounded-2xl shadow-lg shadow-orange-200
-                           px-8 py-3.5 transition-all active:scale-[0.97] no-underline"
-              >
-                {lang === "en" ? "Practice in Malayalam" : "മലയാളത്തിൽ പരിശീലിക്കുക"}
-              </Link>
-            </div>
-          </div>
+      <section className="relative mb-8">
+        {/* Decorative hearts background */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-20">
+          <div className="absolute top-12 left-[10%] text-2xl text-rose-300">💕</div>
+          <div className="absolute top-32 right-[15%] text-xl text-rose-300">💕</div>
+          <div className="absolute bottom-20 left-[20%] text-lg text-rose-300">💕</div>
+          <div className="absolute top-24 right-[8%] text-sm text-rose-300">💕</div>
+        </div>
 
-          {/* Right — hero image */}
-          <div className="flex-shrink-0 w-64 h-64 sm:w-72 sm:h-72 md:w-80 md:h-80 relative">
-            <Image
-              src="/hero.png"
-              alt="Elderly couple"
-              fill
-              className="object-contain"
-              priority
-            />
+        {/* Main hero container with rounded background */}
+        <div className="relative bg-gradient-to-br from-[#FDEFEB] via-[#FFF5F0] to-[#FFF0EB] 
+                        px-8 sm:px-12 md:px-16 lg:px-24 py-12 sm:py-16 md:py-20">
+          <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-12 lg:gap-16 max-w-7xl mx-auto">
+            {/* Left — text */}
+            <div className="flex-1 text-center md:text-left space-y-5 max-w-2xl">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-900 leading-[1.15] tracking-tight">
+                {lang === "en" ? (
+                  <>Help Your Parents Pass the U.S. Citizenship Test</>
+                ) : (
+                  <>നിങ്ങളുടെ മാതാപിതാക്കളെ യു.എസ്. പൗരത്വ ടെസ്റ്റ് പാസാക്കാൻ സഹായിക്കുക</>
+                )}
+              </h1>
+              <p className="text-base sm:text-lg text-gray-600 leading-relaxed max-w-lg mx-auto md:mx-0">
+                {lang === "en"
+                  ? "Practice the civics test in Malayalam. Built for the 50/20, 55/15, and 65/20 citizenship rules under U.S. immigration law."
+                  : "മലയാളത്തിൽ സിവിക്സ് ടെസ്റ്റ് പരിശീലിക്കുക. യു.എസ്. ഇമിഗ്രേഷൻ നിയമത്തിലെ 50/20, 55/15, 65/20 പൗരത്വ നിയമങ്ങൾക്കായി നിർമ്മിച്ചത്."}
+              </p>
+              <div className="pt-2">
+                <Link
+                  href="/quiz"
+                  className="inline-flex items-center gap-2 min-h-[52px] sm:min-h-[56px]
+                             bg-[#e87c3a] hover:bg-[#d66d2d] text-white
+                             text-lg sm:text-xl font-bold rounded-xl shadow-lg shadow-orange-200
+                             px-10 py-3.5 transition-all active:scale-[0.97] no-underline"
+                >
+                  {lang === "en" ? "Practice in Malayalam" : "മലയാളത്തിൽ പരിശീലിക്കുക"}
+                </Link>
+              </div>
+            </div>
+
+            {/* Right — hero image */}
+            <div className="flex-shrink-0 w-72 h-72 sm:w-80 sm:h-80 md:w-[26rem] md:h-[26rem] lg:w-[30rem] lg:h-[30rem] relative">
+              <Image
+                src="/hero.png"
+                alt="Elderly couple"
+                fill
+                className="object-contain drop-shadow-xl"
+                priority
+              />
+            </div>
           </div>
         </div>
       </section>
 
       {/* ── Quick Actions ── */}
-      <section className="pt-8 space-y-3">
+      <section className="pt-8 space-y-3 px-4 sm:px-5 mx-auto max-w-5xl">
         <div className="grid grid-cols-2 gap-3">
           <Link
             href="/quiz"
@@ -126,7 +138,7 @@ export default function HomePage() {
       </section>
 
       {/* ── Who Is This For ── */}
-      <section className="pt-8">
+      <section className="pt-8 px-4 sm:px-5 mx-auto max-w-5xl">
         <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 space-y-3">
           <h2 className="text-lg font-bold text-gray-900 text-center">
             {lang === "en" ? "Who Is This For?" : "ഇത് ആർക്കാണ്?"}
@@ -149,7 +161,7 @@ export default function HomePage() {
 
       {/* ── Sign Up Prompt ── */}
       {!isLoggedIn && (
-        <section className="pt-8">
+        <section className="pt-8 px-4 sm:px-5 mx-auto max-w-5xl">
           <div className="bg-gradient-to-r from-orange-50 to-amber-50 rounded-2xl p-6 text-center space-y-3 border border-orange-100">
             <p className="text-base text-gray-700">
               {lang === "en"
@@ -169,7 +181,7 @@ export default function HomePage() {
       )}
 
       {/* ── Footer ── */}
-      <footer className="pt-10 pb-4 text-center space-y-1">
+      <footer className="pt-10 pb-4 text-center space-y-1 px-4 sm:px-5">
         <p className="text-xs text-gray-400">
           {lang === "en" ? "Built with ❤️ by" : "❤️ ഉപയോഗിച്ച് നിർമ്മിച്ചത്"}{" "}
           <span className="font-semibold text-gray-500">For Our Parents</span>
