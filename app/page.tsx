@@ -133,7 +133,8 @@ export default function HomePage() {
                        flex items-center justify-center gap-2 px-4 py-4
                        transition-all active:scale-[0.97] no-underline text-center"
           >
-            🇺🇸 {lang === "en" ? "Do You Qualify?" : "യോഗ്യത?"}
+            <Image src="/flag.png" alt="USA Flag" width={22} height={15} className="rounded-sm flex-shrink-0" />
+            {lang === "en" ? "Do You Qualify?" : "യോഗ്യത?"}
           </Link>
         </div>
         {isLoggedIn && (
