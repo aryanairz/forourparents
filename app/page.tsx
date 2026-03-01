@@ -18,154 +18,158 @@ export default function HomePage() {
   if (!mounted) {
     return (
       <div className="flex items-center justify-center min-h-[60vh]">
-        <div className="w-10 h-10 border-4 border-primary border-t-transparent rounded-full animate-spin" />
+        <div className="w-10 h-10 border-4 border-orange-400 border-t-transparent rounded-full animate-spin" />
       </div>
     );
   }
 
   return (
-    <div className="space-y-8">
-      {/* Hero */}
-      <div className="text-center pt-2 sm:pt-4 pb-2 space-y-3">
-        <div className="flex justify-center">
-          <Image
-            src="/logo.png"
-            alt="For Our Parents"
-            width={96}
-            height={96}
-            className="rounded-2xl shadow-lg sm:w-28 sm:h-28"
-            priority
-          />
+    <div className="space-y-0">
+      {/* ── Hero Section ── */}
+      <section className="relative bg-gradient-to-br from-orange-50 via-amber-50 to-orange-100 rounded-3xl overflow-hidden px-6 sm:px-10 pt-10 pb-6 sm:pt-14 sm:pb-8 -mx-4 sm:-mx-5">
+        <div className="flex flex-col md:flex-row items-center gap-6 md:gap-10 max-w-4xl mx-auto">
+          {/* Left — text */}
+          <div className="flex-1 text-center md:text-left space-y-4">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 leading-tight tracking-tight">
+              {lang === "en" ? (
+                <>Help Your Parents Pass the U.S. Citizenship Test</>
+              ) : (
+                <>നിങ്ങളുടെ മാതാപിതാക്കളെ യു.എസ്. പൗരത്വ ടെസ്റ്റ് പാസാക്കാൻ സഹായിക്കുക</>
+              )}
+            </h1>
+            <p className="text-base sm:text-lg text-gray-600 leading-relaxed max-w-md mx-auto md:mx-0">
+              {lang === "en"
+                ? "Practice the civics test in Malayalam. Built for the 50/20, 55/15, and 65/20 citizenship rules under U.S. immigration law."
+                : "മലയാളത്തിൽ സിവിക്സ് ടെസ്റ്റ് പരിശീലിക്കുക. യു.എസ്. ഇമിഗ്രേഷൻ നിയമത്തിലെ 50/20, 55/15, 65/20 പൗരത്വ നിയമങ്ങൾക്കായി നിർമ്മിച്ചത്."}
+            </p>
+            <div className="pt-2">
+              <Link
+                href="/quiz"
+                className="inline-flex items-center gap-2 min-h-[52px] sm:min-h-[56px]
+                           bg-orange-500 hover:bg-orange-600 text-white
+                           text-lg sm:text-xl font-bold rounded-2xl shadow-lg shadow-orange-200
+                           px-8 py-3.5 transition-all active:scale-[0.97] no-underline"
+              >
+                {lang === "en" ? "Practice in Malayalam" : "മലയാളത്തിൽ പരിശീലിക്കുക"}
+              </Link>
+            </div>
+          </div>
+
+          {/* Right — hero image */}
+          <div className="flex-shrink-0 w-64 h-64 sm:w-72 sm:h-72 md:w-80 md:h-80 relative">
+            <Image
+              src="/hero.png"
+              alt="Elderly couple"
+              fill
+              className="object-contain"
+              priority
+            />
+          </div>
         </div>
-        <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-gray-900 tracking-tight">
-          {t("heroTagline", lang)}
-        </h1>
-        <p className="text-base sm:text-lg text-gray-500 max-w-sm mx-auto leading-relaxed">
-          {t("heroDescription", lang)}
-        </p>
-      </div>
+      </section>
 
-      {/* Primary CTA buttons */}
-      <div className="space-y-3">
-        <Link
-          href="/quiz"
-          className="block w-full min-h-[64px] sm:min-h-[72px] bg-primary hover:bg-primary-dark text-white
-                     text-lg sm:text-xl font-bold rounded-2xl shadow-lg
-                     flex items-center justify-center gap-2.5 px-6 py-4
-                     transition-all active:scale-[0.97] no-underline text-center"
-        >
-          📝 {t("askQuestions", lang)}
-        </Link>
-
-        <Link
-          href="/practice"
-          className="block w-full min-h-[64px] sm:min-h-[72px] bg-white hover:bg-gray-50 text-gray-900
-                     text-lg sm:text-xl font-bold rounded-2xl shadow-md
-                     border-2 border-gray-200
-                     flex items-center justify-center gap-2.5 px-6 py-4
-                     transition-all active:scale-[0.97] no-underline text-center"
-        >
-          🎯 {t("practice", lang)}
-        </Link>
-      </div>
-
-      {/* Secondary actions row */}
-      <div className="grid grid-cols-2 gap-3">
-        <Link
-          href="/mistakes"
-          className="min-h-[56px] bg-white hover:bg-gray-50 text-gray-700
-                     text-base font-semibold rounded-xl shadow-sm
-                     border border-gray-200
-                     flex items-center justify-center gap-2 px-4 py-3
-                     transition-all active:scale-[0.97] no-underline text-center"
-        >
-          🔄 {t("reviewMistakes", lang)}
-        </Link>
-        <Link
-          href="/eligibility"
-          className="min-h-[56px] bg-white hover:bg-gray-50 text-gray-700
-                     text-base font-semibold rounded-xl shadow-sm
-                     border border-gray-200
-                     flex items-center justify-center gap-2 px-4 py-3
-                     transition-all active:scale-[0.97] no-underline text-center"
-        >
-          <Image src="/flag.png" alt="USA Flag" width={22} height={15} className="rounded-sm flex-shrink-0" />
-          {t("eligibility", lang)}
-        </Link>
+      {/* ── Quick Actions ── */}
+      <section className="pt-8 space-y-3">
+        <div className="grid grid-cols-2 gap-3">
+          <Link
+            href="/quiz"
+            className="min-h-[64px] bg-white hover:bg-orange-50 text-gray-800
+                       text-base font-semibold rounded-2xl shadow-sm
+                       border border-gray-200
+                       flex items-center justify-center gap-2 px-4 py-4
+                       transition-all active:scale-[0.97] no-underline text-center"
+          >
+            📝 {lang === "en" ? "Practice Test" : "പ്രാക്ടീസ് ടെസ്റ്റ്"}
+          </Link>
+          <Link
+            href="/practice"
+            className="min-h-[64px] bg-white hover:bg-orange-50 text-gray-800
+                       text-base font-semibold rounded-2xl shadow-sm
+                       border border-gray-200
+                       flex items-center justify-center gap-2 px-4 py-4
+                       transition-all active:scale-[0.97] no-underline text-center"
+          >
+            🎯 {t("practice", lang)}
+          </Link>
+          <Link
+            href="/mistakes"
+            className="min-h-[64px] bg-white hover:bg-orange-50 text-gray-800
+                       text-base font-semibold rounded-2xl shadow-sm
+                       border border-gray-200
+                       flex items-center justify-center gap-2 px-4 py-4
+                       transition-all active:scale-[0.97] no-underline text-center"
+          >
+            🔄 {t("reviewMistakes", lang)}
+          </Link>
+          <Link
+            href="/eligibility"
+            className="min-h-[64px] bg-white hover:bg-orange-50 text-gray-800
+                       text-base font-semibold rounded-2xl shadow-sm
+                       border border-gray-200
+                       flex items-center justify-center gap-2 px-4 py-4
+                       transition-all active:scale-[0.97] no-underline text-center"
+          >
+            🇺🇸 {lang === "en" ? "Do You Qualify?" : "യോഗ്യത?"}
+          </Link>
+        </div>
         {isLoggedIn && (
           <Link
             href="/dashboard"
-            className="col-span-2 min-h-[56px] bg-white hover:bg-gray-50 text-gray-700
-                       text-base font-semibold rounded-xl shadow-sm
-                       border border-gray-200
+            className="block w-full min-h-[56px] bg-white hover:bg-orange-50 text-gray-800
+                       text-base font-semibold rounded-2xl shadow-sm border border-gray-200
                        flex items-center justify-center gap-2 px-4 py-3
                        transition-all active:scale-[0.97] no-underline text-center"
           >
             📊 {t("viewDashboard", lang)}
           </Link>
         )}
-      </div>
+      </section>
 
-      {/* Eligibility snapshot */}
-      <div className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 space-y-3">
-        <h2 className="text-lg font-bold text-gray-900 text-center">
-          <span className="flex items-center justify-center gap-2">
-            <Image src="/flag.png" alt="USA Flag" width={26} height={18} className="rounded-sm" />
+      {/* ── Who Is This For ── */}
+      <section className="pt-8">
+        <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 space-y-3">
+          <h2 className="text-lg font-bold text-gray-900 text-center">
             {lang === "en" ? "Who Is This For?" : "ഇത് ആർക്കാണ്?"}
-          </span>
-        </h2>
-        <p className="text-sm sm:text-base text-gray-600 text-center leading-relaxed">
-          {lang === "en"
-            ? "If you are 50+ years old and have held a Green Card for 15–20+ years, you can take the civics test in Malayalam with your own interpreter. No English test needed!"
-            : "നിങ്ങൾക്ക് 50+ വയസ്സ് ഉണ്ടെങ്കിലും 15–20+ വർഷമായി ഗ്രീൻ കാർഡ് ഉടമയാണെങ്കിലും, സിവിക്സ് ടെസ്റ്റ് മലയാളത്തിൽ നിങ്ങളുടെ സ്വന്തം വ്യാഖ്യാതാവുമായി എടുക്കാം. ഇംഗ്ലീഷ് ടെസ്റ്റ് ആവശ്യമില്ല!"}
-        </p>
-        <div className="flex justify-center">
-          <Link
-            href="/eligibility"
-            className="text-primary font-semibold text-sm hover:underline no-underline"
-          >
-            {lang === "en" ? "Learn more →" : "കൂടുതൽ അറിയുക →"}
-          </Link>
-        </div>
-      </div>
-
-      {/* Login / Account prompt */}
-      {!isLoggedIn && (
-        <div className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 text-center space-y-3">
-          <p className="text-base text-gray-600">
+          </h2>
+          <p className="text-sm sm:text-base text-gray-600 text-center leading-relaxed">
             {lang === "en"
-              ? "Create a free account to track your progress across devices."
-              : "ഉപകരണങ്ങളിൽ ഉടനീളം നിങ്ങളുടെ പുരോഗതി ട്രാക്ക് ചെയ്യാൻ ഒരു സൗജന്യ അക്കൗണ്ട് സൃഷ്ടിക്കുക."}
+              ? "If you are 50+ years old and have held a Green Card for 15–20+ years, you can take the civics test in Malayalam with your own interpreter. No English test needed!"
+              : "നിങ്ങൾക്ക് 50+ വയസ്സ് ഉണ്ടെങ്കിലും 15–20+ വർഷമായി ഗ്രീൻ കാർഡ് ഉടമയാണെങ്കിലും, സിവിക്സ് ടെസ്റ്റ് മലയാളത്തിൽ നിങ്ങളുടെ സ്വന്തം വ്യാഖ്യാതാവുമായി എടുക്കാം. ഇംഗ്ലീഷ് ടെസ്റ്റ് ആവശ്യമില്ല!"}
           </p>
-          <Link
-            href="/login"
-            className="inline-block min-h-[48px] bg-gray-900 hover:bg-gray-800 text-white
-                       text-base font-semibold rounded-xl px-8 py-3
-                       transition-all active:scale-[0.97] no-underline"
-          >
-            {t("login", lang)} / {t("signup", lang)}
-          </Link>
+          <div className="flex justify-center">
+            <Link
+              href="/eligibility"
+              className="text-orange-600 font-semibold text-sm hover:underline no-underline"
+            >
+              {lang === "en" ? "Learn more →" : "കൂടുതൽ അറിയുക →"}
+            </Link>
+          </div>
         </div>
+      </section>
+
+      {/* ── Sign Up Prompt ── */}
+      {!isLoggedIn && (
+        <section className="pt-8">
+          <div className="bg-gradient-to-r from-orange-50 to-amber-50 rounded-2xl p-6 text-center space-y-3 border border-orange-100">
+            <p className="text-base text-gray-700">
+              {lang === "en"
+                ? "Create a free account to track your progress."
+                : "നിങ്ങളുടെ പുരോഗതി ട്രാക്ക് ചെയ്യാൻ ഒരു സൗജന്യ അക്കൗണ്ട് സൃഷ്ടിക്കുക."}
+            </p>
+            <Link
+              href="/login"
+              className="inline-block min-h-[48px] bg-gray-900 hover:bg-gray-800 text-white
+                         text-base font-semibold rounded-xl px-8 py-3
+                         transition-all active:scale-[0.97] no-underline"
+            >
+              {t("login", lang)} / {t("signup", lang)}
+            </Link>
+          </div>
+        </section>
       )}
 
-      {/* Language tip */}
-      <div className="bg-blue-50 rounded-xl p-4 text-center">
-        <p className="text-sm text-blue-700">
-          {lang === "en" ? (
-            <>
-              Switch to <strong>മലയാളം</strong> anytime using the button at the top
-            </>
-          ) : (
-            <>
-              മുകളിലുള്ള ബട്ടൺ ഉപയോഗിച്ച് എപ്പോൾ വേണമെങ്കിലും{" "}
-              <strong>English</strong>-ലേക്ക് മാറാം
-            </>
-          )}
-        </p>
-      </div>
-
-      {/* Footer */}
-      <footer className="text-center pb-4 space-y-1">
+      {/* ── Footer ── */}
+      <footer className="pt-10 pb-4 text-center space-y-1">
         <p className="text-xs text-gray-400">
           {lang === "en" ? "Built with ❤️ by" : "❤️ ഉപയോഗിച്ച് നിർമ്മിച്ചത്"}{" "}
           <span className="font-semibold text-gray-500">For Our Parents</span>

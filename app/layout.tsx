@@ -29,14 +29,14 @@ export default function RootLayout({
           name="viewport"
           content="width=device-width, initial-scale=1, maximum-scale=5, viewport-fit=cover"
         />
-        <meta name="theme-color" content="#ffffff" />
+        <meta name="theme-color" content="#FFFAF5" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
       </head>
       <body>
         <LanguageProvider>
           <Header />
-          <main className="max-w-xl mx-auto px-4 sm:px-5 py-6 sm:py-8 pb-20">
+          <main className="max-w-4xl mx-auto px-4 sm:px-5 py-6 sm:py-8 pb-20">
             {children}
           </main>
         </LanguageProvider>

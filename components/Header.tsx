@@ -16,8 +16,9 @@ export default function Header() {
   }, []);
 
   return (
-    <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200">
-      <div className="max-w-xl mx-auto flex items-center justify-between px-3 sm:px-4 py-2.5 sm:py-3">
+    <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-100">
+      <div className="max-w-5xl mx-auto flex items-center justify-between px-4 sm:px-6 py-2.5">
+        {/* Logo */}
         <Link
           href="/"
           className="font-bold text-gray-900 no-underline flex items-center gap-2 min-w-0"
@@ -29,31 +30,44 @@ export default function Header() {
             height={32}
             className="rounded-lg flex-shrink-0"
           />
-          <span className="text-base sm:text-lg truncate">
+          <span className="text-base sm:text-lg font-bold truncate">
             For Our Parents
           </span>
         </Link>
 
+        {/* Nav links — hidden on small mobile */}
+        <nav className="hidden sm:flex items-center gap-1">
+          <Link href="/" className="px-3 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 rounded-lg hover:bg-gray-50 no-underline transition-colors">
+            {lang === "en" ? "Home" : "ഹോം"}
+          </Link>
+          <Link href="/quiz" className="px-3 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 rounded-lg hover:bg-gray-50 no-underline transition-colors">
+            {lang === "en" ? "Practice Test" : "പ്രാക്ടീസ് ടെസ്റ്റ്"}
+          </Link>
+          <Link href="/eligibility" className="px-3 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 rounded-lg hover:bg-gray-50 no-underline transition-colors">
+            {lang === "en" ? "Do You Qualify?" : "യോഗ്യത?"}
+          </Link>
+        </nav>
+
+        {/* Right actions */}
         <div className="flex items-center gap-2">
           {mounted && (
             <button
               onClick={toggleLang}
-              className="flex-shrink-0 px-3 sm:px-4 py-2 rounded-lg text-sm font-semibold
-                         border border-gray-200 text-gray-600 bg-white
-                         hover:bg-gray-50 hover:border-gray-300
-                         active:scale-95 transition-all min-h-[40px]"
+              className="flex-shrink-0 px-3 py-2 rounded-lg text-sm font-semibold
+                         border border-orange-200 text-orange-700 bg-orange-50
+                         hover:bg-orange-100
+                         active:scale-95 transition-all min-h-[36px]"
               aria-label="Toggle language"
             >
-              {lang === "en" ? "മലയാളം" : "EN"}
+              {lang === "en" ? "മലയാളം" : "English"}
             </button>
           )}
           {mounted && !isLoggedIn && (
             <Link
               href="/login"
-              className="flex-shrink-0 px-3 sm:px-4 py-2 rounded-lg text-sm font-semibold
-                         bg-primary text-white
-                         hover:bg-primary-dark
-                         active:scale-95 transition-all min-h-[40px] no-underline
+              className="flex-shrink-0 px-3 py-2 rounded-lg text-sm font-semibold
+                         bg-orange-500 text-white hover:bg-orange-600
+                         active:scale-95 transition-all min-h-[36px] no-underline
                          flex items-center"
             >
               {t("login", lang)}

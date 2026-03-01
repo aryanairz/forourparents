@@ -12,6 +12,7 @@ import {
   topicLabels,
 } from "@/data/questions";
 import { addMistake, saveQuizAttempt } from "@/lib/storage";
+import { useFeedbackSpeech } from "@/lib/useFeedbackSpeech";
 import QuestionCard from "@/components/QuestionCard";
 import ProgressBar from "@/components/ProgressBar";
 import ReadAloud from "@/components/ReadAloud";
@@ -29,6 +30,7 @@ type PracticeState = "select-topic" | "practicing" | "done";
 
 export default function PracticePage() {
   const { lang, mounted } = useLanguage();
+  const { speak: speakFeedback, stop: stopFeedback } = useFeedbackSpeech();
   const [state, setState] = useState<PracticeState>("select-topic");
   const [selectedTopic, setSelectedTopic] = useState<Topic | "all">("all");
   const [pool, setPool] = useState<Question[]>([]);
@@ -65,6 +67,7 @@ export default function PracticePage() {
   };
 
   const goNext = async () => {
+    stopFeedback();
     if (currentIdx + 1 >= pool.length) {
       setState("done");
       // Save practice attempt to database
@@ -263,7 +266,16 @@ export default function PracticePage() {
       {/* Show Answer / Self-assessment */}
       {!showAnswer ? (
         <button
-          onClick={() => setShowAnswer(true)}
+          onClick={() => {
+            setShowAnswer(true);
+            const currentQ = pool[currentIdx];
+            if (currentQ) {
+              const answerText = currentQ.options[currentQ.correctIndex][lang];
+              const explanation = currentQ.explanation[lang];
+              const prefix = lang === "en" ? "The answer is: " : "ഉത്തരം: ";
+              speakFeedback(prefix + answerText + ". " + explanation, lang);
+            }
+          }}
           className="w-full min-h-[56px] bg-blue-50 text-primary border-2 border-primary
                      text-xl font-bold rounded-xl px-6 py-4
                      active:scale-[0.97] transition-all"

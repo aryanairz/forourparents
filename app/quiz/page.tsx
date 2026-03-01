@@ -6,6 +6,7 @@ import { useLanguage } from "@/lib/LanguageContext";
 import { t } from "@/lib/i18n";
 import { questions, Question, BilingualText } from "@/data/questions";
 import { addMistake, saveQuizAttempt } from "@/lib/storage";
+import { useFeedbackSpeech } from "@/lib/useFeedbackSpeech";
 import QuestionCard from "@/components/QuestionCard";
 import OptionButton from "@/components/OptionButton";
 import ProgressBar from "@/components/ProgressBar";
@@ -96,6 +97,7 @@ function pickQuestion(pool: Question[], lastId: string | null): {
 export default function QuizPage() {
   const { lang, mounted } = useLanguage();
   const lastIdRef = useRef<string | null>(null);
+  const { speak: speakFeedback, stop: stopFeedback } = useFeedbackSpeech();
 
   const [currentQ, setCurrentQ] = useState<Question | null>(null);
   const [displayOptions, setDisplayOptions] = useState<BilingualText[]>([]);
@@ -106,6 +108,7 @@ export default function QuizPage() {
   const [finished, setFinished] = useState(false);
 
   const nextQuestion = useCallback(() => {
+    stopFeedback();
     const { question, displayOptions: opts, displayCorrectIndex: ci } =
       pickQuestion(questions, lastIdRef.current);
     lastIdRef.current = question.id;
@@ -113,7 +116,7 @@ export default function QuizPage() {
     setDisplayOptions(opts);
     setDisplayCorrectIndex(ci);
     setSelectedOption(null);
-  }, []);
+  }, [stopFeedback]);
 
   useEffect(() => {
     if (mounted) nextQuestion();
@@ -126,13 +129,18 @@ export default function QuizPage() {
       if (answered || !currentQ) return;
       setSelectedOption(idx);
       setAttempted((p) => p + 1);
-      if (idx === displayCorrectIndex) {
+      const isCorrect = idx === displayCorrectIndex;
+      if (isCorrect) {
         setCorrectCount((p) => p + 1);
       } else {
         addMistake(currentQ.id);
       }
+      const prefix = isCorrect
+        ? (lang === "en" ? "Correct! " : "ശരി! ")
+        : (lang === "en" ? "Incorrect. " : "തെറ്റ്. ");
+      speakFeedback(prefix + currentQ.explanation[lang], lang);
     },
-    [answered, currentQ, displayCorrectIndex],
+    [answered, currentQ, displayCorrectIndex, lang, speakFeedback],
   );
 
   const handleNext = () => {
