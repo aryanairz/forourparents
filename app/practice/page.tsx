@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useLanguage } from "@/lib/LanguageContext";
 import { t } from "@/lib/i18n";
 import {
-  questions,
+  questions as allQuestions,
   Question,
   Topic,
   allTopics,
@@ -13,6 +13,7 @@ import {
 } from "@/data/questions";
 import { addMistake, saveQuizAttempt } from "@/lib/storage";
 import { useFeedbackSpeech } from "@/lib/useFeedbackSpeech";
+import { useQuestionPool } from "@/lib/useQuestionPool";
 import QuestionCard from "@/components/QuestionCard";
 import ProgressBar from "@/components/ProgressBar";
 import ReadAloud from "@/components/ReadAloud";
@@ -31,6 +32,7 @@ type PracticeState = "select-topic" | "practicing" | "done";
 export default function PracticePage() {
   const { lang, mounted } = useLanguage();
   const { speak: speakFeedback, stop: stopFeedback } = useFeedbackSpeech();
+  const questions = useQuestionPool();
   const [state, setState] = useState<PracticeState>("select-topic");
   const [selectedTopic, setSelectedTopic] = useState<Topic | "all">("all");
   const [pool, setPool] = useState<Question[]>([]);

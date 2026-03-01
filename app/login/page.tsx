@@ -6,6 +6,7 @@ import Image from "next/image";
 import { useLanguage } from "@/lib/LanguageContext";
 import { t } from "@/lib/i18n";
 import { loginUserByNamePin, signupUser, setCurrentUser } from "@/lib/storage";
+import { getStateOptions, getDistrictOptions, isAtLargeState } from "@/data/representatives";
 
 type Mode = "login" | "signup";
 
@@ -20,6 +21,8 @@ export default function LoginPage() {
   const [lastName, setLastName] = useState("");
   const [signupEmail, setSignupEmail] = useState("");
   const [phone, setPhone] = useState("");
+  const [selectedState, setSelectedState] = useState("");
+  const [selectedDistrict, setSelectedDistrict] = useState<string>("");
   const [pin, setPin] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
@@ -35,6 +38,7 @@ export default function LoginPage() {
   const resetFields = () => {
     setEmail(""); setFirstName(""); setLastName("");
     setSignupEmail(""); setPhone(""); setPin("");
+    setSelectedState(""); setSelectedDistrict("");
     setError(""); setSuccess("");
   };
 
@@ -60,7 +64,7 @@ export default function LoginPage() {
     setSuccess("");
     setLoading(true);
 
-    const { user, errorMsg } = await signupUser(firstName.trim(), lastName.trim(), signupEmail.trim(), pin, phone.trim() || undefined);
+    const { user, errorMsg } = await signupUser(firstName.trim(), lastName.trim(), signupEmail.trim(), pin, phone.trim() || undefined, selectedState || undefined, selectedDistrict ? Number(selectedDistrict) : undefined);
     if (user) {
       setSuccess(t("signupSuccess", lang));
       setCurrentUser(user);
@@ -245,6 +249,65 @@ export default function LoginPage() {
                   autoComplete="tel"
                 />
               </div>
+
+              {/* State & Congressional District */}
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-sm font-semibold text-gray-600 mb-1.5 ml-1">
+                    {t("state", lang)}
+                  </label>
+                  <select
+                    value={selectedState}
+                    onChange={(e) => {
+                      setSelectedState(e.target.value);
+                      setSelectedDistrict("");
+                    }}
+                    className="w-full min-h-[56px] px-4 text-base font-medium
+                               rounded-xl border-2 border-gray-200 bg-white
+                               focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20
+                               text-gray-900 appearance-none"
+                    disabled={loading}
+                  >
+                    <option value="">{t("selectState", lang)}</option>
+                    {getStateOptions().map((s) => (
+                      <option key={s.code} value={s.code}>
+                        {s.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold text-gray-600 mb-1.5 ml-1">
+                    {t("congressionalDistrict", lang)}
+                  </label>
+                  <select
+                    value={selectedDistrict}
+                    onChange={(e) => setSelectedDistrict(e.target.value)}
+                    className="w-full min-h-[56px] px-4 text-base font-medium
+                               rounded-xl border-2 border-gray-200 bg-white
+                               focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20
+                               text-gray-900 appearance-none"
+                    disabled={loading || !selectedState}
+                  >
+                    <option value="">{t("selectDistrict", lang)}</option>
+                    {selectedState &&
+                      getDistrictOptions(selectedState).map((d) => (
+                        <option key={d.value} value={d.value}>
+                          {d.value === 0 ? t("atLargeDistrict", lang) : d.label}
+                        </option>
+                      ))}
+                  </select>
+                </div>
+              </div>
+              {/* Find your district link */}
+              <a
+                href="https://www.house.gov/representatives/find-your-representative"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block text-center text-sm text-primary font-semibold hover:underline -mt-1"
+              >
+                {t("findYourDistrict", lang)}
+              </a>
 
               <div>
                 <label className="block text-sm font-semibold text-gray-600 mb-1.5 ml-1">

@@ -35,6 +35,8 @@ export interface User {
   lastName?: string;
   email?: string;
   phone?: string;
+  state?: string;
+  district?: number;
 }
 
 export function getCurrentUser(): User | null {
@@ -104,13 +106,15 @@ export async function signupUser(
   email: string,
   pin: string,
   phone?: string,
+  state?: string,
+  district?: number,
 ): Promise<{ user: User | null; errorMsg?: string }> {
   try {
     const name = `${firstName.trim()} ${lastName.trim()}`;
     const { data, error } = await supabase
       .from("users")
       // @ts-ignore - Types will work once Supabase credentials are configured
-      .insert({ name, first_name: firstName.trim(), last_name: lastName.trim(), email: email.trim().toLowerCase(), pin, phone: phone?.trim() || null })
+      .insert({ name, first_name: firstName.trim(), last_name: lastName.trim(), email: email.trim().toLowerCase(), pin, phone: phone?.trim() || null, state: state || null, district: district ?? null })
       .select("id, name")
       .single<{ id: string; name: string }>();
 
@@ -120,7 +124,7 @@ export async function signupUser(
     }
     if (!data) return { user: null, errorMsg: "No data returned" };
     return {
-      user: { id: data.id, name: data.name, firstName: firstName.trim(), lastName: lastName.trim(), email: email.trim().toLowerCase(), phone: phone?.trim() || undefined },
+      user: { id: data.id, name: data.name, firstName: firstName.trim(), lastName: lastName.trim(), email: email.trim().toLowerCase(), phone: phone?.trim() || undefined, state: state || undefined, district: district },
     };
   } catch (e) {
     console.error("Signup exception:", e);
@@ -138,10 +142,10 @@ export async function loginUserByNamePin(
     // @ts-ignore - Types will work once Supabase credentials are configured
     const { data, error } = await supabase
       .from("users")
-      .select("id, name, first_name, last_name, email, phone")
+      .select("id, name, first_name, last_name, email, phone, state, district")
       .eq("email", email.trim().toLowerCase())
       .eq("pin", pin)
-      .single<{ id: string; name: string; first_name?: string; last_name?: string; email?: string; phone?: string }>();
+      .single<{ id: string; name: string; first_name?: string; last_name?: string; email?: string; phone?: string; state?: string; district?: number }>();
 
     if (error || !data) return null;
 
@@ -152,6 +156,8 @@ export async function loginUserByNamePin(
       lastName: data.last_name,
       email: data.email,
       phone: data.phone,
+      state: data.state || undefined,
+      district: data.district ?? undefined,
     };
     setCurrentUser(user);
 

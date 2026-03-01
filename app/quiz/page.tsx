@@ -4,9 +4,10 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
 import { useLanguage } from "@/lib/LanguageContext";
 import { t } from "@/lib/i18n";
-import { questions, Question, BilingualText } from "@/data/questions";
+import { questions as allQuestions, Question, BilingualText } from "@/data/questions";
 import { addMistake, saveQuizAttempt } from "@/lib/storage";
 import { useFeedbackSpeech } from "@/lib/useFeedbackSpeech";
+import { useQuestionPool } from "@/lib/useQuestionPool";
 import QuestionCard from "@/components/QuestionCard";
 import OptionButton from "@/components/OptionButton";
 import ProgressBar from "@/components/ProgressBar";
@@ -98,6 +99,7 @@ export default function QuizPage() {
   const { lang, mounted } = useLanguage();
   const lastIdRef = useRef<string | null>(null);
   const { speak: speakFeedback, stop: stopFeedback } = useFeedbackSpeech();
+  const questionPool = useQuestionPool();
 
   const [currentQ, setCurrentQ] = useState<Question | null>(null);
   const [displayOptions, setDisplayOptions] = useState<BilingualText[]>([]);
@@ -110,13 +112,13 @@ export default function QuizPage() {
   const nextQuestion = useCallback(() => {
     stopFeedback();
     const { question, displayOptions: opts, displayCorrectIndex: ci } =
-      pickQuestion(questions, lastIdRef.current);
+      pickQuestion(questionPool, lastIdRef.current);
     lastIdRef.current = question.id;
     setCurrentQ(question);
     setDisplayOptions(opts);
     setDisplayCorrectIndex(ci);
     setSelectedOption(null);
-  }, [stopFeedback]);
+  }, [stopFeedback, questionPool]);
 
   useEffect(() => {
     if (mounted) nextQuestion();

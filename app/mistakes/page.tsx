@@ -5,12 +5,13 @@ import Link from "next/link";
 import { useLanguage } from "@/lib/LanguageContext";
 import { t } from "@/lib/i18n";
 import {
-  questions,
+  questions as allQuestions,
   Question,
   topicLabels,
   BilingualText,
 } from "@/data/questions";
 import { getMistakes, clearAllMistakes, removeMistake, getCurrentUser } from "@/lib/storage";
+import { useQuestionPool } from "@/lib/useQuestionPool";
 import QuestionCard from "@/components/QuestionCard";
 import OptionButton from "@/components/OptionButton";
 import ReadAloud from "@/components/ReadAloud";
@@ -44,6 +45,7 @@ function shuffleOptions(q: Question): {
 
 export default function MistakesPage() {
   const { lang, mounted } = useLanguage();
+  const questions = useQuestionPool();
   const [state, setState] = useState<MistakeState>("list");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [mistakeIds, setMistakeIds] = useState<string[]>([]);
@@ -72,7 +74,7 @@ export default function MistakesPage() {
     const ids = getMistakes();
     setMistakeIds(ids);
     setMistakeQuestions(questions.filter((q) => ids.includes(q.id)));
-  }, []);
+  }, [questions]);
 
   useEffect(() => {
     if (mounted) {

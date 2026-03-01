@@ -88,7 +88,13 @@ export type TranslationKey =
   | "enterLastName"
   | "enterEmail"
   | "enterPhone"
-  | "loginEmailLabel";
+  | "loginEmailLabel"
+  | "state"
+  | "selectState"
+  | "congressionalDistrict"
+  | "selectDistrict"
+  | "findYourDistrict"
+  | "atLargeDistrict";
 
 export const translations: Record<TranslationKey, Record<Lang, string>> = {
   appName: {
@@ -266,6 +272,12 @@ export const translations: Record<TranslationKey, Record<Lang, string>> = {
   enterEmail: { en: "Enter your email address", ml: "നിങ്ങളുടെ ഇമെയിൽ വിലാസം നൽകുക" },
   enterPhone: { en: "e.g. (555) 123-4567", ml: "ഉദാ. (555) 123-4567" },
   loginEmailLabel: { en: "Enter your email", ml: "നിങ്ങളുടെ ഇമെയിൽ നൽകുക" },
+  state: { en: "State", ml: "സംസ്ഥാനം" },
+  selectState: { en: "Select your state", ml: "നിങ്ങളുടെ സംസ്ഥാനം തിരഞ്ഞെടുക്കുക" },
+  congressionalDistrict: { en: "Congressional District", ml: "കോൺഗ്രഷണൽ ജില്ല" },
+  selectDistrict: { en: "Select your district", ml: "നിങ്ങളുടെ ജില്ല തിരഞ്ഞെടുക്കുക" },
+  findYourDistrict: { en: "Don't know your district? Find it here →", ml: "നിങ്ങളുടെ ജില്ല അറിയില്ലേ? ഇവിടെ കണ്ടെത്തുക →" },
+  atLargeDistrict: { en: "At-Large (entire state)", ml: "മുഴുവൻ സംസ്ഥാനം" },
 };
 
 export function t(key: TranslationKey, lang: Lang): string {

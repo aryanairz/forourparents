@@ -15,6 +15,8 @@ CREATE TABLE users (
   email TEXT UNIQUE,
   phone TEXT,
   pin TEXT NOT NULL,
+  state TEXT,
+  district INTEGER,
   created_at TIMESTAMPTZ DEFAULT NOW(),
   last_active TIMESTAMPTZ DEFAULT NOW()
 );
