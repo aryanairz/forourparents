@@ -93,12 +93,12 @@ export default function HomePage() {
       </section>
 
       {/* ── Quick Actions ── */}
-      <section className="pt-8 space-y-3 px-4 sm:px-5 mx-auto max-w-5xl">
-        <div className="grid grid-cols-2 gap-3">
+      <section className="pt-8 space-y-4 px-6 sm:px-8 mx-auto max-w-5xl">
+        <div className="grid grid-cols-2 gap-4">
           <Link
             href="/quiz"
-            className="min-h-[64px] bg-white hover:bg-orange-50 text-gray-800
-                       text-base font-semibold rounded-2xl shadow-sm
+            className="min-h-[72px] bg-white hover:bg-orange-50 text-gray-800
+                       text-[15px] font-semibold rounded-2xl shadow-sm
                        border border-gray-200
                        flex items-center justify-center gap-2 px-4 py-4
                        transition-all active:scale-[0.97] no-underline text-center"
@@ -107,8 +107,8 @@ export default function HomePage() {
           </Link>
           <Link
             href="/practice"
-            className="min-h-[64px] bg-white hover:bg-orange-50 text-gray-800
-                       text-base font-semibold rounded-2xl shadow-sm
+            className="min-h-[72px] bg-white hover:bg-orange-50 text-gray-800
+                       text-[15px] font-semibold rounded-2xl shadow-sm
                        border border-gray-200
                        flex items-center justify-center gap-2 px-4 py-4
                        transition-all active:scale-[0.97] no-underline text-center"
@@ -117,8 +117,8 @@ export default function HomePage() {
           </Link>
           <Link
             href="/mistakes"
-            className="min-h-[64px] bg-white hover:bg-orange-50 text-gray-800
-                       text-base font-semibold rounded-2xl shadow-sm
+            className="min-h-[72px] bg-white hover:bg-orange-50 text-gray-800
+                       text-[15px] font-semibold rounded-2xl shadow-sm
                        border border-gray-200
                        flex items-center justify-center gap-2 px-4 py-4
                        transition-all active:scale-[0.97] no-underline text-center"
@@ -127,8 +127,8 @@ export default function HomePage() {
           </Link>
           <Link
             href="/eligibility"
-            className="min-h-[64px] bg-white hover:bg-orange-50 text-gray-800
-                       text-base font-semibold rounded-2xl shadow-sm
+            className="min-h-[72px] bg-white hover:bg-orange-50 text-gray-800
+                       text-[15px] font-semibold rounded-2xl shadow-sm
                        border border-gray-200
                        flex items-center justify-center gap-2 px-4 py-4
                        transition-all active:scale-[0.97] no-underline text-center"
@@ -140,8 +140,8 @@ export default function HomePage() {
         {isLoggedIn && (
           <Link
             href="/dashboard"
-            className="block w-full min-h-[56px] bg-white hover:bg-orange-50 text-gray-800
-                       text-base font-semibold rounded-2xl shadow-sm border border-gray-200
+            className="block w-full min-h-[60px] bg-white hover:bg-orange-50 text-gray-800
+                       text-[15px] font-semibold rounded-2xl shadow-sm border border-gray-200
                        flex items-center justify-center gap-2 px-4 py-3
                        transition-all active:scale-[0.97] no-underline text-center"
           >
