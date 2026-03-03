@@ -61,7 +61,7 @@ export default function EligibilityPage() {
           <div className="flex items-center gap-3 mb-4">
             <span className="text-3xl">✅</span>
             <h2 className="text-2xl font-bold text-gray-900">
-              {lang === "en" ? "50/20 Rule" : "50/20 നിയമം"}
+              {lang === "en" ? "50/20 Rule" : lang === "ml" ? "50/20 നിയമം" : "50/20 નિયમ"}
             </h2>
           </div>
           <div className="space-y-3 text-base text-gray-700 mb-4">
@@ -81,8 +81,8 @@ export default function EligibilityPage() {
               {lang === "en" ? "What this means:" : "ഇതിന്റെ അർത്ഥം:"}
             </p>
             <div className="space-y-1.5 text-sm text-blue-800">
-              <p>→ {lang === "en" ? "You do NOT have to take the English test." : "ഇംഗ്ലീഷ് ടെസ്റ്റ് എടുക്കേണ്ടതില്ല."}</p>
-              <p>→ {lang === "en" ? "You still must take the civics test, but you may take it in Malayalam with your own interpreter." : "സിവിക്സ് ടെസ്റ്റ് എടുക്കണം, പക്ഷേ മലയാളത്തിൽ നിങ്ങളുടെ സ്വന്തം വ്യാഖ്യാതാവുമായി എടുക്കാം."}</p>
+              <p>→ {lang === "en" ? "You do NOT have to take the English test." : lang === "ml" ? "ഇംഗ്ലീഷ് ടെസ്റ്റ് എടുക്കേണ്ടതില്ല." : "તમારે અંગ્રેજી ટેસ્ટ આપવાની જરૂર નથી."}</p>
+              <p>→ {lang === "en" ? "You still must take the civics test, but you may take it in your language with your own interpreter." : lang === "ml" ? "സിവിക്സ് ടെസ്റ്റ് എടുക്കണം, പക്ഷേ മലയാളത്തിൽ നിങ്ങളുടെ സ്വന്തം വ്യാഖ്യാതാവുമായി എടുക്കാം." : "સિવિક્સ ટેસ્ટ હજુ આપવી પડશે, પરંતુ તમે તમારી ભાષામાં તમારા પોતાના દુભાષિયા સાથે આપી શકો છો."}</p>
             </div>
           </div>
         </div>

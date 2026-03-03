@@ -23,6 +23,10 @@ export default function HomePage() {
     );
   }
 
+  // Trilingual helper: gu defaults to en for marketing copy
+  const l = (en: string, ml: string, gu?: string) =>
+    lang === "en" ? en : lang === "ml" ? ml : (gu ?? en);
+
   return (
     <div className="-mx-4 sm:-mx-5">
       {/* ── Hero Section ── */}
@@ -50,8 +54,10 @@ export default function HomePage() {
               >
                 {lang === "en" ? (
                   <>Help Your Parents Pass the U.S. Citizenship Test</>
-                ) : (
+                ) : lang === "ml" ? (
                   <>നിങ്ങളുടെ മാതാപിതാക്കളെ യു.എസ്. പൗരത്വ ടെസ്റ്റ് പാസാക്കാൻ സഹായിക്കുക</>
+                ) : (
+                  <>Help Your Parents Pass the U.S. Citizenship Test</>
                 )}
               </h1>
               <p 
@@ -103,7 +109,7 @@ export default function HomePage() {
                        flex items-center justify-center gap-2 px-4 py-4
                        transition-all active:scale-[0.97] no-underline text-center"
           >
-            📝 {lang === "en" ? "Practice Test" : "പ്രാക്ടീസ് ടെസ്റ്റ്"}
+            📝 {l("Practice Test", "പ്രാക്ടീസ് ടെസ്റ്റ്", "પ્રેક્ટિસ ટેસ્ટ")}
           </Link>
           <Link
             href="/practice"
@@ -134,7 +140,7 @@ export default function HomePage() {
                        transition-all active:scale-[0.97] no-underline text-center"
           >
             <Image src="/flag.png" alt="USA Flag" width={22} height={15} className="rounded-sm flex-shrink-0" />
-            {lang === "en" ? "Do You Qualify?" : "യോഗ്യത?"}
+            {l("Do You Qualify?", "യോഗ്യത?", "શું તમે યોગ્ય છો?")}
           </Link>
         </div>
         {isLoggedIn && (
@@ -154,12 +160,14 @@ export default function HomePage() {
       <section className="pt-8 px-6 sm:px-8 mx-auto max-w-5xl">
         <div className="bg-white rounded-2xl p-7 shadow-sm border border-gray-100 space-y-4">
           <h2 className="text-xl font-bold text-gray-900 text-center">
-            {lang === "en" ? "Who Is This For?" : "ഇത് ആർക്കാണ്?"}
+            {l("Who Is This For?", "ഇത് ആർക്കാണ്?", "આ કોના માટે છે?")}
           </h2>
           <p className="text-base text-gray-600 text-center leading-relaxed">
-            {lang === "en"
-              ? "If you are 50+ years old and have held a Green Card for 15–20+ years, you can take the civics test in Malayalam with your own interpreter. No English test needed!"
-              : "നിങ്ങൾക്ക് 50+ വയസ്സ് ഉണ്ടെങ്കിലും 15–20+ വർഷമായി ഗ്രീൻ കാർഡ് ഉടമയാണെങ്കിലും, സിവിക്സ് ടെസ്റ്റ് മലയാളത്തിൽ നിങ്ങളുടെ സ്വന്തം വ്യാഖ്യാതാവുമായി എടുക്കാം. ഇംഗ്ലീഷ് ടെസ്റ്റ് ആവശ്യമില്ല!"}
+            {l(
+              "If you are 50+ years old and have held a Green Card for 15\u201320+ years, you can take the civics test in your language with your own interpreter. No English test needed!",
+              "നിങ്ങള്ക്ക് 50+ വയസ്സ് ഉണ്ടെങ്കിലും 15\u201320+ വർഷമായി ഗ്രീൻ കാർഡ് ഉടമയാണെങ്കിലും, സിവിക്സ് ടെസ്റ്റ് മലയാളത്തിൽ നിങ്ങളുടെ സ്വന്തം വ്യാഖ്യാതാവുമായി എടുക്കാം. ഇംഗ്ലീഷ് ടെസ്റ്റ് ആവശ്യമില്ല!",
+              "જો તમે 50+ વર્ષના છો અને 15\u201320+ વર્ષથી ગ્રીન કાર્ડ ધરાવો છો, તો તમે તમારી ભાષામાં તમારા પોતાના દુભાષિયા સાથે સિવિક્સ ટેસ્ટ આપી શકો છો. અંગ્રેજી ટેસ્ટની જરૂર નથી!"
+            )}
           </p>
           <div className="flex justify-center pt-2">
             <Link
@@ -168,7 +176,7 @@ export default function HomePage() {
                          font-semibold text-[15px] rounded-xl px-8 py-3
                          transition-all active:scale-[0.97] no-underline inline-flex items-center justify-center"
             >
-              {lang === "en" ? "Learn more →" : "കൂടുതൽ അറിയുക →"}
+              {l("Learn more →", "കൂടുതൽ അറിയുക →", "વધુ જાણો →")}
             </Link>
           </div>
         </div>
@@ -179,9 +187,11 @@ export default function HomePage() {
         <section className="pt-8 px-6 sm:px-8 mx-auto max-w-5xl">
           <div className="bg-gradient-to-r from-orange-50 to-amber-50 rounded-2xl p-7 text-center space-y-4 border border-orange-100">
             <p className="text-base text-gray-700 font-medium">
-              {lang === "en"
-                ? "Create a free account to track your progress."
-                : "നിങ്ങളുടെ പുരോഗതി ട്രാക്ക് ചെയ്യാൻ ഒരു സൗജന്യ അക്കൗണ്ട് സൃഷ്ടിക്കുക."}
+              {l(
+                "Create a free account to track your progress.",
+                "നിങ്ങളുടെ പുരോഗതി ട്രാക്ക് ചെയ്യാൻ ഒരു സൌജന്യ അക്കൌണ്ട് സൃഷ്ടിക്കുക.",
+                "તમારી પ્રગતિ ટ્રેક કરવા માટે મફત ખાતું બનાવો."
+              )}
             </p>
             <Link
               href="/login"
@@ -198,7 +208,7 @@ export default function HomePage() {
       {/* ── Footer ── */}
       <footer className="pt-10 pb-4 text-center space-y-1 px-4 sm:px-5">
         <p className="text-xs text-gray-400">
-          {lang === "en" ? "Built with ❤️ by" : "❤️ ഉപയോഗിച്ച് നിർമ്മിച്ചത്"}{" "}
+          {l("Built with ❤️ by", "❤️ ഉപയോഗിച്ച് നിർമ്മിച്ചത്")}{" "}
           <span className="font-semibold text-gray-500">For Our Parents</span>
         </p>
         <p className="text-xs text-gray-400">

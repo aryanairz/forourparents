@@ -6,33 +6,41 @@ import { getStoredLanguage, setStoredLanguage } from "@/lib/storage";
 
 interface LanguageContextValue {
   lang: Lang;
+  setLang: (lang: Lang) => void;
   toggleLang: () => void;
   mounted: boolean;
 }
 
 const LanguageContext = createContext<LanguageContextValue>({
   lang: "en",
+  setLang: () => {},
   toggleLang: () => {},
   mounted: false,
 });
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
-  const [lang, setLang] = useState<Lang>("en");
+  const [lang, setLangState] = useState<Lang>("en");
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setLang(getStoredLanguage());
+    setLangState(getStoredLanguage());
     setMounted(true);
   }, []);
 
-  const toggleLang = () => {
-    const next: Lang = lang === "en" ? "ml" : "en";
-    setLang(next);
+  const setLang = (next: Lang) => {
+    setLangState(next);
     setStoredLanguage(next);
   };
 
+  const toggleLang = () => {
+    const order: Lang[] = ["en", "ml", "gu"];
+    const idx = order.indexOf(lang);
+    const next = order[(idx + 1) % order.length];
+    setLang(next);
+  };
+
   return (
-    <LanguageContext.Provider value={{ lang, toggleLang, mounted }}>
+    <LanguageContext.Provider value={{ lang, setLang, toggleLang, mounted }}>
       {children}
     </LanguageContext.Provider>
   );

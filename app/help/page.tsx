@@ -5,68 +5,68 @@ import { useLanguage } from "@/lib/LanguageContext";
 import { t } from "@/lib/i18n";
 import { useState } from "react";
 
-/* ── Bilingual content helpers ────────────────────── */
-type Bi = { en: string; ml: string };
-const bi = (en: string, ml: string): Bi => ({ en, ml });
+/* ── Trilingual content helpers ────────────────────── */
+type Tri = { en: string; ml: string; gu: string };
+const tri = (en: string, ml: string, gu?: string): Tri => ({ en, ml, gu: gu ?? en });
 
 /* ── FAQ data ─────────────────────────────────────── */
-const faqs: { q: Bi; a: Bi }[] = [
+const faqs: { q: Tri; a: Tri }[] = [
   {
-    q: bi(
+    q: tri(
       "What is the U.S. civics test?",
       "യു.എസ്. സിവിക്സ് ടെസ്റ്റ് എന്താണ്?"
     ),
-    a: bi(
+    a: tri(
       "During the naturalization interview, USCIS officers ask up to 10 questions from a list of 100 civics questions. You must answer at least 6 correctly to pass.",
       "നാച്ചുറലൈസേഷൻ ഇന്റർവ്യൂവിൽ, 100 സിവിക്സ് ചോദ്യങ്ങളുടെ പട്ടികയിൽ നിന്ന് USCIS ഓഫീസർമാർ 10 ചോദ്യങ്ങൾ വരെ ചോദിക്കുന്നു. പാസാകാൻ കുറഞ്ഞത് 6 എണ്ണം ശരിയായി ഉത്തരം നൽകണം."
     ),
   },
   {
-    q: bi(
+    q: tri(
       "Is this app free?",
       "ഈ ആപ്പ് സൌജന്യമാണോ?"
     ),
-    a: bi(
-      "Yes! For Our Parents is completely free. Our mission is to help Malayalam-speaking families prepare for the civics test without any cost.",
+    a: tri(
+      "Yes! For Our Parents is completely free. Our mission is to help families prepare for the civics test without any cost.",
       "അതെ! 'For Our Parents' പൂർണ്ണമായും സൌജന്യമാണ്. മലയാളം സംസാരിക്കുന്ന കുടുംബങ്ങളെ ഒരു ചെലവും കൂടാതെ സിവിക്സ് ടെസ്റ്റിന് തയ്യാറെടുക്കാൻ സഹായിക്കുക എന്നതാണ് ഞങ്ങളുടെ ലക്ഷ്യം."
     ),
   },
   {
-    q: bi(
+    q: tri(
       "How many questions are on the real test?",
       "യഥാർത്ഥ ടെസ്റ്റിൽ എത്ര ചോദ്യങ്ങൾ ഉണ്ട്?"
     ),
-    a: bi(
+    a: tri(
       "The USCIS officer will ask you up to 10 civics questions from the official list of 100. You need to get 6 out of 10 correct to pass the civics portion.",
       "100 ചോദ്യങ്ങളുടെ ഔദ്യോഗിക പട്ടികയിൽ നിന്ന് USCIS ഓഫീസർ 10 സിവിക്സ് ചോദ്യങ്ങൾ വരെ ചോദിക്കും. സിവിക്സ് ഭാഗം പാസാകാൻ 10-ൽ 6 ശരിയാക്കണം."
     ),
   },
   {
-    q: bi(
-      "Can I study in Malayalam?",
+    q: tri(
+      "Can I study in other languages?",
       "മലയാളത്തിൽ പഠിക്കാമോ?"
     ),
-    a: bi(
-      "Yes! Toggle the language button in the header to switch between English and Malayalam. All questions, answers, and explanations are available in both languages.",
-      "അതെ! ഇംഗ്ലീഷിനും മലയാളത്തിനും ഇടയിൽ മാറുന്നതിന് ഹെഡറിലെ ഭാഷ ബട്ടൺ ഉപയോഗിക്കുക. എല്ലാ ചോദ്യങ്ങളും ഉത്തരങ്ങളും വിശദീകരണങ്ങളും രണ്ട് ഭാഷകളിലും ലഭ്യമാണ്."
+    a: tri(
+      "Yes! Use the language dropdown in the header to switch between English, Malayalam, and Gujarati. All questions, answers, and explanations are available in all three languages.",
+      "അതെ! ഇംഗ്ലീഷിനും മലയാളത്തിനും ഇടയിൽ മാറുന്നതിന് ഹെഡ്ഡറിലെ ഭാഷ ഡ്രോപ്പ്ഡൗണ് ഉപയോഗിക്കുക. എല്ലാ ചോദ്യങ്ങളും ഉത്തരങ്ങളും വിശദീകരണങ്ങളും മൂന്ന് ഭാഷകളിലും ലഭ്യമാണ്."
     ),
   },
   {
-    q: bi(
+    q: tri(
       "What topics does the civics test cover?",
       "സിവിക്സ് ടെസ്റ്റ് ഏതൊക്കെ വിഷയങ്ങൾ ഉൾക്കൊള്ളുന്നു?"
     ),
-    a: bi(
+    a: tri(
       "The test covers four main areas: American Government (how it works), Rights & Responsibilities, American History, and U.S. Symbols & Holidays.",
       "ടെസ്റ്റ് നാല് പ്രധാന മേഖലകൾ ഉൾക്കൊള്ളുന്നു: അമേരിക്കൻ ഗവൺമെന്റ്, അവകാശങ്ങളും ഉത്തരവാദിത്തങ്ങളും, അമേരിക്കൻ ചരിത്രം, യു.എസ്. ചിഹ്നങ്ങളും അവധി ദിനങ്ങളും."
     ),
   },
   {
-    q: bi(
+    q: tri(
       "Do I need to create an account?",
-      "ഒരു അക്കൗണ്ട് ഉണ്ടാക്കണോ?"
+      "ഒരു അക്കൌണ്ട് ഉണ്ടാക്കണോ?"
     ),
-    a: bi(
+    a: tri(
       "You can practice without an account, but creating one (free) lets you track your progress, review mistakes, and get personalized questions about your congressional representatives.",
       "അക്കൗണ്ട് ഇല്ലാതെയും പരിശീലിക്കാം, പക്ഷേ ഒരെണ്ണം ഉണ്ടാക്കിയാൽ (സൌജന്യം) നിങ്ങളുടെ പുരോഗതി ട്രാക്ക് ചെയ്യാനും തെറ്റുകൾ അവലോകനം ചെയ്യാനും നിങ്ങളുടെ കോൺഗ്രസ് പ്രതിനിധികളെ കുറിച്ചുള്ള വ്യക്തിഗത ചോദ്യങ്ങൾ ലഭിക്കാനും കഴിയും."
     ),
@@ -74,34 +74,34 @@ const faqs: { q: Bi; a: Bi }[] = [
 ];
 
 /* ── Troubleshooting data ─────────────────────────── */
-const troubleshooting: { issue: Bi; fix: Bi }[] = [
+const troubleshooting: { issue: Tri; fix: Tri }[] = [
   {
-    issue: bi("I can't log in", "എനിക്ക് ലോഗിൻ ചെയ്യാൻ കഴിയുന്നില്ല"),
-    fix: bi(
+    issue: tri("I can't log in", "എനിക്ക് ലോഗിൻ ചെയ്യാൻ കഴിയുന്നില്ല"),
+    fix: tri(
       "Make sure you're entering the email address you signed up with and the 4-digit PIN you chose. If you forgot your PIN, email us at contact.forourparents@gmail.com and we'll help you get back in.",
       "നിങ്ങൾ സൈൻ-അപ്പ് ചെയ്ത ഇമെയിൽ വിലാസവും 4 അക്ക PINും നൽകുന്നുണ്ടെന്ന് ഉറപ്പാക്കുക. PIN മറന്നുപോയാൽ, contact.forourparents@gmail.com-ൽ ഞങ്ങൾക്ക് ഇമെയിൽ ചെയ്യുക, തിരിച്ചു കയറാൻ ഞങ്ങൾ സഹായിക്കും."
     ),
   },
   {
-    issue: bi("The app is not loading", "ആപ്പ് ലോഡ് ആകുന്നില്ല"),
-    fix: bi(
+    issue: tri("The app is not loading", "ആപ്പ് ലോഡ് ആകുന്നില്ല"),
+    fix: tri(
       "Try refreshing the page or clearing your browser cache. Make sure you have a stable internet connection. The app works best on Chrome, Safari, or Edge.",
       "പേജ് റിഫ്രഷ് ചെയ്യുക അല്ലെങ്കിൽ ബ്രൗസർ കാഷ് ക്ലിയർ ചെയ്യുക. സ്ഥിരമായ ഇന്റർനെറ്റ് കണക്ഷൻ ഉണ്ടെന്ന് ഉറപ്പാക്കുക. Chrome, Safari, അല്ലെങ്കിൽ Edge-ൽ ആപ്പ് മികച്ച രീതിയിൽ പ്രവർത്തിക്കുന്നു."
     ),
   },
   {
-    issue: bi("Audio is not playing", "ഓഡിയോ പ്ലേ ആകുന്നില്ല"),
-    fix: bi(
+    issue: tri("Audio is not playing", "ഓഡിയോ പ്ലേ ആകുന്നില്ല"),
+    fix: tri(
       "Make sure your device volume is turned up and not on silent mode. The read-aloud feature uses your browser's text-to-speech engine. Some older browsers may not support Malayalam text-to-speech.",
       "നിങ്ങളുടെ ഉപകരണത്തിന്റെ വോളിയം ഓൺ ആണെന്നും സൈലന്റ് മോഡിൽ അല്ലെന്നും ഉറപ്പാക്കുക. റീഡ്-അലൌഡ് ഫീച്ചർ ബ്രൗസറിന്റെ ടെക്സ്റ്റ്-ടു-സ്പീച്ച് എഞ്ചിൻ ഉപയോഗിക്കുന്നു. ചില പഴയ ബ്രൗസറുകൾ മലയാളം ടെക്സ്റ്റ്-ടു-സ്പീച്ച് പിന്തുണച്ചേക്കില്ല."
     ),
   },
   {
-    issue: bi(
+    issue: tri(
       "My progress isn't saving",
       "എന്റെ പുരോഗതി സേവ് ആകുന്നില്ല"
     ),
-    fix: bi(
+    fix: tri(
       "Progress is saved to your account. Make sure you're logged in before starting a quiz. If you're using a private/incognito window, your local session may not persist.",
       "പുരോഗതി നിങ്ങളുടെ അക്കൗണ്ടിൽ സേവ് ചെയ്യുന്നു. ക്വിസ് തുടങ്ങുന്നതിന് മുമ്പ് ലോഗിൻ ചെയ്തിട്ടുണ്ടെന്ന് ഉറപ്പാക്കുക. പ്രൈവേറ്റ്/ഇൻകോഗ്നിറ്റോ വിൻഡോ ഉപയോഗിക്കുന്നുണ്ടെങ്കിൽ, ലോക്കൽ സെഷൻ നിലനിൽക്കണമെന്നില്ല."
     ),
@@ -157,7 +157,8 @@ export default function HelpPage() {
     );
   }
 
-  const l = (en: string, ml: string) => (lang === "en" ? en : ml);
+  const l = (en: string, ml: string, gu?: string) =>
+    lang === "en" ? en : lang === "ml" ? ml : (gu ?? en);
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 py-6 sm:py-8 space-y-8">

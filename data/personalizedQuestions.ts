@@ -26,12 +26,14 @@ export function getPersonalizedQuestions(
     question: {
       en: `Who is the Governor of ${state.name}?`,
       ml: `${state.name}-ന്റെ ഗവർണർ ആരാണ്?`,
+      gu: `${state.name}ના ગવર્નર કોણ છે?`,
     },
     options: buildGovernorOptions(state.governor, stateCode),
     correctIndex: 0,
     explanation: {
       en: `${state.governor} is the current Governor of ${state.name}.`,
       ml: `${state.governor} ആണ് ${state.name}-ന്റെ ഇപ്പോഴത്തെ ഗവർണർ.`,
+      gu: `${state.governor} ${state.name}ના વર્તમાન ગવર્નર છે.`,
     },
   });
 
@@ -45,12 +47,14 @@ export function getPersonalizedQuestions(
     question: {
       en: `Who is one of your state's U.S. Senators? (${state.name})`,
       ml: `നിങ്ങളുടെ സംസ്ഥാനത്തെ അമേരിക്കൻ സെനറ്റർമാരിൽ ഒരാൾ ആരാണ്? (${state.name})`,
+      gu: `તમારા રાજ્યના યુ.એસ. સેનેટરોમાંથી એક કોણ છે? (${state.name})`,
     },
     options: buildSenatorOptions(correctSenator, stateCode),
     correctIndex: 0,
     explanation: {
       en: `${state.senators[0]} and ${state.senators[1]} are the U.S. Senators from ${state.name}.`,
       ml: `${state.senators[0]}-ഉം ${state.senators[1]}-ഉം ${state.name}-ൽ നിന്നുള്ള യു.എസ്. സെനറ്റർമാരാണ്.`,
+      gu: `${state.senators[0]} અને ${state.senators[1]} ${state.name}ના યુ.એસ. સેનેટર છે.`,
     },
   });
 
@@ -64,12 +68,14 @@ export function getPersonalizedQuestions(
       question: {
         en: `Who is your U.S. Representative? (${state.name}, ${districtLabel})`,
         ml: `നിങ്ങളുടെ അമേരിക്കൻ പ്രതിനിധി ആരാണ്? (${state.name}, ${districtLabel})`,
+        gu: `તમારા યુ.એસ. પ્રતિનિધિ કોણ છે? (${state.name}, ${districtLabel})`,
       },
       options: buildRepOptions(rep, stateCode, district),
       correctIndex: 0,
       explanation: {
         en: `${rep} is the U.S. Representative for ${state.name} ${districtLabel}.`,
         ml: `${rep} ആണ് ${state.name} ${districtLabel}-ന്റെ യു.എസ്. പ്രതിനിധി.`,
+        gu: `${rep} ${state.name} ${districtLabel}ના યુ.એસ. પ્રતિનિધિ છે.`,
       },
     });
   }
@@ -81,12 +87,14 @@ export function getPersonalizedQuestions(
     question: {
       en: `What is the capital of ${state.name}?`,
       ml: `${state.name}-ന്റെ തലസ്ഥാനം ഏതാണ്?`,
+      gu: `${state.name}ની રાજધાની શું છે?`,
     },
     options: buildCapitalOptions(state.capital, stateCode),
     correctIndex: 0,
     explanation: {
       en: `${state.capital} is the capital of ${state.name}.`,
       ml: `${state.capital} ആണ് ${state.name}-ന്റെ തലസ്ഥാനം.`,
+      gu: `${state.capital} ${state.name}ની રાજધાની છે.`,
     },
   });
 
@@ -134,22 +142,22 @@ function pickWrongAnswers(correct: string, pool: string[], count: number): Bilin
     (name) => name.toLowerCase() !== correct.toLowerCase()
   );
   const shuffled = filtered.sort(() => Math.random() - 0.5);
-  return shuffled.slice(0, count).map((name) => ({ en: name, ml: name }));
+  return shuffled.slice(0, count).map((name) => ({ en: name, ml: name, gu: name }));
 }
 
 function buildGovernorOptions(correct: string, _stateCode: string): BilingualText[] {
   const wrongs = pickWrongAnswers(correct, otherGovernors, 3);
-  return [{ en: correct, ml: correct }, ...wrongs];
+  return [{ en: correct, ml: correct, gu: correct }, ...wrongs];
 }
 
 function buildSenatorOptions(correct: string, _stateCode: string): BilingualText[] {
   const wrongs = pickWrongAnswers(correct, otherSenators, 3);
-  return [{ en: correct, ml: correct }, ...wrongs];
+  return [{ en: correct, ml: correct, gu: correct }, ...wrongs];
 }
 
 function buildRepOptions(correct: string, _stateCode: string, _district: number): BilingualText[] {
   const wrongs = pickWrongAnswers(correct, otherReps, 3);
-  return [{ en: correct, ml: correct }, ...wrongs];
+  return [{ en: correct, ml: correct, gu: correct }, ...wrongs];
 }
 
 function buildCapitalOptions(correct: string, stateCode: string): BilingualText[] {
@@ -158,5 +166,5 @@ function buildCapitalOptions(correct: string, stateCode: string): BilingualText[
     ...otherCapitals.default,
   ];
   const wrongs = pickWrongAnswers(correct, pool, 3);
-  return [{ en: correct, ml: correct }, ...wrongs];
+  return [{ en: correct, ml: correct, gu: correct }, ...wrongs];
 }

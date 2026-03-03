@@ -156,13 +156,13 @@ export default function MistakesPage() {
                      flex items-center justify-center px-6 py-4
                      transition-all active:scale-[0.97] no-underline"
         >
-          {lang === "en" ? "Create Account" : "അക്കൗണ്ട് സൃഷ്ടിക്കുക"}
+          {lang === "en" ? "Create Account" : lang === "ml" ? "അക്കൌണ്ട് സൃഷ്ടിക്കുക" : "ખાતું બનાવો"}
         </Link>
         <Link
           href="/login"
           className="text-primary font-semibold text-base hover:underline no-underline"
         >
-          {lang === "en" ? "Already have an account? Log in →" : "ഇതിനകം അക്കൗണ്ട് ഉണ്ടോ? ലോഗിൻ →"}
+          {lang === "en" ? "Already have an account? Log in →" : lang === "ml" ? "ഇതിനകം അക്കൌണ്ട് ഉണ്ടോ? ലോഗിൻ →" : "પહેલેથી ખાતું છે? લોગ ઇન →"}
         </Link>
         <Link
           href="/"
@@ -298,7 +298,7 @@ export default function MistakesPage() {
                          rounded-xl px-5 sm:px-6 py-3 sm:py-4 active:scale-[0.97] transition-all"
             >
               {currentIdx + 1 >= reviewPool.length
-                ? `✓ ${lang === "en" ? "Done" : "പൂർത്തിയായി"}`
+                ? `✓ ${lang === "en" ? "Done" : lang === "ml" ? "പൂർത്തിയായി" : "પૂર્ણ"}`
                 : `→ ${t("next", lang)}`}
             </button>
           </div>
@@ -344,7 +344,7 @@ export default function MistakesPage() {
           <div className="bg-orange-50 rounded-xl p-4 border border-orange-200 text-center space-y-2">
             <p className="text-lg font-semibold text-orange-700">
               {mistakeQuestions.length}{" "}
-              {lang === "en" ? "questions to review" : "ചോദ്യങ്ങൾ പരിശോധിക്കാൻ"}
+              {lang === "en" ? "questions to review" : lang === "ml" ? "ചോദ്യങ്ങൾ പരിശോധിക്കാൻ" : "પ્રશ્નો સમીક્ષા કરવા"}
             </p>
             <p className="text-sm text-orange-600">
               {t("mistakesEncourage", lang)}

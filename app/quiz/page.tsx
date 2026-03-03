@@ -28,9 +28,14 @@ function shuffle<T>(arr: T[]): T[] {
 function splitBilingual(bt: BilingualText): BilingualText[] {
   const enParts = bt.en.split(" / ");
   const mlParts = bt.ml.split(" / ");
+  const guParts = bt.gu.split(" / ");
   // safeguard: if counts don't match, return the original unsplit
   if (enParts.length !== mlParts.length) return [bt];
-  return enParts.map((en, i) => ({ en: en.trim(), ml: mlParts[i].trim() }));
+  return enParts.map((en, i) => ({
+    en: en.trim(),
+    ml: mlParts[i]?.trim() ?? en.trim(),
+    gu: guParts[i]?.trim() ?? en.trim(),
+  }));
 }
 
 /** Does this text contain multiple slash-separated answers? */
@@ -138,8 +143,8 @@ export default function QuizPage() {
         addMistake(currentQ.id);
       }
       const prefix = isCorrect
-        ? (lang === "en" ? "Correct! " : "ശരി! ")
-        : (lang === "en" ? "Incorrect. " : "തെറ്റ്. ");
+        ? (lang === "en" ? "Correct! " : lang === "ml" ? "ശരി! " : "સાચું! ")
+        : (lang === "en" ? "Incorrect. " : lang === "ml" ? "തെറ്റ്. " : "ખોટું. ");
       speakFeedback(prefix + currentQ.explanation[lang], lang);
     },
     [answered, currentQ, displayCorrectIndex, lang, speakFeedback],
@@ -323,7 +328,7 @@ export default function QuizPage() {
                      rounded-xl px-4 py-3 active:scale-[0.97] transition-all mt-2
                      hover:bg-gray-200"
         >
-          🏁 {lang === "en" ? "Finish Quiz" : "ക്വിസ് അവസാനിപ്പിക്കുക"}
+          🏁 {lang === "en" ? "Finish Quiz" : lang === "ml" ? "ക്വിസ് അവസാനിപ്പിക്കുക" : "ક્વિઝ પૂરી કરો"}
         </button>
       )}
     </div>
