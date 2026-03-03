@@ -46,7 +46,7 @@ export default function Header() {
           <Link href="/eligibility" className="px-3 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 rounded-lg hover:bg-gray-50 no-underline transition-colors">
             {lang === "en" ? "Do You Qualify?" : "യോഗ്യത?"}
           </Link>
-          <Link href="#help" className="px-3 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 rounded-lg hover:bg-gray-50 no-underline transition-colors">
+          <Link href="/help" className="px-3 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 rounded-lg hover:bg-gray-50 no-underline transition-colors">
             {lang === "en" ? "Help" : "സഹായം"}
           </Link>
         </nav>

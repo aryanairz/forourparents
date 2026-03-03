@@ -138,7 +138,7 @@ export default function PracticePage() {
               government: "🏛️",
               rights: "⚖️",
               history: "📜",
-              symbols: "🇺🇸",
+              symbols: "flag",
             };
             return (
               <button
@@ -152,7 +152,12 @@ export default function PracticePage() {
                                 : "bg-white text-gray-700 border-gray-300 hover:border-primary"
                             }`}
               >
-                {icons[topic]} {topicLabels[topic][lang]}
+                {icons[topic] === "flag" ? (
+                  <img src="/flag.png" alt="US Flag" className="inline-block w-6 h-4 mr-1 align-middle" />
+                ) : (
+                  icons[topic]
+                )}{" "}
+                {topicLabels[topic][lang]}
               </button>
             );
           })}
