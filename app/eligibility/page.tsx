@@ -46,12 +46,16 @@ export default function EligibilityPage() {
         <h1 className="text-3xl sm:text-4xl font-bold text-[#e87c3a]">
           {lang === "en"
             ? "U.S. Citizenship Civics Test Exemptions"
-            : "യു.എസ്. പൗരത്വ സിവിക്സ് ടെസ്റ്റ് ഇളവുകൾ"}
+            : lang === "ml"
+            ? "യു.എസ്. പൗരത്വ സിവിക്സ് ടെസ്റ്റ് ഇളവുകൾ"
+            : "યુ.એસ. નાગરિકતા સિવિક્સ ટેસ્ટ છૂટ"}
         </h1>
         <p className="text-lg text-gray-600 max-w-2xl mx-auto">
           {lang === "en"
             ? "If you meet any of these rules, you do NOT need to take the English language test."
-            : "ഈ നിയമങ്ങളിൽ ഏതെങ്കിലും നിങ്ങൾക്ക് ബാധകമാണെങ്കിൽ, ഇംഗ്ലീഷ് ഭാഷാ ടെസ്റ്റ് എടുക്കേണ്ടതില്ല."}
+            : lang === "ml"
+            ? "ഈ നിയമങ്ങളിൽ ഏതെങ്കിലും നിങ്ങൾക്ക് ബാധകമാണെങ്കിൽ, ഇംഗ്ലീഷ് ഭാഷാ ടെസ്റ്റ് എടുക്കേണ്ടതില്ല."
+            : "જો તમે આમાંથી કોઈ પણ નિયમ પૂરો કરો છો, તો તમારે અંગ્રેજી ભાષાનો ટેસ્ટ આપવાની જરૂર નથી."}
         </p>
       </div>
 
@@ -68,17 +72,21 @@ export default function EligibilityPage() {
             <p>
               {lang === "en"
                 ? "You are 50 years old or older, AND"
-                : "നിങ്ങൾക്ക് 50 വയസ്സോ അതിൽ കൂടുതലോ ഉണ്ട്, കൂടാതെ"}
+                : lang === "ml"
+                ? "നിങ്ങൾക്ക് 50 വയസ്സോ അതിൽ കൂടുതലോ ഉണ്ട്, കൂടാതെ"
+                : "તમે 50 વર્ષ કે તેથી વધુ ઉંમરના છો, અને"}
             </p>
             <p>
               {lang === "en"
                 ? "You have been a lawful permanent resident (Green Card holder) for 20 years or more."
-                : "നിങ്ങൾ 20 വർഷമോ അതിൽ കൂടുതലോ ആയി നിയമാനുസൃത സ്ഥിര താമസക്കാരനാണ് (ഗ്രീൻ കാർഡ് ഉടമ)."}
+                : lang === "ml"
+                ? "നിങ്ങൾ 20 വർഷമോ അതിൽ കൂടുതലോ ആയി നിയമാനുസൃത സ്ഥിര താമസക്കാരനാണ് (ഗ്രീൻ കാർഡ് ഉടമ)."
+                : "તમે 20 વર્ષ કે તેથી વધુ સમયથી કાયદેસર કાયમી નિવાસી (ગ્રીન કાર્ડ ધારક) છો."}
             </p>
           </div>
           <div className="bg-blue-50 rounded-xl p-4 border border-blue-100">
             <p className="text-sm font-bold text-blue-900 mb-2">
-              {lang === "en" ? "What this means:" : "ഇതിന്റെ അർത്ഥം:"}
+              {lang === "en" ? "What this means:" : lang === "ml" ? "ഇതിന്റെ അർത്ഥം:" : "આનો અર્થ:"}
             </p>
             <div className="space-y-1.5 text-sm text-blue-800">
               <p>→ {lang === "en" ? "You do NOT have to take the English test." : lang === "ml" ? "ഇംഗ്ലീഷ് ടെസ്റ്റ് എടുക്കേണ്ടതില്ല." : "તમારે અંગ્રેજી ટેસ્ટ આપવાની જરૂર નથી."}</p>
@@ -92,28 +100,32 @@ export default function EligibilityPage() {
           <div className="flex items-center gap-3 mb-4">
             <span className="text-3xl">✅</span>
             <h2 className="text-2xl font-bold text-gray-900">
-              {lang === "en" ? "55/15 Rule" : "55/15 നിയമം"}
+              {lang === "en" ? "55/15 Rule" : lang === "ml" ? "55/15 നിയമം" : "55/15 નિયમ"}
             </h2>
           </div>
           <div className="space-y-3 text-base text-gray-700 mb-4">
             <p>
               {lang === "en"
                 ? "You are 55 years old or older, AND"
-                : "നിങ്ങൾക്ക് 55 വയസ്സോ അതിൽ കൂടുതലോ ഉണ്ട്, കൂടാതെ"}
+                : lang === "ml"
+                ? "നിങ്ങൾക്ക് 55 വയസ്സോ അതിൽ കൂടുതലോ ഉണ്ട്, കൂടാതെ"
+                : "તમે 55 વર્ષ કે તેથી વધુ ઉંમરના છો, અને"}
             </p>
             <p>
               {lang === "en"
                 ? "You have been a lawful permanent resident for 15 years or more."
-                : "നിങ്ങൾ 15 വർഷമോ അതിൽ കൂടുതലോ ആയി നിയമാനുസൃത സ്ഥിര താമസക്കാരനാണ്."}
+                : lang === "ml"
+                ? "നിങ്ങൾ 15 വർഷമോ അതിൽ കൂടുതലോ ആയി നിയമാനുസൃത സ്ഥിര താമസക്കാരനാണ്."
+                : "તમે 15 વર્ષ કે તેથી વધુ સમયથી કાયદેસર કાયમી નિવાસી છો."}
             </p>
           </div>
           <div className="bg-purple-50 rounded-xl p-4 border border-purple-100">
             <p className="text-sm font-bold text-purple-900 mb-2">
-              {lang === "en" ? "What this means:" : "ഇതിന്റെ അർത്ഥം:"}
+              {lang === "en" ? "What this means:" : lang === "ml" ? "ഇതിന്റെ അർത്ഥം:" : "આનો અર્થ:"}
             </p>
             <div className="space-y-1.5 text-sm text-purple-800">
-              <p>→ {lang === "en" ? "Same as above. Exempt from English test." : "മുകളിൽ പറഞ്ഞതുപോലെ. ഇംഗ്ലീഷ് ടെസ്റ്റിൽ നിന്ന് ഒഴിവ്."}</p>
-              <p>→ {lang === "en" ? "Civics test in your language with your own interpreter." : "സിവിക്സ് ടെസ്റ്റ് നിങ്ങളുടെ ഭാഷയിൽ, നിങ്ങളുടെ സ്വന്തം വ്യാഖ്യാതാവുമായി."}</p>
+              <p>→ {lang === "en" ? "Same as above. Exempt from English test." : lang === "ml" ? "മുകളിൽ പറഞ്ഞതുപോലെ. ഇംഗ്ലീഷ് ടെസ്റ്റിൽ നിന്ന് ഒഴിവ്." : "ઉપર જણાવ્યા પ્રમાણે. અંગ્રેજી ટેસ્ટમાંથી છૂટ."}</p>
+              <p>→ {lang === "en" ? "Civics test in your language with your own interpreter." : lang === "ml" ? "സിവിക്സ് ടെസ്റ്റ് നിങ്ങളുടെ ഭാഷയിൽ, നിങ്ങളുടെ സ്വന്തം വ്യാഖ്യാതാവുമായി." : "તમારી ભાષામાં તમારા પોતાના દુભાષિયા સાથે સિવિક્સ ટેસ્ટ."}</p>
             </div>
           </div>
         </div>
@@ -125,28 +137,34 @@ export default function EligibilityPage() {
             <h2 className="text-2xl font-bold text-gray-900">
               {lang === "en"
                 ? '65/20 "Special Consideration"'
-                : '65/20 "പ്രത്യേക പരിഗണന"'}
+                : lang === "ml"
+                ? '65/20 "പ്രത്യേക പരിഗണന"'
+                : '65/20 "વિશેષ વિચારણા"'}
             </h2>
           </div>
           <div className="space-y-3 text-base text-gray-700 mb-4">
             <p>
               {lang === "en"
                 ? "You are 65 years old or older, AND"
-                : "നിങ്ങൾക്ക് 65 വയസ്സോ അതിൽ കൂടുതലോ ഉണ്ട്, കൂടാതെ"}
+                : lang === "ml"
+                ? "നിങ്ങൾക്ക് 65 വയസ്സോ അതിൽ കൂടുതലോ ഉണ്ട്, കൂടാതെ"
+                : "તમે 65 વર્ષ કે તેથી વધુ ઉંમરના છો, અને"}
             </p>
             <p>
               {lang === "en"
                 ? "You have been a lawful permanent resident for 20+ years."
-                : "നിങ്ങൾ 20+ വർഷമായി നിയമാനുസൃത സ്ഥിര താമസക്കാരനാണ്."}
+                : lang === "ml"
+                ? "നിങ്ങൾ 20+ വർഷമായി നിയമാനുസൃത സ്ഥിര താമസക്കാരനാണ്."
+                : "તમે 20+ વર્ષથી કાયદેસર કાયમી નિવાસી છો."}
             </p>
           </div>
           <div className="bg-amber-50 rounded-xl p-4 border border-amber-100">
             <p className="text-sm font-bold text-amber-900 mb-2">
-              {lang === "en" ? "What this means:" : "ഇതിന്റെ അർത്ഥം:"}
+              {lang === "en" ? "What this means:" : lang === "ml" ? "ഇതിന്റെ അർത്ഥം:" : "આનો અર્થ:"}
             </p>
             <div className="space-y-1.5 text-sm text-amber-800">
-              <p>→ {lang === "en" ? "Civics test in your language with your own interpreter." : "സിവിക്സ് ടെസ്റ്റ് നിങ്ങളുടെ ഭാഷയിൽ, നിങ്ങളുടെ സ്വന്തം വ്യാഖ്യാതാവുമായി."}</p>
-              <p>→ {lang === "en" ? "You may be given a simplified set of questions (fewer to study)." : "ലളിതമാക്കിയ ചോദ്യങ്ങൾ ലഭിച്ചേക്കാം (പഠിക്കാൻ കുറവ്)."}</p>
+              <p>→ {lang === "en" ? "Civics test in your language with your own interpreter." : lang === "ml" ? "സിവിക്സ് ടെസ്റ്റ് നിങ്ങളുടെ ഭാഷയിൽ, നിങ്ങളുടെ സ്വന്തം വ്യാഖ്യാതാവുമായി." : "તમારી ભાષામાં તમારા પોતાના દુભાષિયા સાથે સિવિક્સ ટેસ્ટ."}</p>
+              <p>→ {lang === "en" ? "You may be given a simplified set of questions (fewer to study)." : lang === "ml" ? "ലളിതമാക്കിയ ചോദ്യങ്ങൾ ലഭിച്ചേക്കാം (പഠിക്കാൻ കുറവ്)." : "તમને સરળ પ્રશ્નોનો સમૂહ મળી શકે (અભ્યાસ કરવા ઓછા)."}</p>
             </div>
           </div>
         </div>
@@ -156,7 +174,9 @@ export default function EligibilityPage() {
           <h3 className="text-xl font-bold text-green-900 text-center mb-5">
             {lang === "en"
               ? "📋 In All Cases Above:"
-              : "📋 മുകളിലെ എല്ലാ സാഹചര്യങ്ങളിലും:"}
+              : lang === "ml"
+              ? "📋 മുകളിലെ എല്ലാ സാഹചര്യങ്ങളിലും:"
+              : "📋 ઉપરના બધા કેસોમાં:"}
           </h3>
           <div className="space-y-3 text-base text-green-800">
             <p className="flex items-start gap-3">
@@ -164,7 +184,9 @@ export default function EligibilityPage() {
               <span>
                 {lang === "en"
                   ? "You do NOT need to take the English language test"
-                  : "ഇംഗ്ലീഷ് ഭാഷാ ടെസ്റ്റ് എടുക്കേണ്ടതില്ല"}
+                  : lang === "ml"
+                  ? "ഇംഗ്ലീഷ് ഭാഷാ ടെസ്റ്റ് എടുക്കേണ്ടതില്ല"
+                  : "તમારે અંગ્રેજી ભાષાનો ટેસ્ટ આપવાની જરૂર નથી"}
               </span>
             </p>
             <p className="flex items-start gap-3">
@@ -172,15 +194,19 @@ export default function EligibilityPage() {
               <span>
                 {lang === "en"
                   ? "You still MUST take the civics test"
-                  : "സിവിക്സ് ടെസ്റ്റ് എടുക്കണം"}
+                  : lang === "ml"
+                  ? "സിവിക്സ് ടെസ്റ്റ് എടുക്കണം"
+                  : "તમારે હજુ પણ સિવિક્સ ટેસ્ટ આપવી પડશે"}
               </span>
             </p>
             <p className="flex items-start gap-3">
               <span className="flex-shrink-0 text-xl">✔️</span>
               <span>
                 {lang === "en"
-                  ? "You CAN take the civics test in Malayalam with your own interpreter at the naturalization interview"
-                  : "നാച്ചുറലൈസേഷൻ ഇന്റർവ്യൂവിൽ നിങ്ങളുടെ സ്വന്തം വ്യാഖ്യാതാവുമായി മലയാളത്തിൽ സിവിക്സ് ടെസ്റ്റ് എടുക്കാം"}
+                  ? "You CAN take the civics test in your language with your own interpreter at the naturalization interview"
+                  : lang === "ml"
+                  ? "നാച്ചുറലൈസേഷൻ ഇന്റർവ്യൂവിൽ നിങ്ങളുടെ സ്വന്തം വ്യാഖ്യാതാവുമായി മലയാളത്തിൽ സിവിക്സ് ടെസ്റ്റ് എടുക്കാം"
+                  : "તમે નેચરલાઇઝેશન ઇન્ટરવ્યૂમાં તમારા પોતાના દુભાષિયા સાથે તમારી ભાષામાં સિવિક્સ ટેસ્ટ આપી શકો છો"}
               </span>
             </p>
           </div>
@@ -190,8 +216,10 @@ export default function EligibilityPage() {
         <div className="bg-gradient-to-br from-orange-50 to-amber-50 rounded-2xl p-8 text-center space-y-5 border border-orange-200 shadow-lg">
           <p className="text-xl font-bold text-gray-900">
             {lang === "en"
-              ? "🌟 This app helps you study all the civics questions in Malayalam!"
-              : "🌟 ഈ ആപ്പ് മലയാളത്തിൽ എല്ലാ സിവിക്സ് ചോദ്യങ്ങളും പഠിക്കാൻ സഹായിക്കുന്നു!"}
+              ? "🌟 This app helps you study all the civics questions in your language!"
+              : lang === "ml"
+              ? "🌟 ഈ ആപ്പ് മലയാളത്തിൽ എല്ലാ സിവിക്സ് ചോദ്യങ്ങളും പഠിക്കാൻ സഹായിക്കുന്നു!"
+              : "🌟 આ એપ તમને તમારી ભાષામાં બધા સિવિક્સ પ્રશ્નોનો અભ્યાસ કરવામાં મદદ કરે છે!"}
           </p>
           <Link
             href="/quiz"
@@ -199,7 +227,7 @@ export default function EligibilityPage() {
                        text-lg font-bold rounded-xl px-10 py-4 shadow-lg shadow-orange-200
                        transition-all active:scale-[0.97] no-underline"
           >
-            {lang === "en" ? "📝 Start Studying Now" : "📝 ഇപ്പോൾ പഠനം ആരംഭിക്കുക"}
+            {lang === "en" ? "📝 Start Studying Now" : lang === "ml" ? "📝 ഇപ്പോൾ പഠനം ആരംഭിക്കുക" : "📝 હવે અભ્યાસ શરૂ કરો"}
           </Link>
         </div>
       </div>

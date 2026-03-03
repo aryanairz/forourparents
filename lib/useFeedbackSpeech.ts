@@ -4,7 +4,7 @@ import { useRef, useCallback } from "react";
 import { Lang } from "@/data/questions";
 
 /**
- * Speaks feedback text using Google TTS (Malayalam) or
+ * Speaks feedback text using Google TTS (Malayalam/Gujarati) or
  * Web Speech API (English). Stops any previous speech first.
  */
 export function useFeedbackSpeech() {
@@ -23,8 +23,8 @@ export function useFeedbackSpeech() {
     async (text: string, lang: Lang) => {
       stop();
 
-      if (lang === "ml") {
-        // Google TTS for Malayalam
+      if (lang === "ml" || lang === "gu") {
+        // Google TTS for Malayalam / Gujarati
         try {
           const res = await fetch("/api/tts", {
             method: "POST",

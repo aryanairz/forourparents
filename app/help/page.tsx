@@ -7,68 +7,80 @@ import { useState } from "react";
 
 /* ── Trilingual content helpers ────────────────────── */
 type Tri = { en: string; ml: string; gu: string };
-const tri = (en: string, ml: string, gu?: string): Tri => ({ en, ml, gu: gu ?? en });
+const tri = (en: string, ml: string, gu: string): Tri => ({ en, ml, gu });
 
 /* ── FAQ data ─────────────────────────────────────── */
 const faqs: { q: Tri; a: Tri }[] = [
   {
     q: tri(
       "What is the U.S. civics test?",
-      "യു.എസ്. സിവിക്സ് ടെസ്റ്റ് എന്താണ്?"
+      "യു.എസ്. സിവിക്സ് ടെസ്റ്റ് എന്താണ്?",
+      "યુ.એસ. સિવિક્સ ટેસ્ટ શું છે?"
     ),
     a: tri(
       "During the naturalization interview, USCIS officers ask up to 10 questions from a list of 100 civics questions. You must answer at least 6 correctly to pass.",
-      "നാച്ചുറലൈസേഷൻ ഇന്റർവ്യൂവിൽ, 100 സിവിക്സ് ചോദ്യങ്ങളുടെ പട്ടികയിൽ നിന്ന് USCIS ഓഫീസർമാർ 10 ചോദ്യങ്ങൾ വരെ ചോദിക്കുന്നു. പാസാകാൻ കുറഞ്ഞത് 6 എണ്ണം ശരിയായി ഉത്തരം നൽകണം."
+      "നാച്ചുറലൈസേഷൻ ഇന്റർവ്യൂവിൽ, 100 സിവിക്സ് ചോദ്യങ്ങളുടെ പട്ടികയിൽ നിന്ന് USCIS ഓഫീസർമാർ 10 ചോദ്യങ്ങൾ വരെ ചോദിക്കുന്നു. പാസാകാൻ കുറഞ്ഞത് 6 എണ്ണം ശരിയായി ഉത്തരം നൽകണം.",
+      "નેચરલાઇઝેશન ઇન્ટરવ્યૂ દરમિયાન, USCIS અધિકારીઓ 100 સિવિક્સ પ્રશ્નોની યાદીમાંથી 10 સુધી પ્રશ્નો પૂછે છે. પાસ થવા માટે તમારે ઓછામાં ઓછા 6 સાચા જવાબ આપવા પડશે."
     ),
   },
   {
     q: tri(
       "Is this app free?",
-      "ഈ ആപ്പ് സൌജന്യമാണോ?"
+      "ഈ ആപ്പ് സൌജന്യമാണോ?",
+      "શું આ એપ મફત છે?"
     ),
     a: tri(
       "Yes! For Our Parents is completely free. Our mission is to help families prepare for the civics test without any cost.",
-      "അതെ! 'For Our Parents' പൂർണ്ണമായും സൌജന്യമാണ്. മലയാളം സംസാരിക്കുന്ന കുടുംബങ്ങളെ ഒരു ചെലവും കൂടാതെ സിവിക്സ് ടെസ്റ്റിന് തയ്യാറെടുക്കാൻ സഹായിക്കുക എന്നതാണ് ഞങ്ങളുടെ ലക്ഷ്യം."
+      "അതെ! 'For Our Parents' പൂർണ്ണമായും സൌജന്യമാണ്. മലയാളം സംസാരിക്കുന്ന കുടുംബങ്ങളെ ഒരു ചെലവും കൂടാതെ സിവിക്സ് ടെസ്റ്റിന് തയ്യാറെടുക്കാൻ സഹായിക്കുക എന്നതാണ് ഞങ്ങളുടെ ലക്ഷ്യം.",
+      "હા! 'For Our Parents' સંપૂર્ણપણે મફત છે. પરિવારોને કોઈ ખર્ચ વિના સિવિક્સ ટેસ્ટ માટે તૈયાર કરવામાં મદદ કરવી એ અમારું લક્ષ્ય છે."
     ),
   },
   {
     q: tri(
       "How many questions are on the real test?",
-      "യഥാർത്ഥ ടെസ്റ്റിൽ എത്ര ചോദ്യങ്ങൾ ഉണ്ട്?"
+      "യഥാർത്ഥ ടെസ്റ്റിൽ എത്ര ചോദ്യങ്ങൾ ഉണ്ട്?",
+      "ખરેખર ટેસ્ટમાં કેટલા પ્રશ્નો હોય છે?"
     ),
     a: tri(
       "The USCIS officer will ask you up to 10 civics questions from the official list of 100. You need to get 6 out of 10 correct to pass the civics portion.",
-      "100 ചോദ്യങ്ങളുടെ ഔദ്യോഗിക പട്ടികയിൽ നിന്ന് USCIS ഓഫീസർ 10 സിവിക്സ് ചോദ്യങ്ങൾ വരെ ചോദിക്കും. സിവിക്സ് ഭാഗം പാസാകാൻ 10-ൽ 6 ശരിയാക്കണം."
+      "100 ചോദ്യങ്ങളുടെ ഔദ്യോഗിക പട്ടികയിൽ നിന്ന് USCIS ഓഫീസർ 10 സിവിക്സ് ചോദ്യങ്ങൾ വരെ ചോദിക്കും. സിവിക്സ് ഭാഗം പാസാകാൻ 10-ൽ 6 ശരിയാക്കണം.",
+      "100 પ્રશ્નોની સત્તાવાર યાદીમાંથી USCIS અધિકારી 10 સિવિક્સ પ્રશ્નો સુધી પૂછશે. સિવિક્સ ભાગ પાસ કરવા માટે 10માંથી 6 સાચા મેળવવા જરૂરી છે."
     ),
   },
   {
     q: tri(
       "Can I study in other languages?",
-      "മലയാളത്തിൽ പഠിക്കാമോ?"
+      "മലയാളത്തിൽ പഠിക്കാമോ?",
+      "શું હું બીજી ભાષાઓમાં અભ્યાસ કરી શકું?"
     ),
     a: tri(
       "Yes! Use the language dropdown in the header to switch between English, Malayalam, and Gujarati. All questions, answers, and explanations are available in all three languages.",
-      "അതെ! ഇംഗ്ലീഷിനും മലയാളത്തിനും ഇടയിൽ മാറുന്നതിന് ഹെഡ്ഡറിലെ ഭാഷ ഡ്രോപ്പ്ഡൗണ് ഉപയോഗിക്കുക. എല്ലാ ചോദ്യങ്ങളും ഉത്തരങ്ങളും വിശദീകരണങ്ങളും മൂന്ന് ഭാഷകളിലും ലഭ്യമാണ്."
+      "അതെ! ഇംഗ്ലീഷിനും മലയാളത്തിനും ഇടയിൽ മാറുന്നതിന് ഹെഡ്ഡറിലെ ഭാഷ ഡ്രോപ്പ്ഡൗണ് ഉപയോഗിക്കുക. എല്ലാ ചോദ്യങ്ങളും ഉത്തരങ്ങളും വിശദീകരണങ്ങളും മൂന്ന് ഭാഷകളിലും ലഭ്യമാണ്.",
+      "હા! અંગ્રેજી, મલયાલમ અને ગુજરાતી વચ્ચે સ્વિચ કરવા માટે હેડરમાં ભાષા ડ્રોપડાઉન વાપરો. બધા પ્રશ્નો, જવાબો અને સમજૂતીઓ ત્રણેય ભાષાઓમાં ઉપલબ્ધ છે."
     ),
   },
   {
     q: tri(
       "What topics does the civics test cover?",
-      "സിവിക്സ് ടെസ്റ്റ് ഏതൊക്കെ വിഷയങ്ങൾ ഉൾക്കൊള്ളുന്നു?"
+      "സിവിക്സ് ടെസ്റ്റ് ഏതൊക്കെ വിഷയങ്ങൾ ഉൾക്കൊള്ളുന്നു?",
+      "સિવિક્સ ટેસ્ટ કયા વિષયો આવરી લે છે?"
     ),
     a: tri(
       "The test covers four main areas: American Government (how it works), Rights & Responsibilities, American History, and U.S. Symbols & Holidays.",
-      "ടെസ്റ്റ് നാല് പ്രധാന മേഖലകൾ ഉൾക്കൊള്ളുന്നു: അമേരിക്കൻ ഗവൺമെന്റ്, അവകാശങ്ങളും ഉത്തരവാദിത്തങ്ങളും, അമേരിക്കൻ ചരിത്രം, യു.എസ്. ചിഹ്നങ്ങളും അവധി ദിനങ്ങളും."
+      "ടെസ്റ്റ് നാല് പ്രധാന മേഖലകൾ ഉൾക്കൊള്ളുന്നു: അമേരിക്കൻ ഗവൺമെന്റ്, അവകാശങ്ങളും ഉത്തരവാദിത്തങ്ങളും, അമേരിക്കൻ ചരിത്രം, യു.എസ്. ചിഹ്നങ്ങളും അവധി ദിനങ്ങളും.",
+      "ટેસ્ટ ચાર મુખ્ય ક્ષેત્રોને આવરી લે છે: અમેરિકન સરકાર (તે કેવી રીતે કામ કરે છે), અધિકારો અને જવાબદારીઓ, અમેરિકન ઇતિહાસ, અને યુ.એસ. પ્રતીકો અને રજાઓ."
     ),
   },
   {
     q: tri(
       "Do I need to create an account?",
-      "ഒരു അക്കൌണ്ട് ഉണ്ടാക്കണോ?"
+      "ഒരു അക്കൌണ്ട് ഉണ്ടാക്കണോ?",
+      "શું મારે ખાતું બનાવવાની જરૂર છે?"
     ),
     a: tri(
       "You can practice without an account, but creating one (free) lets you track your progress, review mistakes, and get personalized questions about your congressional representatives.",
-      "അക്കൗണ്ട് ഇല്ലാതെയും പരിശീലിക്കാം, പക്ഷേ ഒരെണ്ണം ഉണ്ടാക്കിയാൽ (സൌജന്യം) നിങ്ങളുടെ പുരോഗതി ട്രാക്ക് ചെയ്യാനും തെറ്റുകൾ അവലോകനം ചെയ്യാനും നിങ്ങളുടെ കോൺഗ്രസ് പ്രതിനിധികളെ കുറിച്ചുള്ള വ്യക്തിഗത ചോദ്യങ്ങൾ ലഭിക്കാനും കഴിയും."
+      "അക്കൗണ്ട് ഇല്ലാതെയും പരിശീലിക്കാം, പക്ഷേ ഒരെണ്ണം ഉണ്ടാക്കിയാൽ (സൌജന്യം) നിങ്ങളുടെ പുരോഗതി ട്രാക്ക് ചെയ്യാനും തെറ്റുകൾ അവലോകനം ചെയ്യാനും നിങ്ങളുടെ കോൺഗ്രസ് പ്രതിനിധികളെ കുറിച്ചുള്ള വ്യക്തിഗത ചോദ്യങ്ങൾ ലഭിക്കാനും കഴിയും.",
+      "ખાતા વિના પણ પ્રેક્ટિસ કરી શકાય છે, પરંતુ એક બનાવવાથી (મફત) તમારી પ્રગતિ ટ્રેક કરવા, ભૂલોની સમીક્ષા કરવા અને તમારા કોંગ્રેસ પ્રતિનિધિઓ વિશે વ્યક્તિગત પ્રશ્નો મેળવવા માટે મદદ મળે છે."
     ),
   },
 ];
@@ -76,34 +88,39 @@ const faqs: { q: Tri; a: Tri }[] = [
 /* ── Troubleshooting data ─────────────────────────── */
 const troubleshooting: { issue: Tri; fix: Tri }[] = [
   {
-    issue: tri("I can't log in", "എനിക്ക് ലോഗിൻ ചെയ്യാൻ കഴിയുന്നില്ല"),
+    issue: tri("I can't log in", "എനിക്ക് ലോഗിൻ ചെയ്യാൻ കഴിയുന്നില്ല", "હું લોગ ઇન કરી શકતો નથી"),
     fix: tri(
       "Make sure you're entering the email address you signed up with and the 4-digit PIN you chose. If you forgot your PIN, email us at contact.forourparents@gmail.com and we'll help you get back in.",
-      "നിങ്ങൾ സൈൻ-അപ്പ് ചെയ്ത ഇമെയിൽ വിലാസവും 4 അക്ക PINും നൽകുന്നുണ്ടെന്ന് ഉറപ്പാക്കുക. PIN മറന്നുപോയാൽ, contact.forourparents@gmail.com-ൽ ഞങ്ങൾക്ക് ഇമെയിൽ ചെയ്യുക, തിരിച്ചു കയറാൻ ഞങ്ങൾ സഹായിക്കും."
+      "നിങ്ങൾ സൈൻ-അപ്പ് ചെയ്ത ഇമെയിൽ വിലാസവും 4 അക്ക PINും നൽകുന്നുണ്ടെന്ന് ഉറപ്പാക്കുക. PIN മറന്നുപോയാൽ, contact.forourparents@gmail.com-ൽ ഞങ്ങൾക്ക് ഇമെയിൽ ചെയ്യുക, തിരിച്ചു കയറാൻ ഞങ്ങൾ സഹായിക്കും.",
+      "ખાતરી કરો કે તમે સાઇન અપ કરેલ ઇમેઇલ એડ્રેસ અને 4-અંકનો PIN દાખલ કરી રહ્યા છો. જો તમે PIN ભૂલી ગયા હો, તો contact.forourparents@gmail.com પર ઇમેઇલ કરો, અમે તમને પાછા લોગ ઇન કરવામાં મદદ કરીશું."
     ),
   },
   {
-    issue: tri("The app is not loading", "ആപ്പ് ലോഡ് ആകുന്നില്ല"),
+    issue: tri("The app is not loading", "ആപ്പ് ലോഡ് ആകുന്നില്ല", "એપ લોડ થતી નથી"),
     fix: tri(
       "Try refreshing the page or clearing your browser cache. Make sure you have a stable internet connection. The app works best on Chrome, Safari, or Edge.",
-      "പേജ് റിഫ്രഷ് ചെയ്യുക അല്ലെങ്കിൽ ബ്രൗസർ കാഷ് ക്ലിയർ ചെയ്യുക. സ്ഥിരമായ ഇന്റർനെറ്റ് കണക്ഷൻ ഉണ്ടെന്ന് ഉറപ്പാക്കുക. Chrome, Safari, അല്ലെങ്കിൽ Edge-ൽ ആപ്പ് മികച്ച രീതിയിൽ പ്രവർത്തിക്കുന്നു."
+      "പേജ് റിഫ്രഷ് ചെയ്യുക അല്ലെങ്കിൽ ബ്രൗസർ കാഷ് ക്ലിയർ ചെയ്യുക. സ്ഥിരമായ ഇന്റർനെറ്റ് കണക്ഷൻ ഉണ്ടെന്ന് ഉറപ്പാക്കുക. Chrome, Safari, അല്ലെങ്കിൽ Edge-ൽ ആപ്പ് മികച്ച രീതിയിൽ പ്രവർത്തിക്കുന്നു.",
+      "પેજ રિફ્રેશ કરો અથવા બ્રાઉઝર કેશ સાફ કરો. ખાતરી કરો કે તમારી પાસે સ્થિર ઇન્ટરનેટ કનેક્શન છે. એપ Chrome, Safari અથવા Edge પર શ્રેષ્ઠ કામ કરે છે."
     ),
   },
   {
-    issue: tri("Audio is not playing", "ഓഡിയോ പ്ലേ ആകുന്നില്ല"),
+    issue: tri("Audio is not playing", "ഓഡിയോ പ്ലേ ആകുന്നില്ല", "ઓડિયો ચાલતું નથી"),
     fix: tri(
-      "Make sure your device volume is turned up and not on silent mode. The read-aloud feature uses your browser's text-to-speech engine. Some older browsers may not support Malayalam text-to-speech.",
-      "നിങ്ങളുടെ ഉപകരണത്തിന്റെ വോളിയം ഓൺ ആണെന്നും സൈലന്റ് മോഡിൽ അല്ലെന്നും ഉറപ്പാക്കുക. റീഡ്-അലൌഡ് ഫീച്ചർ ബ്രൗസറിന്റെ ടെക്സ്റ്റ്-ടു-സ്പീച്ച് എഞ്ചിൻ ഉപയോഗിക്കുന്നു. ചില പഴയ ബ്രൗസറുകൾ മലയാളം ടെക്സ്റ്റ്-ടു-സ്പീച്ച് പിന്തുണച്ചേക്കില്ല."
+      "Make sure your device volume is turned up and not on silent mode. The read-aloud feature uses your browser's text-to-speech engine. Some older browsers may not support all languages for text-to-speech.",
+      "നിങ്ങളുടെ ഉപകരണത്തിന്റെ വോളിയം ഓൺ ആണെന്നും സൈലന്റ് മോഡിൽ അല്ലെന്നും ഉറപ്പാക്കുക. റീഡ്-അലൌഡ് ഫീച്ചർ ബ്രൗസറിന്റെ ടെക്സ്റ്റ്-ടു-സ്പീച്ച് എഞ്ചിൻ ഉപയോഗിക്കുന്നു. ചില പഴയ ബ്രൗസറുകൾ മലയാളം ടെക്സ്റ്റ്-ടു-സ്പീച്ച് പിന്തുണച്ചേക്കില്ല.",
+      "ખાતરી કરો કે તમારા ઉપકરણનું વોલ્યુમ ચાલુ છે અને સાયલન્ટ મોડ પર નથી. વાંચો-મોટેથી ફીચર બ્રાઉઝરના ટેક્સ્ટ-ટુ-સ્પીચ એન્જીનનો ઉપયોગ કરે છે. કેટલાક જૂના બ્રાઉઝર ગુજરાતી ટેક્સ્ટ-ટુ-સ્પીચ સપોર્ટ ન કરી શકે."
     ),
   },
   {
     issue: tri(
       "My progress isn't saving",
-      "എന്റെ പുരോഗതി സേവ് ആകുന്നില്ല"
+      "എന്റെ പുരോഗതി സേവ് ആകുന്നില്ല",
+      "મારી પ્રગતિ સેવ થતી નથી"
     ),
     fix: tri(
       "Progress is saved to your account. Make sure you're logged in before starting a quiz. If you're using a private/incognito window, your local session may not persist.",
-      "പുരോഗതി നിങ്ങളുടെ അക്കൗണ്ടിൽ സേവ് ചെയ്യുന്നു. ക്വിസ് തുടങ്ങുന്നതിന് മുമ്പ് ലോഗിൻ ചെയ്തിട്ടുണ്ടെന്ന് ഉറപ്പാക്കുക. പ്രൈവേറ്റ്/ഇൻകോഗ്നിറ്റോ വിൻഡോ ഉപയോഗിക്കുന്നുണ്ടെങ്കിൽ, ലോക്കൽ സെഷൻ നിലനിൽക്കണമെന്നില്ല."
+      "പുരോഗതി നിങ്ങളുടെ അക്കൗണ്ടിൽ സേവ് ചെയ്യുന്നു. ക്വിസ് തുടങ്ങുന്നതിന് മുമ്പ് ലോഗിൻ ചെയ്തിട്ടുണ്ടെന്ന് ഉറപ്പാക്കുക. പ്രൈവേറ്റ്/ഇൻകോഗ്നിറ്റോ വിൻഡോ ഉപയോഗിക്കുന്നുണ്ടെങ്കിൽ, ലോക്കൽ സെഷൻ നിലനിൽക്കണമെന്നില്ല.",
+      "પ્રગતિ તમારા ખાતામાં સેવ થાય છે. ક્વિઝ શરૂ કરતા પહેલા લોગ ઇન કર્યું છે તેની ખાતરી કરો. જો તમે પ્રાઇવેટ/ઇન્કોગ્નિટો વિન્ડો વાપરી રહ્યા છો, તો લોકલ સેશન ટકી ન શકે."
     ),
   },
 ];
@@ -173,19 +190,20 @@ export default function HelpPage() {
           ← {t("home", lang)}
         </Link>
         <h1 className="text-xl sm:text-2xl font-bold text-primary">
-          {l("Help & Support", "സഹായവും പിന്തുണയും")}
+          {l("Help & Support", "സഹായവും പിന്തുണയും", "સહાય અને સમર્થન")}
         </h1>
       </div>
 
       {/* ─── 1. About Us / Mission ─────────────────── */}
       <section className="bg-gradient-to-br from-orange-50 to-amber-50 rounded-2xl p-6 sm:p-8 border border-orange-100">
         <h2 className="text-lg sm:text-xl font-bold text-gray-800 mb-3">
-          🧡 {l("Our Mission", "ഞങ്ങളുടെ ദൗത്യം")}
+          🧡 {l("Our Mission", "ഞങ്ങളുടെ ദൗത്യം", "અમારું લક્ષ્ય")}
         </h2>
         <p className="text-gray-700 leading-relaxed">
           {l(
-            "For Our Parents was built by the children of immigrants to help Malayalam-speaking parents and elders prepare for the U.S. citizenship naturalization test. We know how stressful this process can be — especially when study materials aren't available in your language. This app provides all 100 official USCIS civics questions in both English and Malayalam, with practice modes, audio support, and personalized questions based on your congressional district. It's completely free, and always will be.",
-            "'For Our Parents' കുടിയേറ്റക്കാരുടെ മക്കൾ നിർമ്മിച്ചതാണ് — മലയാളം സംസാരിക്കുന്ന മാതാപിതാക്കളെയും മുതിർന്നവരെയും യു.എസ്. പൗരത്വ നാച്ചുറലൈസേഷൻ ടെസ്റ്റിന് തയ്യാറെടുക്കാൻ സഹായിക്കാൻ. ഈ പ്രക്രിയ എത്ര സമ്മർദ്ദകരമാണെന്ന് ഞങ്ങൾക്കറിയാം — പ്രത്യേകിച്ചും പഠന സാമഗ്രികൾ നിങ്ങളുടെ ഭാഷയിൽ ലഭ്യമല്ലാത്തപ്പോൾ. 100 ഔദ്യോഗിക USCIS സിവിക്സ് ചോദ്യങ്ങളും ഇംഗ്ലീഷിലും മലയാളത്തിലും ഈ ആപ്പ് നൽകുന്നു — പ്രാക്ടീസ് മോഡുകൾ, ഓഡിയോ പിന്തുണ, നിങ്ങളുടെ കോൺഗ്രഷണൽ ജില്ല അടിസ്ഥാനമാക്കിയുള്ള വ്യക്തിഗത ചോദ്യങ്ങൾ എന്നിവയോടൊപ്പം. ഇത് പൂർണ്ണമായും സൌജന്യമാണ്, എപ്പോഴും അങ്ങനെ തന്നെ ആയിരിക്കും."
+            "For Our Parents was built by the children of immigrants to help parents and elders prepare for the U.S. citizenship naturalization test. We know how stressful this process can be — especially when study materials aren't available in your language. This app provides all 100 official USCIS civics questions in English, Malayalam, and Gujarati, with practice modes, audio support, and personalized questions based on your congressional district. It's completely free, and always will be.",
+            "'For Our Parents' കുടിയേറ്റക്കാരുടെ മക്കൾ നിർമ്മിച്ചതാണ് — മലയാളം സംസാരിക്കുന്ന മാതാപിതാക്കളെയും മുതിർന്നവരെയും യു.എസ്. പൗരത്വ നാച്ചുറലൈസേഷൻ ടെസ്റ്റിന് തയ്യാറെടുക്കാൻ സഹായിക്കാൻ. ഈ പ്രക്രിയ എത്ര സമ്മർദ്ദകരമാണെന്ന് ഞങ്ങൾക്കറിയാം — പ്രത്യേകിച്ചും പഠന സാമഗ്രികൾ നിങ്ങളുടെ ഭാഷയിൽ ലഭ്യമല്ലാത്തപ്പോൾ. 100 ഔദ്യോഗിക USCIS സിവിക്സ് ചോദ്യങ്ങളും ഇംഗ്ലീഷിലും മലയാളത്തിലും ഈ ആപ്പ് നൽകുന്നു — പ്രാക്ടീസ് മോഡുകൾ, ഓഡിയോ പിന്തുണ, നിങ്ങളുടെ കോൺഗ്രഷണൽ ജില്ല അടിസ്ഥാനമാക്കിയുള്ള വ്യക്തിഗത ചോദ്യങ്ങൾ എന്നിവയോടൊപ്പം. ഇത് പൂർണ്ണമായും സൌജന്യമാണ്, എപ്പോഴും അങ്ങനെ തന്നെ ആയിരിക്കും.",
+            "'For Our Parents' ઇમિગ્રન્ટ્સના બાળકો દ્વારા બનાવવામાં આવ્યું છે — ગુજરાતી બોલતા માતાપિતા અને વડીલોને યુ.એસ. નાગરિકતા નેચરલાઇઝેશન ટેસ્ટ માટે તૈયાર કરવામાં મદદ કરવા. આ પ્રક્રિયા કેટલી તણાવપૂર્ણ હોઈ શકે છે તે અમે જાણીએ છીએ — ખાસ કરીને જ્યારે અભ્યાસ સામગ્રી તમારી ભાષામાં ઉપલબ્ધ ન હોય. આ એપ 100 સત્તાવાર USCIS સિવિક્સ પ્રશ્નો અંગ્રેજી, મલયાલમ અને ગુજરાતીમાં પ્રદાન કરે છે — પ્રેક્ટિસ મોડ્સ, ઓડિયો સપોર્ટ અને તમારા કોંગ્રેસનલ ડિસ્ટ્રિક્ટ પર આધારિત વ્યક્તિગત પ્રશ્નો સાથે. તે સંપૂર્ણપણે મફત છે, અને હંમેશા રહેશે."
           )}
         </p>
       </section>
@@ -193,18 +211,19 @@ export default function HelpPage() {
       {/* ─── 2. How to Use the App ─────────────────── */}
       <section className="space-y-3">
         <h2 className="text-lg sm:text-xl font-bold text-gray-800">
-          📖 {l("How to Use This App", "ഈ ആപ്പ് എങ്ങനെ ഉപയോഗിക്കാം")}
+          📖 {l("How to Use This App", "ഈ ആപ്പ് എങ്ങനെ ഉപയോഗിക്കാം", "આ એપ કેવી રીતે વાપરવી")}
         </h2>
 
         <div className="space-y-3">
           <Accordion
-            title={l("1. Create an Account", "1. ഒരു അക്കൗണ്ട് ഉണ്ടാക്കുക")}
+            title={l("1. Create an Account", "1. ഒരു അക്കൗണ്ട് ഉണ്ടാക്കുക", "1. ખાતું બનાવો")}
             defaultOpen
           >
             <p className="text-gray-600 leading-relaxed">
               {l(
                 "Tap \"Log In / Sign Up\" on the home page, then select \"Create Account.\" Enter your first name, last name, email, phone number, and choose a 4-digit PIN. You'll also select your state and congressional district so the app can ask you personalized questions about your representatives.",
-                "ഹോം പേജിൽ \"ലോഗ് ഇൻ / സൈൻ അപ്\" ടാപ്പ് ചെയ്യുക, തുടർന്ന് \"അക്കൗണ്ട് ഉണ്ടാക്കുക\" തിരഞ്ഞെടുക്കുക. നിങ്ങളുടെ ആദ്യ പേര്, അവസാന പേര്, ഇമെയിൽ, ഫോൺ നമ്പർ എന്നിവ നൽകി 4 അക്ക PIN തിരഞ്ഞെടുക്കുക. നിങ്ങളുടെ സ്റ്റേറ്റും കോൺഗ്രഷണൽ ജില്ലയും തിരഞ്ഞെടുക്കുക — അങ്ങനെ ആപ്പിന് നിങ്ങളുടെ പ്രതിനിധികളെ കുറിച്ചുള്ള വ്യക്തിഗത ചോദ്യങ്ങൾ ചോദിക്കാൻ കഴിയും."
+                "ഹോം പേജിൽ \"ലോഗ് ഇൻ / സൈൻ അപ്\" ടാപ്പ് ചെയ്യുക, തുടർന്ന് \"അക്കൗണ്ട് ഉണ്ടാക്കുക\" തിരഞ്ഞെടുക്കുക. നിങ്ങളുടെ ആദ്യ പേര്, അവസാന പേര്, ഇമെയിൽ, ഫോൺ നമ്പർ എന്നിവ നൽകി 4 അക്ക PIN തിരഞ്ഞെടുക്കുക. നിങ്ങളുടെ സ്റ്റേറ്റും കോൺഗ്രഷണൽ ജില്ലയും തിരഞ്ഞെടുക്കുക — അങ്ങനെ ആപ്പിന് നിങ്ങളുടെ പ്രതിനിധികളെ കുറിച്ചുള്ള വ്യക്തിഗത ചോദ്യങ്ങൾ ചോദിക്കാൻ കഴിയും.",
+                "હોમ પેજ પર \"લોગ ઇન / સાઇન અપ\" ટેપ કરો, પછી \"ખાતું બનાવો\" પસંદ કરો. તમારું પહેલું નામ, છેલ્લું નામ, ઇમેઇલ, ફોન નંબર દાખલ કરો અને 4-અંકનો PIN પસંદ કરો. તમારું રાજ્ય અને કોંગ્રેસનલ ડિસ્ટ્રિક્ટ પણ પસંદ કરો — જેથી એપ તમારા પ્રતિનિધિઓ વિશે વ્યક્તિગત પ્રશ્નો પૂછી શકે."
               )}
             </p>
           </Accordion>
@@ -212,13 +231,15 @@ export default function HelpPage() {
           <Accordion
             title={l(
               "2. Practice Mode (Study)",
-              "2. പ്രാക്ടീസ് മോഡ് (പഠനം)"
+              "2. പ്രാക്ടീസ് മോഡ് (പഠനം)",
+              "2. પ્રેક્ટિસ મોડ (અભ્યાસ)"
             )}
           >
             <p className="text-gray-600 leading-relaxed">
               {l(
                 "Practice Mode lets you study questions at your own pace. You can choose a specific topic (Government, Rights, History, or Symbols & Holidays) or study all topics together. After answering, you'll see whether you were correct and a detailed explanation. Use the 🔊 button to hear questions read aloud.",
-                "പ്രാക്ടീസ് മോഡ് നിങ്ങളുടെ സ്വന്തം വേഗതയിൽ ചോദ്യങ്ങൾ പഠിക്കാൻ അനുവദിക്കുന്നു. ഒരു പ്രത്യേക വിഷയം (ഗവൺമെന്റ്, അവകാശങ്ങൾ, ചരിത്രം, അല്ലെങ്കിൽ ചിഹ്നങ്ങളും അവധി ദിനങ്ങളും) തിരഞ്ഞെടുക്കാം അല്ലെങ്കിൽ എല്ലാ വിഷയങ്ങളും ഒരുമിച്ച് പഠിക്കാം. ഉത്തരം നൽകിയ ശേഷം, നിങ്ങൾ ശരിയായിരുന്നോ എന്ന് കാണാം, വിശദമായ വിശദീകരണവും ലഭിക്കും. ചോദ്യങ്ങൾ ഉറക്കെ വായിക്കാൻ 🔊 ബട്ടൺ ഉപയോഗിക്കുക."
+                "പ്രാക്ടീസ് മോഡ് നിങ്ങളുടെ സ്വന്തം വേഗതയിൽ ചോദ്യങ്ങൾ പഠിക്കാൻ അനുവദിക്കുന്നു. ഒരു പ്രത്യേക വിഷയം (ഗവൺമെന്റ്, അവകാശങ്ങൾ, ചരിത്രം, അല്ലെങ്കിൽ ചിഹ്നങ്ങളും അവധി ദിനങ്ങളും) തിരഞ്ഞെടുക്കാം അല്ലെങ്കിൽ എല്ലാ വിഷയങ്ങളും ഒരുമിച്ച് പഠിക്കാം. ഉത്തരം നൽകിയ ശേഷം, നിങ്ങൾ ശരിയായിരുന്നോ എന്ന് കാണാം, വിശദമായ വിശദീകരണവും ലഭിക്കും. ചോദ്യങ്ങൾ ഉറക്കെ വായിക്കാൻ 🔊 ബട്ടൺ ഉപയോഗിക്കുക.",
+                "પ્રેક્ટિસ મોડ તમને તમારી પોતાની ગતિએ પ્રશ્નોનો અભ્યાસ કરવા દે છે. તમે ચોક્કસ વિષય (સરકાર, અધિકારો, ઇતિહાસ, અથવા પ્રતીકો અને રજાઓ) પસંદ કરી શકો છો અથવા બધા વિષયો એકસાથે અભ્યાસ કરી શકો છો. જવાબ આપ્યા પછી, તમે સાચા હતા કે નહીં તે જોઈ શકશો અને વિગતવાર સમજૂતી મળશે. પ્રશ્નો મોટેથી વાંચવા માટે 🔊 બટન વાપરો."
               )}
             </p>
           </Accordion>
@@ -226,13 +247,15 @@ export default function HelpPage() {
           <Accordion
             title={l(
               "3. Quiz Mode (Test Yourself)",
-              "3. ക്വിസ് മോഡ് (സ്വയം ടെസ്റ്റ് ചെയ്യുക)"
+              "3. ക്വിസ് മോഡ് (സ്വയം ടെസ്റ്റ് ചെയ്യുക)",
+              "3. ક્વિઝ મોડ (પોતાની કસોટી કરો)"
             )}
           >
             <p className="text-gray-600 leading-relaxed">
               {l(
                 "Quiz Mode simulates the real civics test. You'll get multiple-choice questions and see your score at the end. This is great for testing yourself once you've studied. Your results are saved so you can track improvement over time.",
-                "ക്വിസ് മോഡ് യഥാർത്ഥ സിവിക്സ് ടെസ്റ്റ് സിമുലേറ്റ് ചെയ്യുന്നു. മൾട്ടിപ്പിൾ-ചോയ്സ് ചോദ്യങ്ങൾ ലഭിക്കും, അവസാനം നിങ്ങളുടെ സ്കോർ കാണാം. പഠിച്ചതിനുശേഷം സ്വയം ടെസ്റ്റ് ചെയ്യാൻ ഇത് മികച്ചതാണ്. നിങ്ങളുടെ ഫലങ്ങൾ സേവ് ചെയ്യുന്നതിനാൽ കാലക്രമേണ പുരോഗതി ട്രാക്ക് ചെയ്യാം."
+                "ക്വിസ് മോഡ് യഥാർത്ഥ സിവിക്സ് ടെസ്റ്റ് സിമുലേറ്റ് ചെയ്യുന്നു. മൾട്ടിപ്പിൾ-ചോയ്സ് ചോദ്യങ്ങൾ ലഭിക്കും, അവസാനം നിങ്ങളുടെ സ്കോർ കാണാം. പഠിച്ചതിനുശേഷം സ്വയം ടെസ്റ്റ് ചെയ്യാൻ ഇത് മികച്ചതാണ്. നിങ്ങളുടെ ഫലങ്ങൾ സേവ് ചെയ്യുന്നതിനാൽ കാലക്രമേണ പുരോഗതി ട്രാക്ക് ചെയ്യാം.",
+                "ક્વિઝ મોડ ખરેખર સિવિક્સ ટેસ્ટનું અનુકરણ કરે છે. તમને મલ્ટિપલ-ચોઇસ પ્રશ્નો મળશે અને અંતે તમારો સ્કોર જોઈ શકશો. અભ્યાસ કર્યા પછી પોતાની કસોટી કરવા માટે આ શ્રેષ્ઠ છે. તમારા પરિણામો સેવ થાય છે જેથી સમય જતાં સુધારો ટ્રેક કરી શકો."
               )}
             </p>
           </Accordion>
@@ -240,13 +263,15 @@ export default function HelpPage() {
           <Accordion
             title={l(
               "4. Review Mistakes",
-              "4. തെറ്റുകൾ അവലോകനം ചെയ്യുക"
+              "4. തെറ്റുകൾ അവലോകനം ചെയ്യുക",
+              "4. ભૂલોની સમીક્ષા કરો"
             )}
           >
             <p className="text-gray-600 leading-relaxed">
               {l(
                 "The Review Mistakes feature shows you questions you previously got wrong. This is one of the most effective ways to study — focus on what you don't know yet. Keep reviewing until you can answer them all correctly!",
-                "റിവ്യൂ മിസ്റ്റേക്സ് ഫീച്ചർ നിങ്ങൾ മുമ്പ് തെറ്റിച്ച ചോദ്യങ്ങൾ കാണിക്കുന്നു. പഠിക്കാനുള്ള ഏറ്റവും ഫലപ്രദമായ മാർഗ്ഗങ്ങളിലൊന്നാണ് ഇത് — നിങ്ങൾക്ക് ഇതുവരെ അറിയാത്ത കാര്യങ്ങളിൽ ശ്രദ്ധ കേന്ദ്രീകരിക്കുക. എല്ലാം ശരിയായി ഉത്തരം നൽകാൻ കഴിയുന്നത് വരെ അവലോകനം ചെയ്യുക!"
+                "റിവ്യൂ മിസ്റ്റേക്സ് ഫീച്ചർ നിങ്ങൾ മുമ്പ് തെറ്റിച്ച ചോദ്യങ്ങൾ കാണിക്കുന്നു. പഠിക്കാനുള്ള ഏറ്റവും ഫലപ്രദമായ മാർഗ്ഗങ്ങളിലൊന്നാണ് ഇത് — നിങ്ങൾക്ക് ഇതുവരെ അറിയാത്ത കാര്യങ്ങളിൽ ശ്രദ്ധ കേന്ദ്രീകരിക്കുക. എല്ലാം ശരിയായി ഉത്തരം നൽകാൻ കഴിയുന്നത് വരെ അവലോകനം ചെയ്യുക!",
+                "ભૂલોની સમીક્ષા ફીચર તમે અગાઉ ખોટા જવાબ આપેલા પ્રશ્નો બતાવે છે. અભ્યાસ કરવાની સૌથી અસરકારક રીતોમાંની એક છે — જે તમે હજુ જાણતા નથી તેના પર ધ્યાન આપો. જ્યાં સુધી બધા સાચા જવાબ ન આપી શકો ત્યાં સુધી સમીક્ષા કરતા રહો!"
               )}
             </p>
           </Accordion>
@@ -254,13 +279,15 @@ export default function HelpPage() {
           <Accordion
             title={l(
               "5. Dashboard (Your Stats)",
-              "5. ഡാഷ്ബോർഡ് (നിങ്ങളുടെ സ്ഥിതിവിവരക്കണക്കുകൾ)"
+              "5. ഡാഷ്ബോർഡ് (നിങ്ങളുടെ സ്ഥിതിവിവരക്കണക്കുകൾ)",
+              "5. ડેશબોર્ડ (તમારા આંકડા)"
             )}
           >
             <p className="text-gray-600 leading-relaxed">
               {l(
                 "After logging in, your Dashboard shows your overall accuracy, number of questions attempted, and which topics need more work. Use this to guide your study sessions.",
-                "ലോഗിൻ ചെയ്തതിനുശേഷം, നിങ്ങളുടെ ഡാഷ്ബോർഡ് മൊത്തത്തിലുള്ള കൃത്യത, ശ്രമിച്ച ചോദ്യങ്ങളുടെ എണ്ണം, കൂടുതൽ പ്രവർത്തനം ആവശ്യമായ വിഷയങ്ങൾ എന്നിവ കാണിക്കുന്നു. നിങ്ങളുടെ പഠന സെഷനുകൾ നയിക്കാൻ ഇത് ഉപയോഗിക്കുക."
+                "ലോഗിൻ ചെയ്തതിനുശേഷം, നിങ്ങളുടെ ഡാഷ്ബോർഡ് മൊത്തത്തിലുള്ള കൃത്യത, ശ്രമിച്ച ചോദ്യങ്ങളുടെ എണ്ണം, കൂടുതൽ പ്രവർത്തനം ആവശ്യമായ വിഷയങ്ങൾ എന്നിവ കാണിക്കുന്നു. നിങ്ങളുടെ പഠന സെഷനുകൾ നയിക്കാൻ ഇത് ഉപയോഗിക്കുക.",
+                "લોગ ઇન કર્યા પછી, તમારું ડેશબોર્ડ તમારી એકંદર ચોકસાઈ, પ્રયાસ કરેલા પ્રશ્નોની સંખ્યા અને કયા વિષયોને વધુ કામની જરૂર છે તે બતાવે છે. તમારા અભ્યાસ સત્રોને માર્ગદર્શન આપવા માટે આનો ઉપયોગ કરો."
               )}
             </p>
           </Accordion>
@@ -270,7 +297,7 @@ export default function HelpPage() {
       {/* ─── 3. FAQ ────────────────────────────────── */}
       <section className="space-y-3">
         <h2 className="text-lg sm:text-xl font-bold text-gray-800">
-          ❓ {l("Frequently Asked Questions", "പതിവ് ചോദ്യങ്ങൾ")}
+          ❓ {l("Frequently Asked Questions", "പതിവ് ചോദ്യങ്ങൾ", "વારંવાર પૂછાતા પ્રશ્નો")}
         </h2>
         <div className="space-y-3">
           {faqs.map((faq, i) => (
@@ -284,58 +311,64 @@ export default function HelpPage() {
       {/* ─── 4. About the USCIS Naturalization Process  */}
       <section className="space-y-4">
         <h2 className="text-lg sm:text-xl font-bold text-gray-800">
-          🏛️ {l("About the Naturalization Process", "നാച്ചുറലൈസേഷൻ പ്രക്രിയയെ കുറിച്ച്")}
+          🏛️ {l("About the Naturalization Process", "നാച്ചുറലൈസേഷൻ പ്രക്രിയയെ കുറిച്ച്", "નેચરલાઇઝેશન પ્રક્રિયા વિશે")}
         </h2>
         <div className="bg-white rounded-xl border border-gray-200 p-5 sm:p-6 space-y-4">
           <div>
             <h3 className="font-semibold text-gray-800 mb-1">
-              {l("Eligibility", "യോഗ്യത")}
+              {l("Eligibility", "യോഗ്യത", "યોગ્યતા")}
             </h3>
             <p className="text-gray-600 text-sm leading-relaxed">
               {l(
                 "You must be at least 18 years old, a lawful permanent resident (green card holder) for at least 5 years (or 3 years if married to a U.S. citizen), have continuous residence and physical presence in the U.S., and demonstrate good moral character.",
-                "കുറഞ്ഞത് 18 വയസ്സ് ആയിരിക്കണം, കുറഞ്ഞത് 5 വർഷമായി നിയമാനുസൃത സ്ഥിര താമസക്കാരൻ (ഗ്രീൻ കാർഡ് ഉടമ) ആയിരിക്കണം (യു.എസ്. പൗരനെ വിവാഹം കഴിച്ചവർക്ക് 3 വർഷം), യു.എസ്.-ൽ തുടർച്ചയായ താമസവും ശാരീരിക സാന്നിധ്യവും ഉണ്ടായിരിക്കണം, നല്ല ധാർമ്മിക സ്വഭാവം പ്രകടിപ്പിക്കണം."
+                "കുറഞ്ഞത് 18 വയസ്സ് ആയിരിക്കണം, കുറഞ്ഞത് 5 വർഷമായി നിയമാനുസൃത സ്ഥിര താമസക്കാരൻ (ഗ്രീൻ കാർഡ് ഉടമ) ആയിരിക്കണം (യു.എസ്. പൗരനെ വിവാഹം കഴിച്ചവർക്ക് 3 വർഷം), യു.എസ്.-ൽ തുടർച്ചയായ താമസവും ശാരീരിക സാന്നിധ്യവും ഉണ്ടായിരിക്കണം, നല്ല ധാർമ്മിക സ്വഭാവം പ്രകടിപ്പിക്കണം.",
+                "તમે ઓછામાં ઓછા 18 વર્ષના હોવા જોઈએ, ઓછામાં ઓછા 5 વર્ષથી કાયદેસર કાયમી નિવાસી (ગ્રીન કાર્ડ ધારક) હોવા જોઈએ (યુ.એસ. નાગરિક સાથે લગ્ન કર્યા હોય તો 3 વર્ષ), યુ.એસ.માં સતત નિવાસ અને શારીરિક હાજરી હોવી જોઈએ, અને સારું નૈતિક ચરિત્ર દર્શાવવું જોઈએ."
               )}
             </p>
           </div>
           <div>
             <h3 className="font-semibold text-gray-800 mb-1">
-              {l("The Interview", "ഇന്റർവ്യൂ")}
+              {l("The Interview", "ഇന്റർവ്യൂ", "ઇન્ટરવ્યૂ")}
             </h3>
             <p className="text-gray-600 text-sm leading-relaxed">
               {l(
                 "Your naturalization interview includes an English test (reading, writing, and speaking) and a civics test. A USCIS officer will ask you up to 10 civics questions and you must answer at least 6 correctly. The interview is conducted in English.",
-                "നിങ്ങളുടെ നാച്ചുറലൈസേഷൻ ഇന്റർവ്യൂവിൽ ഒരു ഇംഗ്ലീഷ് ടെസ്റ്റ് (വായന, എഴുത്ത്, സംസാരം) കൂടാതെ ഒരു സിവിക്സ് ടെസ്റ്റും ഉൾപ്പെടുന്നു. USCIS ഓഫീസർ 10 സിവിക്സ് ചോദ്യങ്ങൾ വരെ ചോദിക്കും, കുറഞ്ഞത് 6 എണ്ണം ശരിയായി ഉത്തരം നൽകണം. ഇന്റർവ്യൂ ഇംഗ്ലീഷിൽ ആണ് നടത്തുന്നത്."
+                "നിങ്ങളുടെ നാച്ചുറലൈസേഷൻ ഇന്റർവ്യൂവിൽ ഒരു ഇംഗ്ലീഷ് ടെസ്റ്റ് (വായന, എഴുത്ത്, സംസാരം) കൂടാതെ ഒരു സിവിക്സ് ടെസ്റ്റും ഉൾപ്പെടുന്നു. USCIS ഓഫീസർ 10 സിവിക്സ് ചോദ്യങ്ങൾ വരെ ചോദിക്കും, കുറഞ്ഞത് 6 എണ്ണം ശരിയായി ഉത്തരം നൽകണം. ഇന്റർവ്യൂ ഇംഗ്ലീഷിൽ ആണ് നടത്തുന്നത്.",
+                "તમારા નેચરલાઇઝેશન ઇન્ટરવ્યૂમાં અંગ્રેજી ટેસ્ટ (વાંચન, લેખન અને બોલવું) અને સિવિક્સ ટેસ્ટનો સમાવેશ થાય છે. USCIS અધિકારી 10 સિવિક્સ પ્રશ્નો સુધી પૂછશે અને તમારે ઓછામાં ઓછા 6 સાચા જવાબ આપવા પડશે. ઇન્ટરવ્યૂ અંગ્રેજીમાં લેવામાં આવે છે."
               )}
             </p>
           </div>
           <div>
             <h3 className="font-semibold text-gray-800 mb-1">
-              {l("Test Day Tips", "ടെസ്റ്റ് ദിവസ നുറുങ്ങുകൾ")}
+              {l("Test Day Tips", "ടെസ്റ്റ് ദിവസ നുറുങ്ങുകൾ", "ટેસ્ટ દિવસની ટિપ્સ")}
             </h3>
             <ul className="text-gray-600 text-sm leading-relaxed space-y-1 list-disc list-inside">
               <li>
                 {l(
                   "Bring your green card, state-issued ID, and appointment notice",
-                  "നിങ്ങളുടെ ഗ്രീൻ കാർഡ്, സ്റ്റേറ്റ് ഇഷ്യൂ ചെയ്ത ID, അപ്പോയിന്റ്മെന്റ് നോട്ടീസ് എന്നിവ കൊണ്ടുവരുക"
+                  "നിങ്ങളുടെ ഗ്രീൻ കാർഡ്, സ്റ്റേറ്റ് ഇഷ്യൂ ചെയ്ത ID, അപ്പോയിന്റ്മെന്റ് നോട്ടീസ് എന്നിവ കൊണ്ടുവരുക",
+                  "તમારું ગ્રીન કાર્ડ, રાજ્ય દ્વારા જારી કરેલ ID, અને એપોઇન્ટમેન્ટ નોટિસ લઈ આવો"
                 )}
               </li>
               <li>
                 {l(
                   "Arrive 30 minutes early",
-                  "30 മിനിറ്റ് നേരത്തെ എത്തുക"
+                  "30 മിനിറ്റ് നേരത്തെ എത്തുക",
+                  "30 મિનિટ વહેલા પહોંચો"
                 )}
               </li>
               <li>
                 {l(
                   "Stay calm — you've prepared well!",
-                  "ശാന്തമായിരിക്കുക — നിങ്ങൾ നന്നായി തയ്യാറായിട്ടുണ്ട്!"
+                  "ശാന്തമായിരിക്കുക — നിങ്ങൾ നന്നായി തയ്യാറായിട്ടുണ്ട്!",
+                  "શાંત રહો — તમે સારી તૈયારી કરી છે!"
                 )}
               </li>
               <li>
                 {l(
                   "If you don't pass, you can retake the test within 60-90 days",
-                  "പാസാകുന്നില്ലെങ്കിൽ, 60-90 ദിവസത്തിനുള്ളിൽ ടെസ്റ്റ് വീണ്ടും എടുക്കാം"
+                  "പാസാകുന്നില്ലെങ്കിൽ, 60-90 ദിവസത്തിനുള്ളിൽ ടെസ്റ്റ് വീണ്ടും എടുക്കാം",
+                  "જો પાસ ન થાઓ તો, 60-90 દિવસમાં ટેસ્ટ ફરીથી આપી શકો છો"
                 )}
               </li>
             </ul>
@@ -349,7 +382,8 @@ export default function HelpPage() {
             >
               {l(
                 "→ Official USCIS Study Materials",
-                "→ ഔദ്യോഗിക USCIS പഠന സാമഗ്രികൾ"
+                "→ ഔദ്യോഗിക USCIS പഠന സാമഗ്രികൾ",
+                "→ સત્તાવાર USCIS અભ્યાસ સામગ્રી"
               )}
             </a>
           </div>
@@ -359,7 +393,7 @@ export default function HelpPage() {
       {/* ─── 5. Troubleshooting ────────────────────── */}
       <section className="space-y-3">
         <h2 className="text-lg sm:text-xl font-bold text-gray-800">
-          🔧 {l("Troubleshooting", "ട്രബിൾഷൂട്ടിംഗ്")}
+          🔧 {l("Troubleshooting", "ട്രബിൾഷൂട്ടിംഗ്", "સમસ્યા નિવારણ")}
         </h2>
         <div className="space-y-3">
           {troubleshooting.map((item, i) => (
@@ -373,12 +407,13 @@ export default function HelpPage() {
       {/* ─── 6. Contact / Feedback ─────────────────── */}
       <section className="bg-white rounded-2xl border border-gray-200 p-6 sm:p-8 text-center space-y-4">
         <h2 className="text-lg sm:text-xl font-bold text-gray-800">
-          💬 {l("Contact & Feedback", "ബന്ധപ്പെടുക & ഫീഡ്ബാക്ക്")}
+          💬 {l("Contact & Feedback", "ബന്ധപ്പെടുക & ഫീഡ്ബാക്ക്", "સંપર્ક અને પ્રતિસાદ")}
         </h2>
         <p className="text-gray-600 leading-relaxed max-w-xl mx-auto">
           {l(
             "Have a question, need help with your password or PIN, found a bug, or want to suggest a feature? Email us and we'll get back to you.",
-            "ഒരു ചോദ്യമുണ്ടോ, പാസ്‌വേഡ് അല്ലെങ്കിൽ PIN-ൽ സഹായം വേണോ, ഒരു ബഗ് കണ്ടെത്തിയോ, അല്ലെങ്കിൽ ഒരു ഫീച്ചർ നിർദ്ദേശിക്കാൻ ആഗ്രഹിക്കുന്നുണ്ടോ? ഞങ്ങൾക്ക് ഇമെയിൽ ചെയ്യുക, ഞങ്ങൾ മറുപടി നൽകും."
+            "ഒരു ചോദ്യമുണ്ടോ, പാസ്‌വേഡ് അല്ലെങ്കിൽ PIN-ൽ സഹായം വേണോ, ഒരു ബഗ് കണ്ടെത്തിയോ, അല്ലെങ്കിൽ ഒരു ഫീച്ചർ നിർദ്ദേശിക്കാൻ ആഗ്രഹിക്കുന്നുണ്ടോ? ഞങ്ങൾക്ക് ഇമെയിൽ ചെയ്യുക, ഞങ്ങൾ മറുപടി നൽകും.",
+            "કોઈ પ્રશ્ન છે, પાસવર્ડ અથવા PIN માં મદદ જોઈએ છે, કોઈ બગ મળી છે, અથવા કોઈ ફીચર સૂચવવું છે? અમને ઇમેઇલ કરો અને અમે તમને જવાબ આપીશું."
           )}
         </p>
         <a

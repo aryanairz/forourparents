@@ -50,14 +50,14 @@ export default function HomePage() {
                   ? "text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-900 tracking-tight leading-[1.15]" 
                   : "text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold text-gray-900 tracking-normal leading-[1.6]"
                 }
-                style={lang === "ml" ? { lineHeight: '1.6' } : undefined}
+                style={lang !== "en" ? { lineHeight: '1.6' } : undefined}
               >
                 {lang === "en" ? (
                   <>Help Your Parents Pass the U.S. Citizenship Test</>
                 ) : lang === "ml" ? (
                   <>നിങ്ങളുടെ മാതാപിതാക്കളെ യു.എസ്. പൗരത്വ ടെസ്റ്റ് പാസാക്കാൻ സഹായിക്കുക</>
                 ) : (
-                  <>Help Your Parents Pass the U.S. Citizenship Test</>
+                  <>તમારા માતાપિતાને યુ.એસ. નાગરિકતા ટેસ્ટ પાસ કરવામાં મદદ કરો</>
                 )}
               </h1>
               <p 
@@ -65,11 +65,13 @@ export default function HomePage() {
                   ? "text-base sm:text-lg text-gray-600 leading-relaxed max-w-lg mx-auto md:mx-0" 
                   : "text-base sm:text-lg text-gray-600 leading-[1.8] max-w-lg mx-auto md:mx-0"
                 }
-                style={lang === "ml" ? { lineHeight: '1.8' } : undefined}
+                style={lang !== "en" ? { lineHeight: '1.8' } : undefined}
               >
                 {lang === "en"
-                  ? "Practice the civics test in Malayalam. Built for the 50/20, 55/15, and 65/20 citizenship rules under U.S. immigration law."
-                  : "മലയാളത്തിൽ സിവിക്സ് ടെസ്റ്റ് പരിശീലിക്കുക. യു.എസ്. ഇമിഗ്രേഷൻ നിയമത്തിലെ 50/20, 55/15, 65/20 പൗരത്വ നിയമങ്ങൾക്കായി നിർമ്മിച്ചത്."}
+                  ? "Practice the civics test in your language. Built for the 50/20, 55/15, and 65/20 citizenship rules under U.S. immigration law."
+                  : lang === "ml"
+                  ? "മലയാളത്തിൽ സിവിക്സ് ടെസ്റ്റ് പരിശീലിക്കുക. യു.എസ്. ഇമിഗ്രേഷൻ നിയമത്തിലെ 50/20, 55/15, 65/20 പൗരത്വ നിയമങ്ങൾക്കായി നിർമ്മിച്ചത്."
+                  : "ગુજરાતીમાં સિવિક્સ ટેસ્ટની પ્રેક્ટિસ કરો. યુ.એસ. ઇમિગ્રેશન કાયદા હેઠળ 50/20, 55/15, 65/20 નાગરિકતા નિયમો માટે બનાવેલ."}
               </p>
               <div className="pt-2">
                 <Link
@@ -79,7 +81,7 @@ export default function HomePage() {
                              text-lg sm:text-xl font-bold rounded-xl shadow-lg shadow-orange-200
                              px-10 py-3.5 transition-all active:scale-[0.97] no-underline"
                 >
-                  {lang === "en" ? "Practice in Malayalam" : "മലയാളത്തിൽ പരിശീലിക്കുക"}
+                  {lang === "en" ? "Start Practicing" : lang === "ml" ? "മലയാളത്തിൽ പരിശീലിക്കുക" : "ગુજરાતીમાં પ્રેક્ટિસ કરો"}
                 </Link>
               </div>
             </div>
@@ -208,13 +210,15 @@ export default function HomePage() {
       {/* ── Footer ── */}
       <footer className="pt-10 pb-4 text-center space-y-1 px-4 sm:px-5">
         <p className="text-xs text-gray-400">
-          {l("Built with ❤️ by", "❤️ ഉപയോഗിച്ച് നിർമ്മിച്ചത്")}{" "}
+          {l("Built with ❤️ by", "❤️ ഉപയോഗിച്ച് നിർമ്മിച്ചത്", "❤️ સાથે બનાવેલ")}{" "}
           <span className="font-semibold text-gray-500">For Our Parents</span>
         </p>
         <p className="text-xs text-gray-400">
           {lang === "en"
-            ? "Helping Malayalam-speaking elders become U.S. citizens"
-            : "മലയാളം സംസാരിക്കുന്ന മുതിർന്നവരെ യു.എസ്. പൗരന്മാരാകാൻ സഹായിക്കുന്നു"}
+            ? "Helping immigrant elders become U.S. citizens"
+            : lang === "ml"
+            ? "മലയാളം സംസാരിക്കുന്ന മുതിർന്നവരെ യു.എസ്. പൗരന്മാരാകാൻ സഹായിക്കുന്നു"
+            : "ગુજરાતી બોલતા વડીલોને યુ.એસ. નાગરિક બનવામાં મદદ કરવી"}
         </p>
       </footer>
     </div>
