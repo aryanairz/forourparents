@@ -151,20 +151,22 @@ export default function HomePage() {
       </section>
 
       {/* ── Who Is This For ── */}
-      <section className="pt-8 px-4 sm:px-5 mx-auto max-w-5xl">
-        <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 space-y-3">
-          <h2 className="text-lg font-bold text-gray-900 text-center">
+      <section className="pt-8 px-6 sm:px-8 mx-auto max-w-5xl">
+        <div className="bg-white rounded-2xl p-7 shadow-sm border border-gray-100 space-y-4">
+          <h2 className="text-xl font-bold text-gray-900 text-center">
             {lang === "en" ? "Who Is This For?" : "ഇത് ആർക്കാണ്?"}
           </h2>
-          <p className="text-sm sm:text-base text-gray-600 text-center leading-relaxed">
+          <p className="text-base text-gray-600 text-center leading-relaxed">
             {lang === "en"
               ? "If you are 50+ years old and have held a Green Card for 15–20+ years, you can take the civics test in Malayalam with your own interpreter. No English test needed!"
               : "നിങ്ങൾക്ക് 50+ വയസ്സ് ഉണ്ടെങ്കിലും 15–20+ വർഷമായി ഗ്രീൻ കാർഡ് ഉടമയാണെങ്കിലും, സിവിക്സ് ടെസ്റ്റ് മലയാളത്തിൽ നിങ്ങളുടെ സ്വന്തം വ്യാഖ്യാതാവുമായി എടുക്കാം. ഇംഗ്ലീഷ് ടെസ്റ്റ് ആവശ്യമില്ല!"}
           </p>
-          <div className="flex justify-center">
+          <div className="flex justify-center pt-2">
             <Link
               href="/eligibility"
-              className="text-orange-600 font-semibold text-sm hover:underline no-underline"
+              className="min-h-[52px] bg-orange-600 hover:bg-orange-700 text-white
+                         font-semibold text-[15px] rounded-xl px-8 py-3
+                         transition-all active:scale-[0.97] no-underline inline-flex items-center justify-center"
             >
               {lang === "en" ? "Learn more →" : "കൂടുതൽ അറിയുക →"}
             </Link>
@@ -174,17 +176,17 @@ export default function HomePage() {
 
       {/* ── Sign Up Prompt ── */}
       {!isLoggedIn && (
-        <section className="pt-8 px-4 sm:px-5 mx-auto max-w-5xl">
-          <div className="bg-gradient-to-r from-orange-50 to-amber-50 rounded-2xl p-6 text-center space-y-3 border border-orange-100">
-            <p className="text-base text-gray-700">
+        <section className="pt-8 px-6 sm:px-8 mx-auto max-w-5xl">
+          <div className="bg-gradient-to-r from-orange-50 to-amber-50 rounded-2xl p-7 text-center space-y-4 border border-orange-100">
+            <p className="text-base text-gray-700 font-medium">
               {lang === "en"
                 ? "Create a free account to track your progress."
                 : "നിങ്ങളുടെ പുരോഗതി ട്രാക്ക് ചെയ്യാൻ ഒരു സൗജന്യ അക്കൗണ്ട് സൃഷ്ടിക്കുക."}
             </p>
             <Link
               href="/login"
-              className="inline-block min-h-[48px] bg-gray-900 hover:bg-gray-800 text-white
-                         text-base font-semibold rounded-xl px-8 py-3
+              className="inline-flex items-center justify-center min-h-[56px] bg-gray-900 hover:bg-gray-800 text-white
+                         text-[15px] font-semibold rounded-xl px-10 py-3
                          transition-all active:scale-[0.97] no-underline"
             >
               {t("login", lang)} / {t("signup", lang)}
