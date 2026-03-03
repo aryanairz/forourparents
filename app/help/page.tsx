@@ -78,8 +78,8 @@ const troubleshooting: { issue: Bi; fix: Bi }[] = [
   {
     issue: bi("I can't log in", "എനിക്ക് ലോഗിൻ ചെയ്യാൻ കഴിയുന്നില്ല"),
     fix: bi(
-      "Make sure you're entering your first name and the 4-digit PIN you chose during sign-up. Names are case-insensitive. If you forgot your PIN, you'll need to create a new account with a different email.",
-      "സൈൻ-അപ്പ് സമയത്ത് നിങ്ങൾ തിരഞ്ഞെടുത്ത ആദ്യ പേരും 4 അക്ക PINും നൽകുന്നുണ്ടെന്ന് ഉറപ്പാക്കുക. പേരുകൾ case-insensitive ആണ്. PIN മറന്നുപോയാൽ, മറ്റൊരു ഇമെയിൽ ഉപയോഗിച്ച് പുതിയ അക്കൗണ്ട് ഉണ്ടാക്കണം."
+      "Make sure you're entering your first name and the 4-digit PIN you chose during sign-up. Names are case-insensitive. If you forgot your PIN, email us at contact.forourparents@gmail.com and we'll help you get back in.",
+      "സൈൻ-അപ്പ് സമയത്ത് നിങ്ങൾ തിരഞ്ഞെടുത്ത ആദ്യ പേരും 4 അക്ക PINും നൽകുന്നുണ്ടെന്ന് ഉറപ്പാക്കുക. പേരുകൾ case-insensitive ആണ്. PIN മറന്നുപോയാൽ, contact.forourparents@gmail.com-ൽ ഞങ്ങൾക്ക് ഇമെയിൽ ചെയ്യുക, തിരിച്ചു കയറാൻ ഞങ്ങൾ സഹായിക്കും."
     ),
   },
   {
