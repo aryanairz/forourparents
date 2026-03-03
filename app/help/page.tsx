@@ -376,17 +376,17 @@ export default function HelpPage() {
         </h2>
         <p className="text-gray-600 leading-relaxed max-w-xl mx-auto">
           {l(
-            "Have a question, found a bug, or want to suggest a feature? We'd love to hear from you!",
-            "ഒരു ചോദ്യമുണ്ടോ, ഒരു ബഗ് കണ്ടെത്തിയോ, അല്ലെങ്കിൽ ഒരു ഫീച്ചർ നിർദ്ദേശിക്കാൻ ആഗ്രഹിക്കുന്നുണ്ടോ? നിങ്ങളിൽ നിന്ന് കേൾക്കാൻ ഞങ്ങൾ ആഗ്രഹിക്കുന്നു!"
+            "Have a question, need help with your password or PIN, found a bug, or want to suggest a feature? Email us and we'll get back to you.",
+            "ഒരു ചോദ്യമുണ്ടോ, പാസ്‌വേഡ് അല്ലെങ്കിൽ PIN-ൽ സഹായം വേണോ, ഒരു ബഗ് കണ്ടെത്തിയോ, അല്ലെങ്കിൽ ഒരു ഫീച്ചർ നിർദ്ദേശിക്കാൻ ആഗ്രഹിക്കുന്നുണ്ടോ? ഞങ്ങൾക്ക് ഇമെയിൽ ചെയ്യുക, ഞങ്ങൾ മറുപടി നൽകും."
           )}
         </p>
         <a
-          href="mailto:aryannair2121@gmail.com"
+          href="mailto:contact.forourparents@gmail.com"
           className="inline-block px-8 py-3 rounded-xl bg-primary text-white font-semibold
                      hover:bg-orange-600 active:scale-95 transition-all no-underline
                      min-h-[48px] text-base"
         >
-          {l("Email Us", "ഞങ്ങൾക്ക് ഇമെയിൽ ചെയ്യുക")}
+          contact.forourparents@gmail.com
         </a>
       </section>
 
