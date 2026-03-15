@@ -3,24 +3,37 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useLanguage } from "@/lib/LanguageContext";
-import { getCurrentUser } from "@/lib/storage";
+import { getCurrentUser, logoutUser } from "@/lib/storage";
 import { t } from "@/lib/i18n";
 import { useEffect, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
 import { Lang } from "@/data/questions";
 
 const langLabels: Record<Lang, string> = {
   en: "English",
   ml: "മലയാളം",
-  gu: "ગુજરાતી",
+  gu: "ગുજરાતી",
 };
 
 export default function Header() {
   const { lang, setLang, mounted } = useLanguage();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userName, setUserName] = useState<string | null>(null);
+  const pathname = usePathname();
+  const router = useRouter();
 
   useEffect(() => {
-    setIsLoggedIn(!!getCurrentUser());
-  }, []);
+    const user = getCurrentUser();
+    setIsLoggedIn(!!user);
+    setUserName(user?.firstName || user?.name?.split(" ")[0] || null);
+  }, [pathname]);
+
+  const handleLogout = () => {
+    logoutUser();
+    setIsLoggedIn(false);
+    setUserName(null);
+    router.push("/");
+  };
 
   const l = (en: string, ml: string, gu: string) =>
     lang === "en" ? en : lang === "ml" ? ml : gu;
@@ -91,6 +104,23 @@ export default function Header() {
             >
               {t("login", lang)}
             </Link>
+          )}
+          {mounted && isLoggedIn && (
+            <div className="flex items-center gap-2">
+              {userName && (
+                <span className="text-sm font-medium text-gray-600 hidden sm:block">
+                  {userName}
+                </span>
+              )}
+              <button
+                onClick={handleLogout}
+                className="flex-shrink-0 px-3 py-2 rounded-lg text-sm font-semibold
+                           border border-orange-300 text-orange-700 bg-orange-50 hover:bg-orange-100
+                           active:scale-95 transition-all min-h-[36px]"
+              >
+                {lang === "en" ? "Log Out" : lang === "ml" ? "ലോഗൗട്ട്" : "લૉગ આઉટ"}
+              </button>
+            </div>
           )}
         </div>
       </div>

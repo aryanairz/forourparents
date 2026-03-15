@@ -283,7 +283,7 @@ export const translations: Record<TranslationKey, Record<Lang, string>> = {
   },
   orDivider: { en: "or", ml: "അല്ലെങ്കിൽ", gu: "અથવા" },
   heroTagline: {
-    en: "Pass Your Civics Test — In Malayalam",
+    en: "Pass Your Civics Test — In Your Language",
     ml: "സിവിക്സ് ടെസ്റ്റ് പാസാക്കൂ — മലയാളത്തിൽ",
     gu: "તમારી સિવિક્સ ટેસ્ટ પાસ કરો — ગુજરાતીમાં",
   },

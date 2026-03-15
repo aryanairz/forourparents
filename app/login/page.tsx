@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { useLanguage } from "@/lib/LanguageContext";
 import { t } from "@/lib/i18n";
-import { loginUserByNamePin, signupUser, setCurrentUser } from "@/lib/storage";
+import { loginUserByNamePin, signupUser, setCurrentUser, clearAllMistakes } from "@/lib/storage";
 import { getStateOptions, getDistrictOptions, isAtLargeState } from "@/data/representatives";
 
 type Mode = "login" | "signup";
@@ -46,6 +46,16 @@ export default function LoginPage() {
     e.preventDefault();
     setError("");
     setSuccess("");
+
+    if (!email.trim()) {
+      setError(lang === "en" ? "Please enter your email." : lang === "ml" ? "ദയവായി ഇ-മെയിൽ നൽകുക." : "કૃપા કરીને ઇ-મેઇલ દાખલ કરો.");
+      return;
+    }
+    if (pin.length !== 4) {
+      setError(lang === "en" ? "Please enter your 4-digit PIN." : lang === "ml" ? "ദയവായി 4 അക്ക പിൻ നൽകുക." : "કૃપા કરીને 4-અંકનો PIN દાખલ કરો.");
+      return;
+    }
+
     setLoading(true);
 
     const user = await loginUserByNamePin(email.trim(), pin);
@@ -62,13 +72,28 @@ export default function LoginPage() {
     e.preventDefault();
     setError("");
     setSuccess("");
+
+    if (!firstName.trim() || !lastName.trim()) {
+      setError(lang === "en" ? "Please enter your first and last name." : lang === "ml" ? "ദയവായി നിങ്ങളുടെ പേര് നൽകുക." : "કૃપા કરીને તમારું નામ દાખલ કરો.");
+      return;
+    }
+    if (!signupEmail.trim()) {
+      setError(lang === "en" ? "Please enter your email address." : lang === "ml" ? "ദയവായി ഇ-മെയിൽ വിലാസം നൽകുക." : "કૃપા કરીને ઇ-મેઇલ સરનામું દાખલ કરો.");
+      return;
+    }
+    if (pin.length !== 4) {
+      setError(lang === "en" ? "Please choose a 4-digit PIN." : lang === "ml" ? "ദയവായി 4 അക്ക പിൻ തിരഞ്ഞെടുക്കുക." : "કૃપા કરીને 4-અંકનો PIN પસંદ કરો.");
+      return;
+    }
+
     setLoading(true);
 
     const { user, errorMsg } = await signupUser(firstName.trim(), lastName.trim(), signupEmail.trim(), pin, phone.trim() || undefined, selectedState || undefined, selectedDistrict ? Number(selectedDistrict) : undefined);
     if (user) {
       setSuccess(t("signupSuccess", lang));
       setCurrentUser(user);
-      setTimeout(() => router.push("/"), 1200);
+      clearAllMistakes(); // fresh start for new user
+      setTimeout(() => router.push("/"), 2000);
     } else {
       setError(errorMsg || t("signupError", lang));
     }

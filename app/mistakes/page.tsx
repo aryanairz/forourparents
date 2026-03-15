@@ -99,6 +99,22 @@ export default function MistakesPage() {
     setState("reviewing");
   };
 
+  const startReviewFromQuestion = (questionId: string) => {
+    const clicked = mistakeQuestions.find((q) => q.id === questionId);
+    const rest = mistakeQuestions.filter((q) => q.id !== questionId);
+    if (!clicked) return;
+    const pool = [clicked, ...shuffle(rest)];
+    setReviewPool(pool);
+    setCurrentIdx(0);
+    setSelectedOption(null);
+    setCorrectCount(0);
+    setAttempted(0);
+    const { options, correctIndex } = shuffleOptions(pool[0]);
+    setDisplayOptions(options);
+    setDisplayCorrectIndex(correctIndex);
+    setState("reviewing");
+  };
+
   const handleSelect = (idx: number) => {
     if (selectedOption !== null || !reviewPool[currentIdx]) return;
     setSelectedOption(idx);
@@ -354,9 +370,12 @@ export default function MistakesPage() {
           {/* Question list grouped by topic */}
           <div className="space-y-3">
             {mistakeQuestions.map((q) => (
-              <div
+              <button
                 key={q.id}
-                className="bg-white rounded-xl p-4 border border-gray-200 shadow-sm"
+                onClick={() => startReviewFromQuestion(q.id)}
+                className="w-full text-left bg-white rounded-xl p-4 border border-gray-200 shadow-sm
+                           hover:border-orange-300 hover:bg-orange-50 active:scale-[0.99]
+                           transition-all cursor-pointer"
               >
                 <span
                   className="inline-block text-xs font-semibold text-blue-600 bg-blue-50
@@ -365,7 +384,10 @@ export default function MistakesPage() {
                   {topicLabels[q.topic][lang]}
                 </span>
                 <p className="text-base text-gray-800">{q.question[lang]}</p>
-              </div>
+                <p className="text-xs text-orange-500 font-semibold mt-1.5">
+                  {lang === "en" ? "Tap to practice →" : lang === "ml" ? "പ്രാക്ടീസ് ചെയ്യാൻ ടാപ്പ് ചെയ്യുക →" : "પ્રેક્ટિસ કરવા ટૅપ કરો →"}
+                </p>
+              </button>
             ))}
           </div>
 

@@ -126,7 +126,7 @@ export default function QuizPage() {
   }, [stopFeedback, questionPool]);
 
   useEffect(() => {
-    if (mounted) nextQuestion();
+    if (mounted && questionPool.length > 0) nextQuestion();
   }, [mounted, nextQuestion]);
 
   const answered = selectedOption !== null;
