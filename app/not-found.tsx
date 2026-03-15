@@ -18,23 +18,23 @@ const excuses = [
 ];
 
 const facts = [
-  "\ud83c\udf0e The U.S. spans six time zones and has every climate — from arctic tundra to tropical rainforest.",
+  "\ud83c\udf0e The U.S. spans six time zones and has every climate ï¿½ from arctic tundra to tropical rainforest.",
   "\ud83c\udfd5\ufe0f Yellowstone (1872) was the world's first national park. There are now over 400 national park sites.",
   "\ud83d\udc3b Alaska is bigger than Texas, California, and Montana combined.",
   "\ud83e\udd20 The King Ranch in South Texas is larger than the entire state of Rhode Island.",
   "\ud83c\udf55 Americans eat roughly 3 billion pizzas a year.",
   "\ud83e\udd20 The fortune cookie was invented in San Francisco, not China.",
-  "\ud83e\udd67 Apple pie isn't actually American — it originated in England.",
+  "\ud83e\udd67 Apple pie isn't actually American ï¿½ it originated in England.",
   "\ud83d\udcd6 The first American cookbook was published in 1796.",
   "\u26a1 Texas has its own power grid, separate from the rest of the country.",
-  "\ud83c\uddfa\ud83c\uddf8 The original U.S. flag had 13 stars and 13 stripes — one for each colony.",
+  "\ud83c\uddfa\ud83c\uddf8 The original U.S. flag had 13 stars and 13 stripes ï¿½ one for each colony.",
   "\ud83c\udf3a Hawaii was the last state admitted to the Union, in 1959.",
   "\ud83e\udd83 Benjamin Franklin wanted the wild turkey as the national bird instead of the bald eagle.",
   "\ud83d\uddfd The Statue of Liberty arrived from France in 350 pieces in 1885.",
   "\ud83d\udcdc The U.S. Constitution is the world's oldest still-active written national constitution.",
   "\ud83d\udee3\ufe0f The interstate highway system stretches over 48,000 miles.",
   "\ud83c\udfe6 The Mall of America could fit seven Yankee Stadiums inside.",
-  "\ud83d\udcda The Library of Congress holds over 170 million items — the world's largest library.",
+  "\ud83d\udcda The Library of Congress holds over 170 million items ï¿½ the world's largest library.",
   "\ud83c\udfd6\ufe0f The U.S. has more coastline than any country except Canada.",
   "\ud83c\udf54 One in every eight Americans has worked at McDonald's at some point.",
 ];
@@ -79,7 +79,7 @@ export default function NotFound() {
 
         <div className="space-y-3 animate-fadeUp" style={{ animationDelay: "0.1s" }}>
           <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
-            Oops! This page…
+            Oops! This pageï¿½
           </h1>
           <div className="h-10 flex items-center justify-center overflow-hidden">
             <span
@@ -93,7 +93,7 @@ export default function NotFound() {
             </span>
           </div>
           <p className="text-gray-500 text-base sm:text-lg leading-relaxed max-w-sm mx-auto pt-1">
-            Don&apos;t worry — finding this page is easier than passing the
+            Don&apos;t worry ï¿½ finding this page is easier than passing the
             civics test. (And you&apos;ll ace that too! \ud83d\ude4f)
           </p>
         </div>
