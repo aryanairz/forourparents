@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 import { Home, BookOpen } from "lucide-react";
@@ -17,12 +16,17 @@ const excuses = [
 
 export default function NotFound() {
   const [idx, setIdx] = useState(0);
+  const [visible, setVisible] = useState(true);
   const items = useMemo(() => excuses, []);
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setIdx((prev) => (prev + 1) % items.length);
-    }, 2200);
+      setVisible(false);
+      setTimeout(() => {
+        setIdx((prev) => (prev + 1) % items.length);
+        setVisible(true);
+      }, 300);
+    }, 2400);
     return () => clearInterval(timer);
   }, [items]);
 
@@ -30,12 +34,8 @@ export default function NotFound() {
     <div className="min-h-[80vh] flex items-center justify-center px-4 py-12">
       <div className="w-full max-w-lg text-center space-y-8">
 
-        {/* Bouncing logo */}
-        <motion.div
-          className="flex justify-center"
-          animate={{ y: [0, -12, 0] }}
-          transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
-        >
+        {/* Bobbing logo */}
+        <div className="flex justify-center animate-bob">
           <Image
             src="/logo.png"
             alt="For Our Parents"
@@ -43,41 +43,22 @@ export default function NotFound() {
             height={88}
             className="rounded-2xl shadow-lg"
           />
-        </motion.div>
+        </div>
 
         {/* 404 */}
-        <motion.p
-          className="text-[7rem] leading-none font-extrabold text-orange-200 select-none"
-          initial={{ scale: 0.7, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ type: "spring", stiffness: 60, delay: 0.1 }}
-        >
+        <p className="text-[7rem] leading-none font-extrabold text-orange-200 select-none animate-popIn">
           404
-        </motion.p>
+        </p>
 
         {/* Headline */}
-        <motion.div
-          className="space-y-3"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.25 }}
-        >
+        <div className="space-y-3 animate-fadeUp" style={{ animationDelay: "0.1s" }}>
           <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 leading-snug">
             Oops! This page&nbsp;
-            {/* cycling excuse */}
-            <span className="relative inline-flex items-center justify-center h-9 overflow-hidden align-bottom min-w-[220px]">
-              <AnimatePresence mode="wait">
-                <motion.span
-                  key={idx}
-                  className="absolute text-orange-500 font-semibold whitespace-nowrap"
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -30 }}
-                  transition={{ type: "spring", stiffness: 55, damping: 14 }}
-                >
-                  {items[idx]}
-                </motion.span>
-              </AnimatePresence>
+            <span
+              className="inline-block text-orange-500 font-semibold transition-all duration-300"
+              style={{ opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(-10px)" }}
+            >
+              {items[idx]}
             </span>
           </h1>
 
@@ -85,26 +66,22 @@ export default function NotFound() {
             Don&apos;t worry — finding the right page is easier than passing
             the civics test. (Though you&apos;ll ace that too! 🙏)
           </p>
-        </motion.div>
+        </div>
 
         {/* Fun civics fact card */}
-        <motion.div
-          className="bg-orange-50 border border-orange-200 rounded-2xl px-5 py-4 text-sm text-orange-700 font-medium leading-relaxed mx-auto max-w-sm"
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.45 }}
+        <div
+          className="bg-orange-50 border border-orange-200 rounded-2xl px-5 py-4 text-sm text-orange-700 font-medium leading-relaxed mx-auto max-w-sm animate-fadeUp"
+          style={{ animationDelay: "0.2s" }}
         >
           💡 <span className="font-semibold">Fun fact while you&apos;re here:</span>{" "}
           The U.S. Constitution has been amended 27 times. You only need to
           remember 10 of them for the civics test! 😄
-        </motion.div>
+        </div>
 
         {/* Buttons */}
-        <motion.div
-          className="flex flex-col sm:flex-row gap-3 justify-center pt-1"
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.55 }}
+        <div
+          className="flex flex-col sm:flex-row gap-3 justify-center pt-1 animate-fadeUp"
+          style={{ animationDelay: "0.3s" }}
         >
           <Link
             href="/"
@@ -125,7 +102,7 @@ export default function NotFound() {
             <BookOpen className="w-4 h-4" />
             Practice instead
           </Link>
-        </motion.div>
+        </div>
 
       </div>
     </div>
