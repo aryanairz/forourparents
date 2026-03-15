@@ -181,10 +181,17 @@ export async function loginUserByNamePin(
 
 const MISTAKES_KEY = "civics-helper-mistakes";
 
+/** Returns a per-user key so different users on the same browser never share mistakes */
+function getMistakesKey(): string {
+  const user = getCurrentUser();
+  if (user?.id) return `${MISTAKES_KEY}-${user.id}`;
+  return MISTAKES_KEY;
+}
+
 function loadMistakeSet(): Set<string> {
   if (typeof window === "undefined") return new Set();
   try {
-    const stored = localStorage.getItem(MISTAKES_KEY);
+    const stored = localStorage.getItem(getMistakesKey());
     if (stored) {
       const arr = JSON.parse(stored) as string[];
       return new Set(arr);
@@ -198,7 +205,7 @@ function loadMistakeSet(): Set<string> {
 function saveMistakeSet(set: Set<string>): void {
   if (typeof window === "undefined") return;
   try {
-    localStorage.setItem(MISTAKES_KEY, JSON.stringify(Array.from(set)));
+    localStorage.setItem(getMistakesKey(), JSON.stringify(Array.from(set)));
   } catch {
     // localStorage unavailable
   }
@@ -223,10 +230,12 @@ export function removeMistake(questionId: string): void {
   saveMistakeSet(set);
 }
 
-/** Clear all mistakes */
+/** Clear all mistakes for the current user */
 export function clearAllMistakes(): void {
   if (typeof window === "undefined") return;
   try {
+    localStorage.removeItem(getMistakesKey());
+    // Also clear the legacy shared key in case old data is present
     localStorage.removeItem(MISTAKES_KEY);
   } catch {
     // localStorage unavailable

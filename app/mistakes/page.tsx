@@ -50,6 +50,7 @@ export default function MistakesPage() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [mistakeIds, setMistakeIds] = useState<string[]>([]);
   const [mistakeQuestions, setMistakeQuestions] = useState<Question[]>([]);
+  const [expandedId, setExpandedId] = useState<string | null>(null);
 
   // Review state
   const [reviewPool, setReviewPool] = useState<Question[]>([]);
@@ -369,26 +370,67 @@ export default function MistakesPage() {
 
           {/* Question list grouped by topic */}
           <div className="space-y-3">
-            {mistakeQuestions.map((q) => (
-              <button
-                key={q.id}
-                onClick={() => startReviewFromQuestion(q.id)}
-                className="w-full text-left bg-white rounded-xl p-4 border border-gray-200 shadow-sm
-                           hover:border-orange-300 hover:bg-orange-50 active:scale-[0.99]
-                           transition-all cursor-pointer"
-              >
-                <span
-                  className="inline-block text-xs font-semibold text-blue-600 bg-blue-50
-                                  rounded-full px-2 py-0.5 mb-2"
+            {mistakeQuestions.map((q) => {
+              const isExpanded = expandedId === q.id;
+              const correctAnswer = q.options[q.correctIndex];
+              return (
+                <div
+                  key={q.id}
+                  className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden"
                 >
-                  {topicLabels[q.topic][lang]}
-                </span>
-                <p className="text-base text-gray-800">{q.question[lang]}</p>
-                <p className="text-xs text-orange-500 font-semibold mt-1.5">
-                  {lang === "en" ? "Tap to practice →" : lang === "ml" ? "പ്രാക്ടീസ് ചെയ്യാൻ ടാപ്പ് ചെയ്യുക →" : "પ્રેક્ટિસ કરવા ટૅપ કરો →"}
-                </p>
-              </button>
-            ))}
+                  <button
+                    onClick={() => setExpandedId(isExpanded ? null : q.id)}
+                    className="w-full text-left p-4 hover:bg-orange-50 active:scale-[0.99]
+                               transition-all cursor-pointer"
+                  >
+                    <div className="flex items-start justify-between gap-2">
+                      <div className="flex-1">
+                        <span
+                          className="inline-block text-xs font-semibold text-blue-600 bg-blue-50
+                                       rounded-full px-2 py-0.5 mb-2"
+                        >
+                          {topicLabels[q.topic][lang]}
+                        </span>
+                        <p className="text-base text-gray-800">{q.question[lang]}</p>
+                      </div>
+                      <span className="text-gray-400 text-lg mt-0.5 flex-shrink-0">
+                        {isExpanded ? "▲" : "▼"}
+                      </span>
+                    </div>
+                  </button>
+
+                  {isExpanded && (
+                    <div className="border-t border-gray-100 px-4 pb-4 space-y-3">
+                      <div className="bg-green-50 rounded-xl p-3 border border-green-200 mt-3">
+                        <p className="text-xs font-semibold text-green-600 mb-1">
+                          {lang === "en" ? "✓ Correct Answer" : lang === "ml" ? "✓ ശരിയായ ഉത്തരം" : "✓ સાચો જવાબ"}
+                        </p>
+                        <p className="text-base font-semibold text-green-800">
+                          {correctAnswer[lang]}
+                        </p>
+                      </div>
+
+                      <div className="bg-blue-50 rounded-xl p-3 border border-blue-100">
+                        <p className="text-xs font-semibold text-blue-600 mb-1">
+                          {t("explanation", lang)}
+                        </p>
+                        <p className="text-sm text-gray-800 leading-relaxed">
+                          {q.explanation[lang]}
+                        </p>
+                      </div>
+
+                      <button
+                        onClick={() => startReviewFromQuestion(q.id)}
+                        className="w-full min-h-[44px] bg-primary text-white text-base font-bold
+                                   rounded-xl px-4 py-2.5 active:scale-[0.97] transition-all"
+                      >
+                        ▶ {lang === "en" ? "Practice this question" : lang === "ml" ? "ഈ ചോദ്യം പ്രാക്ടീസ് ചെയ്യുക" : "આ પ્રશ્ન પ્રેક્ટિસ કરો"}
+                      </button>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
           </div>
 
           {/* Actions */}
