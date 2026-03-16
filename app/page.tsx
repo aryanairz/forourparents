@@ -183,7 +183,7 @@ export default function HomePage() {
                          font-semibold text-[15px] rounded-xl px-8 py-3
                          transition-all active:scale-[0.97] no-underline inline-flex items-center justify-center"
             >
-              {l("Learn more →", "കൂടുതൽ അറിയുക →", "વધુ જાણો →")}
+              {l("Learn more →", "കൂടുതൽ അറിയുക →", "વધુ જાણો →", "Tìm hiểu thêm →")}
             </Link>
           </div>
         </div>

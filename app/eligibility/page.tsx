@@ -139,7 +139,9 @@ export default function EligibilityPage() {
                 ? '65/20 "Special Consideration"'
                 : lang === "ml"
                 ? '65/20 "പ്രത്യേക പരിഗണന"'
-                : '65/20 "વિશેષ વિચારણા"'}
+                : lang === "gu"
+                ? '65/20 "વિશેષ વિચારણા"'
+                : '65/20 "Cân nhắc đặc biệt"'}
             </h2>
           </div>
           <div className="space-y-3 text-base text-gray-700 mb-4">
