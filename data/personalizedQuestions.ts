@@ -37,26 +37,30 @@ export function getPersonalizedQuestions(
     },
   });
 
-  // ── 2. Senator question ───────────────────────────
-  // Pick a random senator as correct answer
-  const senatorIdx = Math.random() < 0.5 ? 0 : 1;
-  const correctSenator = state.senators[senatorIdx];
-  questions.push({
-    id: `p_sen_${stateCode}`,
-    topic: "government",
-    question: {
-      en: `Who is one of your state's U.S. Senators? (${state.name})`,
-      ml: `നിങ്ങളുടെ സംസ്ഥാനത്തെ അമേരിക്കൻ സെനറ്റർമാരിൽ ഒരാൾ ആരാണ്? (${state.name})`,
-      gu: `તમારા રાજ્યના યુ.એસ. સેનેટરોમાંથી એક કોણ છે? (${state.name})`,
-    },
-    options: buildSenatorOptions(correctSenator, stateCode),
-    correctIndex: 0,
-    explanation: {
-      en: `${state.senators[0]} and ${state.senators[1]} are the U.S. Senators from ${state.name}.`,
-      ml: `${state.senators[0]}-ഉം ${state.senators[1]}-ഉം ${state.name}-ൽ നിന്നുള്ള യു.എസ്. സെനറ്റർമാരാണ്.`,
-      gu: `${state.senators[0]} અને ${state.senators[1]} ${state.name}ના યુ.એસ. સેનેટર છે.`,
-    },
-  });
+  // ── 2. Senator questions (one question per senator so both are learnable) ────
+  // Two separate questions are added to the pool — one for each senator.
+  // This means the quiz will ask about each senator independently, and
+  // crucially the OTHER senator is never shown as a wrong answer.
+  for (let si = 0; si < 2; si++) {
+    const correctSenator = state.senators[si];
+    const otherSenator = state.senators[1 - si];
+    questions.push({
+      id: `p_sen${si}_${stateCode}`,
+      topic: "government",
+      question: {
+        en: `Who is one of your state's U.S. Senators? (${state.name})`,
+        ml: `നിങ്ങളുടെ സംസ്ഥാനത്തെ അമേരിക്കൻ സെനറ്റർമാരിൽ ഒരാൾ ആരാണ്? (${state.name})`,
+        gu: `તમારા રાજ્યના યુ.એસ. સેનેટરોમાંથી એક કોણ છે? (${state.name})`,
+      },
+      options: buildSenatorOptions(correctSenator, otherSenator),
+      correctIndex: 0,
+      explanation: {
+        en: `${state.senators[0]} and ${state.senators[1]} are the U.S. Senators from ${state.name}.`,
+        ml: `${state.senators[0]}-ഉം ${state.senators[1]}-ഉം ${state.name}-ൽ നിന്നുള്ള യു.എസ്. സെനറ്റർമാരാണ്.`,
+        gu: `${state.senators[0]} અને ${state.senators[1]} ${state.name}ના યુ.એસ. સેનેટર છે.`,
+      },
+    });
+  }
 
   // ── 3. U.S. Representative question ───────────────
   if (district !== undefined && state.districts[district]) {
@@ -150,8 +154,13 @@ function buildGovernorOptions(correct: string, _stateCode: string): BilingualTex
   return [{ en: correct, ml: correct, gu: correct }, ...wrongs];
 }
 
-function buildSenatorOptions(correct: string, _stateCode: string): BilingualText[] {
-  const wrongs = pickWrongAnswers(correct, otherSenators, 3);
+function buildSenatorOptions(correct: string, otherStateSenator: string): BilingualText[] {
+  // Exclude BOTH of this state's senators from the wrong-answers pool so
+  // neither real senator ever appears as a fake "wrong" choice.
+  const pool = otherSenators.filter(
+    (s) => s.toLowerCase() !== otherStateSenator.toLowerCase()
+  );
+  const wrongs = pickWrongAnswers(correct, pool, 3);
   return [{ en: correct, ml: correct, gu: correct }, ...wrongs];
 }
 

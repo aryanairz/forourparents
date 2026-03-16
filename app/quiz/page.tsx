@@ -43,25 +43,25 @@ function isMultiAnswer(bt: BilingualText): boolean {
   return bt.en.includes(" / ");
 }
 
+/** How many recently-shown questions to avoid repeating */
+const MAX_RECENT = 20;
+
 /**
  * Pick a random question from the pool, splitting multi-answer
  * correct options into a single answer per appearance.
  * Returns a Question with exactly 4 single-item options.
+ * Avoids repeating any of the recently-shown question IDs.
  */
-function pickQuestion(pool: Question[], lastId: string | null): {
+function pickQuestion(pool: Question[], recentIds: string[]): {
   question: Question;
   displayOptions: BilingualText[];
   displayCorrectIndex: number;
 } {
-  // Pick a question that isn't the same as the last one
-  let q: Question;
-  if (pool.length <= 1) {
-    q = pool[0];
-  } else {
-    do {
-      q = pool[Math.floor(Math.random() * pool.length)];
-    } while (q.id === lastId);
-  }
+  const recentSet = new Set(recentIds);
+  // Prefer questions not seen recently; fall back to full pool if pool is tiny
+  const available = pool.filter((q) => !recentSet.has(q.id));
+  const candidates = available.length > 0 ? available : pool;
+  const q = candidates[Math.floor(Math.random() * candidates.length)];
 
   const correctOption = q.options[q.correctIndex];
   const wrongOptions = q.options.filter((_, i) => i !== q.correctIndex);
@@ -102,7 +102,7 @@ function pickQuestion(pool: Question[], lastId: string | null): {
 
 export default function QuizPage() {
   const { lang, mounted } = useLanguage();
-  const lastIdRef = useRef<string | null>(null);
+  const recentIdsRef = useRef<string[]>([]);
   const { speak: speakFeedback, stop: stopFeedback } = useFeedbackSpeech();
   const questionPool = useQuestionPool();
 
@@ -117,8 +117,8 @@ export default function QuizPage() {
   const nextQuestion = useCallback(() => {
     stopFeedback();
     const { question, displayOptions: opts, displayCorrectIndex: ci } =
-      pickQuestion(questionPool, lastIdRef.current);
-    lastIdRef.current = question.id;
+      pickQuestion(questionPool, recentIdsRef.current);
+    recentIdsRef.current = [...recentIdsRef.current, question.id].slice(-MAX_RECENT);
     setCurrentQ(question);
     setDisplayOptions(opts);
     setDisplayCorrectIndex(ci);
@@ -160,7 +160,7 @@ export default function QuizPage() {
   };
 
   const handleRestart = () => {
-    lastIdRef.current = null;
+    recentIdsRef.current = [];
     setCorrectCount(0);
     setAttempted(0);
     setFinished(false);
