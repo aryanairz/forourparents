@@ -144,9 +144,9 @@ export const translations: Record<TranslationKey, Record<Lang, string>> = {
   cancel: { en: "Cancel", ml: "റദ്ദാക്കുക", gu: "રદ કરો" },
   quizComplete: { en: "Quiz Complete!", ml: "ക്വിസ് പൂർത്തിയായി!", gu: "ક્વિઝ પૂરી થઈ!" },
   quizCompleteDesc: {
-    en: "Well done! You answered all the questions.",
-    ml: "നന്നായി! എല്ലാ ചോദ്യങ്ങൾക്കും ഉത്തരം നൽകി.",
-    gu: "શાબાશ! તમે બધા પ્રશ્નોના જવાબ આપ્યા.",
+    en: "Well done! Keep practicing to master all the questions.",
+    ml: "നന്നായി! എല്ലാ ചോദ്യങ്ങളും പഠിക്കാൻ പരിശീലനം തുടരുക.",
+    gu: "શાબાશ! બધા પ્રશ્નો નિપુણ કરવા માટે પ્રેક્ટિસ ચાલુ રાખો.",
   },
   tryAgain: { en: "Try Again", ml: "വീണ്ടും ശ്രമിക്കുക", gu: "ફરી પ્રયત્ન કરો" },
   goHome: { en: "Go Home", ml: "ഹോം പേജിലേക്ക്", gu: "હોમ પર જાઓ" },
