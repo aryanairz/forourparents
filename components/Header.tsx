@@ -107,11 +107,6 @@ export default function Header() {
           )}
           {mounted && isLoggedIn && (
             <div className="flex items-center gap-2">
-              {userName && (
-                <span className="text-sm font-medium text-gray-600 hidden sm:block">
-                  {userName}
-                </span>
-              )}
               <button
                 onClick={handleLogout}
                 className="flex-shrink-0 px-3 py-2 rounded-lg text-sm font-semibold
