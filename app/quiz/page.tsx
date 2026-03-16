@@ -27,14 +27,13 @@ function shuffle<T>(arr: T[]): T[] {
 /** Split a bilingual text that uses " / " to list alternatives */
 function splitBilingual(bt: BilingualText): BilingualText[] {
   const enParts = bt.en.split(" / ");
+  if (enParts.length <= 1) return [bt];
   const mlParts = bt.ml.split(" / ");
   const guParts = bt.gu.split(" / ");
-  // safeguard: if counts don't match, return the original unsplit
-  if (enParts.length !== mlParts.length) return [bt];
   return enParts.map((en, i) => ({
     en: en.trim(),
-    ml: mlParts[i]?.trim() ?? en.trim(),
-    gu: guParts[i]?.trim() ?? en.trim(),
+    ml: (mlParts[i] ?? en).trim(),
+    gu: (guParts[i] ?? en).trim(),
   }));
 }
 

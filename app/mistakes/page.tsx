@@ -28,18 +28,63 @@ function shuffle<T>(arr: T[]): T[] {
   return a;
 }
 
+/** Split a bilingual text that uses " / " to list alternative accepted answers */
+function splitBilingual(bt: BilingualText): BilingualText[] {
+  const enParts = bt.en.split(" / ");
+  if (enParts.length <= 1) return [bt];
+  const mlParts = bt.ml.split(" / ");
+  const guParts = bt.gu.split(" / ");
+  return enParts.map((en, i) => ({
+    en: en.trim(),
+    ml: (mlParts[i] ?? en).trim(),
+    gu: (guParts[i] ?? en).trim(),
+  }));
+}
+
+function isMultiAnswer(bt: BilingualText): boolean {
+  return bt.en.includes(" / ");
+}
+
+/**
+ * Shuffle options for a question, splitting any multi-answer correct option
+ * into a single randomly-chosen answer so e.g. "Madison / Hamilton / Jay"
+ * appears as just "James Madison" (or Hamilton, or Jay) each time.
+ */
 function shuffleOptions(q: Question): {
   options: BilingualText[];
   correctIndex: number;
 } {
-  const indices = q.options.map((_, i) => i);
-  for (let i = indices.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [indices[i], indices[j]] = [indices[j], indices[i]];
+  const correctOption = q.options[q.correctIndex];
+  const wrongOptions = q.options.filter((_, i) => i !== q.correctIndex);
+
+  // Pick one answer from multi-answer correct options
+  let chosenCorrect: BilingualText;
+  if (isMultiAnswer(correctOption)) {
+    const parts = splitBilingual(correctOption);
+    chosenCorrect = parts[Math.floor(Math.random() * parts.length)];
+  } else {
+    chosenCorrect = correctOption;
   }
+
+  // Also split any multi-answer wrong options
+  const expandedWrong: BilingualText[] = wrongOptions.map((wo) => {
+    if (isMultiAnswer(wo)) {
+      const parts = splitBilingual(wo);
+      return parts[Math.floor(Math.random() * parts.length)];
+    }
+    return wo;
+  });
+
+  // Build 4 options: 1 correct + 3 wrong, shuffled
+  const allOpts: { opt: BilingualText; isCorrect: boolean }[] = [
+    { opt: chosenCorrect, isCorrect: true },
+    ...expandedWrong.map((opt) => ({ opt, isCorrect: false })),
+  ];
+  const shuffled = shuffle(allOpts);
+
   return {
-    options: indices.map((i) => q.options[i]),
-    correctIndex: indices.indexOf(q.correctIndex),
+    options: shuffled.map((s) => s.opt),
+    correctIndex: shuffled.findIndex((s) => s.isCorrect),
   };
 }
 
