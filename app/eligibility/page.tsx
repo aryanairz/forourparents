@@ -136,12 +136,12 @@ export default function EligibilityPage() {
             <span className="text-3xl">✅</span>
             <h2 className="text-2xl font-bold text-gray-900">
               {lang === "en"
-                ? '65/20 "Special Consideration"'
+                ? "65/20 Special Consideration"
                 : lang === "ml"
-                ? '65/20 "പ്രത്യേക പരിഗണന"'
+                ? "65/20 പ്രത്യേക പരിഗണന"
                 : lang === "gu"
-                ? '65/20 "વિશેષ વિચારણા"'
-                : '65/20 "Cân nhắc đặc biệt"'}
+                ? "65/20 વિશેષ વિચારણા"
+                : "65/20 Cân nhắc đặc biệt"}
             </h2>
           </div>
           <div className="space-y-3 text-base text-gray-700 mb-4">
