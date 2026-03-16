@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { Lang, BilingualText } from "@/data/questions";
 import { t } from "@/lib/i18n";
+import { setGlobalAudio, clearGlobalAudio, stopGlobalAudio } from "@/lib/audioManager";
 
 interface ReadAloudProps {
   text: BilingualText;
@@ -94,6 +95,7 @@ export default function ReadAloud({ text, options, lang }: ReadAloudProps) {
   const stopAll = () => {
     window.speechSynthesis?.cancel();
     stopResumeLoop();
+    stopGlobalAudio();
     if (audioRef.current) {
       audioRef.current.pause();
       audioRef.current.src = "";
@@ -117,6 +119,7 @@ export default function ReadAloud({ text, options, lang }: ReadAloudProps) {
 
       const audio = new Audio(`data:audio/mp3;base64,${audioContent}`);
       audioRef.current = audio;
+      setGlobalAudio(audio);
       audio.onplay = () => {
         setSpeaking(true);
         setLoading(false);
@@ -124,11 +127,13 @@ export default function ReadAloud({ text, options, lang }: ReadAloudProps) {
       audio.onended = () => {
         setSpeaking(false);
         audioRef.current = null;
+        clearGlobalAudio(audio);
       };
       audio.onerror = () => {
         setSpeaking(false);
         setLoading(false);
         audioRef.current = null;
+        clearGlobalAudio(audio);
       };
       await audio.play();
     } catch {

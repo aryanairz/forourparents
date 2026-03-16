@@ -2,6 +2,7 @@
 
 import { useRef, useCallback } from "react";
 import { Lang } from "@/data/questions";
+import { setGlobalAudio, clearGlobalAudio, stopGlobalAudio } from "@/lib/audioManager";
 
 /**
  * Speaks feedback text using Google TTS (Malayalam/Gujarati) or
@@ -12,6 +13,7 @@ export function useFeedbackSpeech() {
 
   const stop = useCallback(() => {
     if (typeof window !== "undefined") window.speechSynthesis?.cancel();
+    stopGlobalAudio();
     if (audioRef.current) {
       audioRef.current.pause();
       audioRef.current.src = "";
@@ -35,7 +37,8 @@ export function useFeedbackSpeech() {
           const { audioContent } = await res.json();
           const audio = new Audio(`data:audio/mp3;base64,${audioContent}`);
           audioRef.current = audio;
-          audio.onended = () => { audioRef.current = null; };
+          setGlobalAudio(audio);
+          audio.onended = () => { audioRef.current = null; clearGlobalAudio(audio); };
           await audio.play();
         } catch {
           // silently fail
