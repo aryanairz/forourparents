@@ -223,9 +223,9 @@ export const translations: Record<TranslationKey, Record<Lang, string>> = {
   pinPlaceholder: { en: "Enter PIN", ml: "പിൻ നൽകുക", gu: "PIN દાખલ કરો" },
   loginButton: { en: "Start Learning", ml: "പഠനം ആരംഭിക്കുക", gu: "શીખવાનું શરૂ કરો" },
   loginError: {
-    en: "Wrong PIN. Please try again.",
-    ml: "തെറ്റായ പിൻ. വീണ്ടും ശ്രമിക്കുക.",
-    gu: "ખોટો PIN. કૃપા કરીને ફરી પ્રયત્ન કરો.",
+    en: "Email or PIN is incorrect. Please try again.",
+    ml: "ഇ-മെയിൽ അല്ലെങ്കിൽ PIN തെറ്റാണ്. വീണ്ടും ശ്രമിക്കുക.",
+    gu: "ઇ-મેઇલ અથવા PIN ખોટું છે. કૃપા કરીને ફરી પ્રયત્ન કરો.",
   },
   loginWelcome: {
     en: "Welcome back!",

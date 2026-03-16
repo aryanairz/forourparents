@@ -373,13 +373,7 @@ export default function LoginPage() {
           {/* Submit */}
           <button
             type="submit"
-            disabled={
-              loading ||
-              pin.length !== 4 ||
-              (mode === "login"
-                ? !email.trim()
-                : !firstName.trim() || !lastName.trim() || !signupEmail.trim())
-            }
+            disabled={loading}
             className="w-full min-h-[60px] bg-primary text-white text-xl font-bold
                        rounded-xl shadow-md hover:bg-primary-dark
                        active:scale-[0.97] transition-all

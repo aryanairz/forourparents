@@ -44,11 +44,11 @@ export default function HomePage() {
                         px-8 sm:px-12 md:px-16 lg:px-24 py-12 sm:py-16 md:py-20">
           <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-12 lg:gap-16 max-w-7xl mx-auto">
             {/* Left — text */}
-            <div className="flex-1 text-center md:text-left space-y-5 max-w-2xl">
+            <div className="flex-1 min-w-0 text-center md:text-left space-y-5 max-w-2xl">
               <h1 
                 className={lang === "en" 
                   ? "text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-900 tracking-tight leading-[1.15]" 
-                  : "text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold text-gray-900 tracking-normal leading-[1.6]"
+                  : "text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold text-gray-900 tracking-normal leading-[1.6] break-words"
                 }
                 style={lang !== "en" ? { lineHeight: '1.6' } : undefined}
               >
