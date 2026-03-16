@@ -167,7 +167,7 @@ export default function ReadAloud({ text, options, lang }: ReadAloudProps) {
     const fullText = buildText(text, options, lang);
     // Malayalam & Gujarati always use Google TTS — iOS has no built-in voice for these
     // English uses native Web Speech API (faster, no API call needed)
-    if (lang === "ml" || lang === "gu") {
+    if (lang === "ml" || lang === "gu" || lang === "vi") {
       speakWithGoogleTTS(fullText);
     } else {
       if (typeof window !== "undefined" && window.speechSynthesis) {

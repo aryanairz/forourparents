@@ -48,11 +48,11 @@ export default function LoginPage() {
     setSuccess("");
 
     if (!email.trim()) {
-      setError(lang === "en" ? "Please enter your email." : lang === "ml" ? "ദയവായി ഇ-മെയിൽ നൽകുക." : "કૃપા કરીને ઇ-મેઇલ દાખલ કરો.");
+      setError(lang === "en" ? "Please enter your email." : lang === "ml" ? "ദയവായി ഇ-മെയിൽ നൽകുക." : lang === "gu" ? "કૃપા કરીને ઇ-મેઇલ દાખલ કરો." : "Vui lòng nhập email của bạn.");
       return;
     }
     if (pin.length !== 4) {
-      setError(lang === "en" ? "Please enter your 4-digit PIN." : lang === "ml" ? "ദയവായി 4 അക്ക പിൻ നൽകുക." : "કૃપા કરીને 4-અંકનો PIN દાખલ કરો.");
+      setError(lang === "en" ? "Please enter your 4-digit PIN." : lang === "ml" ? "ദയവായി 4 അക്ക പിൻ നൽകുക." : lang === "gu" ? "કૃપા કરીને 4-અંકનો PIN દાખલ કરો." : "Vui lòng nhập mã PIN 4 chữ số.");
       return;
     }
 
@@ -74,15 +74,15 @@ export default function LoginPage() {
     setSuccess("");
 
     if (!firstName.trim() || !lastName.trim()) {
-      setError(lang === "en" ? "Please enter your first and last name." : lang === "ml" ? "ദയവായി നിങ്ങളുടെ പേര് നൽകുക." : "કૃપા કરીને તમારું નામ દાખલ કરો.");
+      setError(lang === "en" ? "Please enter your first and last name." : lang === "ml" ? "ദയവായി നിങ്ങളുടെ പേര് നൽകുക." : lang === "gu" ? "કૃપા કરીને તમારું નામ દાખલ કરો." : "Vui lòng nhập họ và tên của bạn.");
       return;
     }
     if (!signupEmail.trim()) {
-      setError(lang === "en" ? "Please enter your email address." : lang === "ml" ? "ദയവായി ഇ-മെയിൽ വിലാസം നൽകുക." : "કૃપા કરીને ઇ-મેઇલ સરનામું દાખલ કરો.");
+      setError(lang === "en" ? "Please enter your email address." : lang === "ml" ? "ദയവായി ഇ-മെയിൽ വിലാസം നൽകുക." : lang === "gu" ? "કૃપા કરીને ઇ-મેઇલ સરનામું દાખલ કરો." : "Vui lòng nhập địa chỉ email của bạn.");
       return;
     }
     if (pin.length !== 4) {
-      setError(lang === "en" ? "Please choose a 4-digit PIN." : lang === "ml" ? "ദയവായി 4 അക്ക പിൻ തിരഞ്ഞെടുക്കുക." : "કૃપા કરીને 4-અંકનો PIN પસંદ કરો.");
+      setError(lang === "en" ? "Please choose a 4-digit PIN." : lang === "ml" ? "ദയവായി 4 അക്ക പിൻ തിരഞ്ഞെടുക്കുക." : lang === "gu" ? "કૃપા કરીને 4-અંકનો PIN પસંદ કરો." : "Vui lòng chọn mã PIN 4 chữ số.");
       return;
     }
 

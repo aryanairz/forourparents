@@ -144,13 +144,15 @@ export default function DashboardPage() {
               ? "questions need review"
               : lang === "ml"
               ? "ചോദ്യങ്ങൾ പരിശോധിക്കേണ്ടതുണ്ട്"
-              : "પ્રશ્નોની સમીક્ષા જરૂરી છે"}
+              : lang === "gu"
+              ? "પ્રશ્નોની સમીક્ષા જરૂરી છે"
+              : "câu hỏi cần ôn lại"}
           </p>
 
           {weakestTopic && mistakesByTopic[weakestTopic[0] as Topic] > 0 && (
             <div className="bg-white/50 rounded-lg p-3 text-sm">
               <p className="text-orange-800 font-medium">
-                {lang === "en" ? "Focus on:" : lang === "ml" ? "ശ്രദ്ധിക്കേണ്ട വിഷയം:" : "ધ્યાન આપો:"}
+                {lang === "en" ? "Focus on:" : lang === "ml" ? "ശ്രദ്ധിക്കേണ്ട വിഷയം:" : lang === "gu" ? "ધ્યાન આપો:" : "Tập trung vào:"}
               </p>
               <p className="text-orange-900 font-bold mt-1">
                 {topicLabels[weakestTopic[0] as Topic][lang]} (
@@ -190,7 +192,7 @@ export default function DashboardPage() {
                   </p>
                   <p className="text-xs text-gray-500">
                     {new Date(attempt.completed_at).toLocaleDateString(
-                      lang === "ml" ? "ml-IN" : lang === "gu" ? "gu-IN" : "en-US",
+                      lang === "ml" ? "ml-IN" : lang === "gu" ? "gu-IN" : lang === "vi" ? "vi-VN" : "en-US",
                     )}
                   </p>
                 </div>

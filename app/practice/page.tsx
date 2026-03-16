@@ -280,7 +280,7 @@ export default function PracticePage() {
             if (currentQ) {
               const answerText = currentQ.options[currentQ.correctIndex][lang];
               const explanation = currentQ.explanation[lang];
-              const prefix = lang === "en" ? "The answer is: " : lang === "ml" ? "ഉത്തരം: " : "જવાબ: ";
+              const prefix = lang === "en" ? "The answer is: " : lang === "ml" ? "ഉത്തരം: " : lang === "gu" ? "જવાબ: " : "Câu trả lời là: ";
               speakFeedback(prefix + answerText + ". " + explanation, lang);
             }
           }}
@@ -295,7 +295,7 @@ export default function PracticePage() {
           {/* Answer display */}
           <div className="bg-success-light rounded-xl p-4 sm:p-5 border border-success">
             <p className="text-xs sm:text-sm font-semibold text-success mb-1">
-              ✓ {lang === "en" ? "Answer" : lang === "ml" ? "ഉത്തരം" : "જવાબ"}
+              ✓ {lang === "en" ? "Answer" : lang === "ml" ? "ഉത്തരം" : lang === "gu" ? "જવાબ" : "Câu trả lời"}
             </p>
             <p className="text-lg sm:text-xl font-bold text-gray-900 break-words">
               {currentQ.options[currentQ.correctIndex][lang]}

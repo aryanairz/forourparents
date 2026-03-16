@@ -7,9 +7,9 @@ import Header from "@/components/Header";
 const inter = Inter({ subsets: ["latin"], display: "swap" });
 
 export const metadata: Metadata = {
-  title: "For Our Parents | നമ്മുടെ മാതാപിതാക്കൾക്കായി",
+  title: "For Our Parents | നമ്മുടെ മാതാപിതാക്കൾക്കായി | Dành cho Ba Mẹ",
   description:
-    "Helping Malayalam-speaking elders pass the U.S. civics test in their native language. Bilingual English/Malayalam study tool.",
+    "Helping elders pass the U.S. civics test in their native language. Multilingual English/Malayalam/Gujarati/Vietnamese study tool.",
   icons: {
     icon: "/logo.png",
     shortcut: "/logo.png",

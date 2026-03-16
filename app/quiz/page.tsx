@@ -30,10 +30,12 @@ function splitBilingual(bt: BilingualText): BilingualText[] {
   if (enParts.length <= 1) return [bt];
   const mlParts = bt.ml.split(" / ");
   const guParts = bt.gu.split(" / ");
+  const viParts = bt.vi.split(" / ");
   return enParts.map((en, i) => ({
     en: en.trim(),
     ml: (mlParts[i] ?? en).trim(),
     gu: (guParts[i] ?? en).trim(),
+    vi: (viParts[i] ?? en).trim(),
   }));
 }
 
@@ -142,8 +144,8 @@ export default function QuizPage() {
         addMistake(currentQ.id);
       }
       const prefix = isCorrect
-        ? (lang === "en" ? "Correct! " : lang === "ml" ? "ശരി! " : "સાચું! ")
-        : (lang === "en" ? "Incorrect. " : lang === "ml" ? "തെറ്റ്. " : "ખોટું. ");
+        ? (lang === "en" ? "Correct! " : lang === "ml" ? "ശരി! " : lang === "gu" ? "સાચું! " : "Đúng! ")
+        : (lang === "en" ? "Incorrect. " : lang === "ml" ? "തെറ്റ്. " : lang === "gu" ? "ખોટું. " : "Sai. ");
       speakFeedback(prefix + currentQ.explanation[lang], lang);
     },
     [answered, currentQ, displayCorrectIndex, lang, speakFeedback],
@@ -327,7 +329,7 @@ export default function QuizPage() {
                      rounded-xl px-4 py-3 active:scale-[0.97] transition-all mt-2
                      hover:bg-gray-200"
         >
-          🏁 {lang === "en" ? "Finish Quiz" : lang === "ml" ? "ക്വിസ് അവസാനിപ്പിക്കുക" : "ક્વિઝ પૂરી કરો"}
+          🏁 {lang === "en" ? "Finish Quiz" : lang === "ml" ? "ക്വിസ് അവസാനിപ്പിക്കുക" : lang === "gu" ? "ક્વિઝ પૂરી કરો" : "Hoàn thành bài thi"}
         </button>
       )}
     </div>

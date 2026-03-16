@@ -24,8 +24,8 @@ export default function HomePage() {
   }
 
   // Trilingual helper: gu defaults to en for marketing copy
-  const l = (en: string, ml: string, gu?: string) =>
-    lang === "en" ? en : lang === "ml" ? ml : (gu ?? en);
+  const l = (en: string, ml: string, gu?: string, vi?: string) =>
+    lang === "en" ? en : lang === "ml" ? ml : lang === "gu" ? (gu ?? en) : (vi ?? en);
 
   return (
     <div className="-mx-4 sm:-mx-5">
@@ -56,8 +56,10 @@ export default function HomePage() {
                   <>Help Your Parents Pass the U.S. Citizenship Test</>
                 ) : lang === "ml" ? (
                   <>നിങ്ങളുടെ മാതാപിതാക്കളെ യു.എസ്. പൗരത്വ ടെസ്റ്റ് പാസാക്കാൻ സഹായിക്കുക</>
-                ) : (
+                ) : lang === "gu" ? (
                   <>તમારા માતાપિતાને યુ.એસ. નાગરિકતા ટેસ્ટ પાસ કરવામાં મદદ કરો</>
+                ) : (
+                  <>Giúp ba mẹ bạn vượt qua bài thi quốc tịch Hoa Kỳ</>
                 )}
               </h1>
               <p 
@@ -71,7 +73,9 @@ export default function HomePage() {
                   ? "Practice the civics test in your language. Built for the 50/20, 55/15, and 65/20 citizenship rules under U.S. immigration law."
                   : lang === "ml"
                   ? "മലയാളത്തിൽ സിവിക്സ് ടെസ്റ്റ് പരിശീലിക്കുക. യു.എസ്. ഇമിഗ്രേഷൻ നിയമത്തിലെ 50/20, 55/15, 65/20 പൗരത്വ നിയമങ്ങൾക്കായി നിർമ്മിച്ചത്."
-                  : "ગુજરાતીમાં સિવિક્સ ટેસ્ટની પ્રેક્ટિસ કરો. યુ.એસ. ઇમિગ્રેશન કાયદા હેઠળ 50/20, 55/15, 65/20 નાગરિકતા નિયમો માટે બનાવેલ."}
+                  : lang === "gu"
+                  ? "ગુજરાતીમાં સિવિક્સ ટેસ્ટની પ્રેક્ટિસ કરો. યુ.એસ. ઇમિગ્રેશન કાયદા હેઠળ 50/20, 55/15, 65/20 નાગરિકતા નિયમો માટે બનાવેલ."
+                  : "Luyện thi quốc tịch bằng ngôn ngữ của bạn. Được xây dựng cho quy tắc quốc tịch 50/20, 55/15 và 65/20 theo luật di trú Hoa Kỳ."}
               </p>
               <div className="pt-2">
                 <Link
@@ -81,7 +85,7 @@ export default function HomePage() {
                              text-lg sm:text-xl font-bold rounded-xl shadow-lg shadow-orange-200
                              px-10 py-3.5 transition-all active:scale-[0.97] no-underline"
                 >
-                  {lang === "en" ? "Start Practicing" : lang === "ml" ? "മലയാളത്തിൽ പരിശീലിക്കുക" : "ગુજરાતીમાં પ્રેક્ટિસ કરો"}
+                  {lang === "en" ? "Start Practicing" : lang === "ml" ? "മലയാളത്തിൽ പരിശീലിക്കുക" : lang === "gu" ? "ગુજરાતીમાં પ્રેક્ટિસ કરો" : "Bắt đầu luyện tập"}
                 </Link>
               </div>
             </div>
@@ -111,7 +115,7 @@ export default function HomePage() {
                        flex items-center justify-center gap-2 px-4 py-4
                        transition-all active:scale-[0.97] no-underline text-center"
           >
-            📝 {l("Practice Test", "പ്രാക്ടീസ് ടെസ്റ്റ്", "પ્રેક્ટિસ ટેસ્ટ")}
+            📝 {l("Practice Test", "പ്രാക്ടീസ് ടെസ്റ്റ്", "પ્રેક્ટિસ ટેસ્ટ", "Bài thi thử")}
           </Link>
           <Link
             href="/practice"
@@ -142,7 +146,7 @@ export default function HomePage() {
                        transition-all active:scale-[0.97] no-underline text-center"
           >
             <Image src="/flag.png" alt="USA Flag" width={22} height={15} className="rounded-sm flex-shrink-0" />
-            {l("Do You Qualify?", "യോഗ്യത?", "શું તમે યોગ્ય છો?")}
+            {l("Do You Qualify?", "യോഗ്യത?", "શું તમે યોગ્ય છો?", "Bạn có đủ điều kiện?")}
           </Link>
         </div>
         {isLoggedIn && (
@@ -162,13 +166,14 @@ export default function HomePage() {
       <section className="pt-8 px-6 sm:px-8 mx-auto max-w-5xl">
         <div className="bg-white rounded-2xl p-7 shadow-sm border border-gray-100 space-y-4">
           <h2 className="text-xl font-bold text-gray-900 text-center">
-            {l("Who Is This For?", "ഇത് ആർക്കാണ്?", "આ કોના માટે છે?")}
+            {l("Who Is This For?", "ഇത് ആർക്കാണ്?", "આ કોના માટે છે?", "Đây dành cho ai?")}
           </h2>
           <p className="text-base text-gray-600 text-center leading-relaxed">
             {l(
               "If you are 50+ years old and have held a Green Card for 15\u201320+ years, you can take the civics test in your language with your own interpreter. No English test needed!",
               "നിങ്ങള്ക്ക് 50+ വയസ്സ് ഉണ്ടെങ്കിലും 15\u201320+ വർഷമായി ഗ്രീൻ കാർഡ് ഉടമയാണെങ്കിലും, സിവിക്സ് ടെസ്റ്റ് മലയാളത്തിൽ നിങ്ങളുടെ സ്വന്തം വ്യാഖ്യാതാവുമായി എടുക്കാം. ഇംഗ്ലീഷ് ടെസ്റ്റ് ആവശ്യമില്ല!",
-              "જો તમે 50+ વર્ષના છો અને 15\u201320+ વર્ષથી ગ્રીન કાર્ડ ધરાવો છો, તો તમે તમારી ભાષામાં તમારા પોતાના દુભાષિયા સાથે સિવિક્સ ટેસ્ટ આપી શકો છો. અંગ્રેજી ટેસ્ટની જરૂર નથી!"
+              "જો તમે 50+ વર્ષના છો અને 15\u201320+ વર્ષથી ગ્રીન કાર્ડ ધરાવો છો, તો તમે તમારી ભાષામાં તમારા પોતાના દુભાષિયા સાથે સિવિક્સ ટેસ્ટ આપી શકો છો. અંગ્રેજી ટેસ્ટની જરૂર નથી!",
+              "Nếu bạn từ 50 tuổi trở lên và đã có Thẻ Xanh từ 15\u201320+ năm, bạn có thể thi quốc tịch bằng ngôn ngữ của mình với phiên dịch viên riêng. Không cần thi tiếng Anh!"
             )}
           </p>
           <div className="flex justify-center pt-2">
@@ -192,7 +197,8 @@ export default function HomePage() {
               {l(
                 "Create a free account to track your progress.",
                 "നിങ്ങളുടെ പുരോഗതി ട്രാക്ക് ചെയ്യാൻ ഒരു സൌജന്യ അക്കൌണ്ട് സൃഷ്ടിക്കുക.",
-                "તમારી પ્રગતિ ટ્રેક કરવા માટે મફત ખાતું બનાવો."
+                "તમારી પ્રગતિ ટ્રેક કરવા માટે મફત ખાતું બનાવો.",
+                "Tạo tài khoản miễn phí để theo dõi tiến độ của bạn."
               )}
             </p>
             <Link
@@ -210,7 +216,7 @@ export default function HomePage() {
       {/* ── Footer ── */}
       <footer className="pt-10 pb-4 text-center space-y-1 px-4 sm:px-5">
         <p className="text-xs text-gray-400">
-          {l("Built with ❤️ by", "❤️ ഉപയോഗിച്ച് നിർമ്മിച്ചത്", "❤️ સાથે બનાવેલ")}{" "}
+          {l("Built with ❤️ by", "❤️ ഉപയോഗിച്ച് നിർമ്മിച്ചത്", "❤️ સાથે બનાવેલ", "Được xây dựng với ❤️ bởi")}{" "}
           <span className="font-semibold text-gray-500">For Our Parents</span>
         </p>
         <p className="text-xs text-gray-400">
@@ -218,7 +224,9 @@ export default function HomePage() {
             ? "Helping immigrant elders become U.S. citizens"
             : lang === "ml"
             ? "മലയാളം സംസാരിക്കുന്ന മുതിർന്നവരെ യു.എസ്. പൗരന്മാരാകാൻ സഹായിക്കുന്നു"
-            : "ગુજરાતી બોલતા વડીલોને યુ.એસ. નાગરિક બનવામાં મદદ કરવી"}
+            : lang === "gu"
+            ? "ગુજરાતી બોલતા વડીલોને યુ.એસ. નાગરિક બનવામાં મદદ કરવી"
+            : "Giúp người cao tuổi nhập cư trở thành công dân Hoa Kỳ"}
         </p>
       </footer>
     </div>

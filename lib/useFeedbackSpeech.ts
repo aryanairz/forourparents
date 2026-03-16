@@ -23,7 +23,7 @@ export function useFeedbackSpeech() {
     async (text: string, lang: Lang) => {
       stop();
 
-      if (lang === "ml" || lang === "gu") {
+      if (lang === "ml" || lang === "gu" || lang === "vi") {
         // Google TTS for Malayalam / Gujarati
         try {
           const res = await fetch("/api/tts", {

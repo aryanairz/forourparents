@@ -34,10 +34,12 @@ function splitBilingual(bt: BilingualText): BilingualText[] {
   if (enParts.length <= 1) return [bt];
   const mlParts = bt.ml.split(" / ");
   const guParts = bt.gu.split(" / ");
+  const viParts = bt.vi.split(" / ");
   return enParts.map((en, i) => ({
     en: en.trim(),
     ml: (mlParts[i] ?? en).trim(),
     gu: (guParts[i] ?? en).trim(),
+    vi: (viParts[i] ?? en).trim(),
   }));
 }
 
@@ -204,12 +206,16 @@ export default function MistakesPage() {
         <h2 className="text-2xl sm:text-3xl font-bold text-gray-900">
           {lang === "en"
             ? "Track Your Mistakes"
-            : "നിങ്ങളുടെ തെറ്റുകൾ ട്രാക്ക് ചെയ്യുക"}
+            : lang === "ml" ? "നിങ്ങളുടെ തെറ്റുകൾ ട്രാക്ക് ചെയ്യുക"
+            : lang === "gu" ? "તમારી ભૂલો ટ્રેક કરો"
+            : "Theo dõi lỗi của bạn"}
         </h2>
         <p className="text-base sm:text-lg text-gray-500 max-w-xs leading-relaxed">
           {lang === "en"
             ? "Create a free account to save and review the questions you got wrong."
-            : "നിങ്ങൾ തെറ്റായി ഉത്തരം നൽകിയ ചോദ്യങ്ങൾ സംരക്ഷിക്കാനും അവലോകനം ചെയ്യാനും ഒരു സൗജന്യ അക്കൗണ്ട് സൃഷ്ടിക്കുക."}
+            : lang === "ml" ? "നിങ്ങൾ തെറ്റായി ഉത്തരം നൽകിയ ചോദ്യങ്ങൾ സംരക്ഷിക്കാനും അവലോകനം ചെയ്യാനും ഒരു സൌജന്യ അക്കൌണ്ട് സൃഷ്ടിക്കുക."
+            : lang === "gu" ? "તમે ખોટા જવાબ આપેલા પ્રશ્નો સેવ અને સમીક્ષા કરવા માટે મફત ખાતું બનાવો."
+            : "Tạo tài khoản miễn phí để lưu và ôn lại các câu hỏi bạn trả lời sai."}
         </p>
         <Link
           href="/login"
@@ -218,13 +224,13 @@ export default function MistakesPage() {
                      flex items-center justify-center px-6 py-4
                      transition-all active:scale-[0.97] no-underline"
         >
-          {lang === "en" ? "Create Account" : lang === "ml" ? "അക്കൌണ്ട് സൃഷ്ടിക്കുക" : "ખાતું બનાવો"}
+          {lang === "en" ? "Create Account" : lang === "ml" ? "അക്കൌണ്ട് സൃഷ്ടിക്കുക" : lang === "gu" ? "ખાતું બનાવો" : "Tạo tài khoản"}
         </Link>
         <Link
           href="/login"
           className="text-primary font-semibold text-base hover:underline no-underline"
         >
-          {lang === "en" ? "Already have an account? Log in →" : lang === "ml" ? "ഇതിനകം അക്കൌണ്ട് ഉണ്ടോ? ലോഗിൻ →" : "પહેલેથી ખાતું છે? લોગ ઇન →"}
+          {lang === "en" ? "Already have an account? Log in →" : lang === "ml" ? "ഇതിനകം അക്കൌണ്ട് ഉണ്ടോ? ലോഗിൻ →" : lang === "gu" ? "પહેલેથી ખાતું છે? લોગ ઇન →" : "Đã có tài khoản? Đăng nhập →"}
         </Link>
         <Link
           href="/"
@@ -406,7 +412,7 @@ export default function MistakesPage() {
           <div className="bg-orange-50 rounded-xl p-4 border border-orange-200 text-center space-y-2">
             <p className="text-lg font-semibold text-orange-700">
               {mistakeQuestions.length}{" "}
-              {lang === "en" ? "questions to review" : lang === "ml" ? "ചോദ്യങ്ങൾ പരിശോധിക്കാൻ" : "પ્રશ્નો સમીક્ષા કરવા"}
+              {lang === "en" ? "questions to review" : lang === "ml" ? "ചോദ്യങ്ങൾ പരിശോധിക്കാൻ" : lang === "gu" ? "પ્રશ્નો સમીક્ષા કરવા" : "câu hỏi cần ôn lại"}
             </p>
             <p className="text-sm text-orange-600">
               {t("mistakesEncourage", lang)}
@@ -448,7 +454,7 @@ export default function MistakesPage() {
                     <div className="border-t border-gray-100 px-4 pb-4 space-y-3">
                       <div className="bg-green-50 rounded-xl p-3 border border-green-200 mt-3">
                         <p className="text-xs font-semibold text-green-600 mb-1">
-                          {lang === "en" ? "✓ Correct Answer" : lang === "ml" ? "✓ ശരിയായ ഉത്തരം" : "✓ સાચો જવાબ"}
+                          {lang === "en" ? "✓ Correct Answer" : lang === "ml" ? "✓ ശരിയായ ഉത്തരം" : lang === "gu" ? "✓ સાચો જવાબ" : "✓ Câu trả lời đúng"}
                         </p>
                         <p className="text-base font-semibold text-green-800">
                           {correctAnswer[lang]}
@@ -469,7 +475,7 @@ export default function MistakesPage() {
                         className="w-full min-h-[44px] bg-primary text-white text-base font-bold
                                    rounded-xl px-4 py-2.5 active:scale-[0.97] transition-all"
                       >
-                        ▶ {lang === "en" ? "Practice this question" : lang === "ml" ? "ഈ ചോദ്യം പ്രാക്ടീസ് ചെയ്യുക" : "આ પ્રશ્ન પ્રેક્ટિસ કરો"}
+                        \u25b6 {lang === "en" ? "Practice this question" : lang === "ml" ? "ഈ ചോദ്യം പ്രാക്ടീസ് ചെയ്യുക" : lang === "gu" ? "આ પ્રશ્ન પ્રેક્ટિસ કરો" : "Luyện câu hỏi này"}
                       </button>
                     </div>
                   )}

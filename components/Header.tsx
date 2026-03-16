@@ -12,8 +12,7 @@ import { Lang } from "@/data/questions";
 const langLabels: Record<Lang, string> = {
   en: "English",
   ml: "മലയാളം",
-  gu: "ગുજરાતી",
-};
+  gu: "ગുજરાતી",  vi: "Tiếng Việt",};
 
 export default function Header() {
   const { lang, setLang, mounted } = useLanguage();
@@ -35,8 +34,8 @@ export default function Header() {
     router.push("/");
   };
 
-  const l = (en: string, ml: string, gu: string) =>
-    lang === "en" ? en : lang === "ml" ? ml : gu;
+  const l = (en: string, ml: string, gu: string, vi: string) =>
+    lang === "en" ? en : lang === "ml" ? ml : lang === "gu" ? gu : vi;
 
   return (
     <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-100">
@@ -61,16 +60,16 @@ export default function Header() {
         {/* Nav links — hidden on small mobile */}
         <nav className="hidden sm:flex items-center gap-1">
           <Link href="/" className="px-3 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 rounded-lg hover:bg-gray-50 no-underline transition-colors">
-            {l("Home", "ഹോം", "હોમ")}
+            {l("Home", "ഹോം", "હોમ", "Trang chủ")}
           </Link>
           <Link href="/quiz" className="px-3 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 rounded-lg hover:bg-gray-50 no-underline transition-colors">
-            {l("Practice Test", "പ്രാക്ടീസ് ടെസ്റ്റ്", "પ્રેક્ટિસ ટેસ્ટ")}
+            {l("Practice Test", "പ്രാക്ടീസ് ടെസ്റ്റ്", "પ્રેક્ટિસ ટેસ્ટ", "Bài thi thử")}
           </Link>
           <Link href="/eligibility" className="px-3 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 rounded-lg hover:bg-gray-50 no-underline transition-colors">
-            {l("Do You Qualify?", "യോഗ്യത?", "શું તમે લાયક છો?")}
+            {l("Do You Qualify?", "യോഗ്യത?", "શું તમે લાયક છો?", "Bạn có đủ điều kiện?")}
           </Link>
           <Link href="/help" className="px-3 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 rounded-lg hover:bg-gray-50 no-underline transition-colors">
-            {l("Help", "സഹായം", "મદદ")}
+            {l("Help", "സഹായം", "મદદ", "Trợ giúp")}
           </Link>
         </nav>
 
@@ -113,7 +112,7 @@ export default function Header() {
                            border border-orange-300 text-orange-700 bg-orange-50 hover:bg-orange-100
                            active:scale-95 transition-all min-h-[36px]"
               >
-                {lang === "en" ? "Log Out" : lang === "ml" ? "ലോഗൗട്ട്" : "લૉગ આઉટ"}
+                {lang === "en" ? "Log Out" : lang === "ml" ? "ലോഗൗട്ട്" : lang === "gu" ? "લૌગ આઉટ" : "Đăng xuất"}
               </button>
             </div>
           )}
