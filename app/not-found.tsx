@@ -3,49 +3,79 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { Home, BookOpen } from "lucide-react";
+import { useLanguage } from "@/lib/LanguageContext";
 
-const excuses = [
-  "went to get chai \u2615",
-  "got lost like Congress \ud83c\udfd9\ufe0f",
-  "is napping before the interview \ud83d\ude34",
-  "is on the phone with Thatha \ud83d\udcde",
-  "took a wrong turn at Article III \u2696\ufe0f",
-  "is watching the swearing-in ceremony \ud83c\uddfa\ud83c\uddf8",
-  "went to find Amma's glasses \ud83d\udc53",
-  "is filing a petition to be found \ud83d\udcdc",
-  "stepped out to vote \ud83d\uddfe\ufe0f",
-  "ran off to make chai \ud83e\udeb4",
+type MultiText = { en: string; ml: string; gu: string; vi: string };
+
+const excuses: MultiText[] = [
+  {
+    en: "went to get chai",
+    ml: "ചായയ്ക്ക് പോയി",
+    gu: "ચા લેવા ગયો છે",
+    vi: "đi lấy trà rồi",
+  },
+  {
+    en: "is taking a break before the interview",
+    ml: "ഇന്റർവ്യൂക്ക് മുമ്പ് ഒരു ഇടവേളയിലാണ്",
+    gu: "ઇન્ટરવ્યૂ પહેલાં થોડો વિરામ લઈ રહ્યું છે",
+    vi: "đang nghỉ một chút trước buổi phỏng vấn",
+  },
+  {
+    en: "got lost like Congress",
+    ml: "കോൺഗ്രസിനെ പോലെ വഴിതെറ്റി",
+    gu: "કોંગ્રેસ જેવી રીતે ખોવાઈ ગયું",
+    vi: "lạc đường như Quốc hội vậy",
+  },
+  {
+    en: "stepped out to vote",
+    ml: "വോട്ട് ചെയ്യാൻ പുറത്തുപോയി",
+    gu: "મત આપવા બહાર ગયું છે",
+    vi: "ra ngoài để đi bỏ phiếu",
+  },
 ];
 
-const facts = [
-  "\ud83c\udf0e The U.S. spans six time zones and has every climate � from arctic tundra to tropical rainforest.",
-  "\ud83c\udfd5\ufe0f Yellowstone (1872) was the world's first national park. There are now over 400 national park sites.",
-  "\ud83d\udc3b Alaska is bigger than Texas, California, and Montana combined.",
-  "\ud83e\udd20 The King Ranch in South Texas is larger than the entire state of Rhode Island.",
-  "\ud83c\udf55 Americans eat roughly 3 billion pizzas a year.",
-  "\ud83e\udd20 The fortune cookie was invented in San Francisco, not China.",
-  "\ud83e\udd67 Apple pie isn't actually American � it originated in England.",
-  "\ud83d\udcd6 The first American cookbook was published in 1796.",
-  "\u26a1 Texas has its own power grid, separate from the rest of the country.",
-  "\ud83c\uddfa\ud83c\uddf8 The original U.S. flag had 13 stars and 13 stripes � one for each colony.",
-  "\ud83c\udf3a Hawaii was the last state admitted to the Union, in 1959.",
-  "\ud83e\udd83 Benjamin Franklin wanted the wild turkey as the national bird instead of the bald eagle.",
-  "\ud83d\uddfd The Statue of Liberty arrived from France in 350 pieces in 1885.",
-  "\ud83d\udcdc The U.S. Constitution is the world's oldest still-active written national constitution.",
-  "\ud83d\udee3\ufe0f The interstate highway system stretches over 48,000 miles.",
-  "\ud83c\udfe6 The Mall of America could fit seven Yankee Stadiums inside.",
-  "\ud83d\udcda The Library of Congress holds over 170 million items � the world's largest library.",
-  "\ud83c\udfd6\ufe0f The U.S. has more coastline than any country except Canada.",
-  "\ud83c\udf54 One in every eight Americans has worked at McDonald's at some point.",
+const facts: MultiText[] = [
+  {
+    en: "The original U.S. flag had 13 stars and 13 stripes.",
+    ml: "ആദ്യ യു.എസ്. പതാകയ്ക്ക് 13 നക്ഷത്രങ്ങളും 13 വരകളും ഉണ്ടായിരുന്നു.",
+    gu: "મૂળ યુ.એસ. ધ્વજમાં 13 તારા અને 13 પટ્ટા હતા.",
+    vi: "Lá cờ Hoa Kỳ ban đầu có 13 ngôi sao và 13 sọc.",
+  },
+  {
+    en: "Yellowstone was the world's first national park.",
+    ml: "യെല്ലോസ്റ്റോൺ ലോകത്തിലെ ആദ്യ ദേശീയോദ്യാനമായിരുന്നു.",
+    gu: "યેલોસ્ટોન વિશ્વનું પ્રથમ નેશનલ પાર્ક હતું.",
+    vi: "Yellowstone là công viên quốc gia đầu tiên trên thế giới.",
+  },
+  {
+    en: "The U.S. Constitution is the oldest still-active written national constitution.",
+    ml: "ഇന്നും പ്രാബല്യത്തിലുള്ള ഏറ്റവും പഴയ എഴുത്തുപരമായ ദേശീയ ഭരണഘടന യു.എസ്. ഭരണഘടനയാണ്.",
+    gu: "યુ.એસ. બંધારણ આજે પણ અમલમાં રહેલું સૌથી જૂનું લેખિત રાષ્ટ્રીય બંધારણ છે.",
+    vi: "Hiến pháp Hoa Kỳ là bản hiến pháp quốc gia thành văn lâu đời nhất vẫn còn hiệu lực.",
+  },
+  {
+    en: "Hawaii was the last state admitted to the Union, in 1959.",
+    ml: "1959-ൽ യൂണിയനിൽ ചേർന്ന അവസാന സംസ്ഥാനമാണ് ഹവായി.",
+    gu: "1959માં સંઘમાં જોડાયેલું છેલ્લું રાજ્ય હવાઈ હતું.",
+    vi: "Hawaii là tiểu bang cuối cùng gia nhập Liên bang vào năm 1959.",
+  },
 ];
+
+function getText(lang: "en" | "ml" | "gu" | "vi", item: MultiText) {
+  return item[lang];
+}
 
 export default function NotFound() {
+  const { lang } = useLanguage();
   const [excuseIdx, setExcuseIdx] = useState(0);
   const [excuseVisible, setExcuseVisible] = useState(true);
   const [factIdx, setFactIdx] = useState(0);
   const [factVisible, setFactVisible] = useState(true);
   const excuseList = useMemo(() => excuses, []);
   const factList = useMemo(() => facts, []);
+
+  const l = (en: string, ml: string, gu?: string, vi?: string) =>
+    lang === "en" ? en : lang === "ml" ? ml : lang === "gu" ? (gu ?? en) : (vi ?? en);
 
   useEffect(() => {
     const t = setInterval(() => {
@@ -56,7 +86,7 @@ export default function NotFound() {
       }, 280);
     }, 2500);
     return () => clearInterval(t);
-  }, [excuseList]);
+  }, [excuseList.length]);
 
   useEffect(() => {
     const t = setInterval(() => {
@@ -67,19 +97,18 @@ export default function NotFound() {
       }, 280);
     }, 5000);
     return () => clearInterval(t);
-  }, [factList]);
+  }, [factList.length]);
 
   return (
     <div className="min-h-[80vh] flex items-center justify-center px-4 py-12">
       <div className="w-full max-w-lg text-center space-y-8">
-
         <p className="text-[7rem] leading-none font-extrabold text-orange-200 select-none animate-popIn">
           404
         </p>
 
         <div className="space-y-3 animate-fadeUp" style={{ animationDelay: "0.1s" }}>
           <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
-            Oops! This page�
+            {l("Oops! This page", "അയ്യോ! ഈ പേജ്", "અરે! આ પેજ", "Ôi! Trang này")}
           </h1>
           <div className="h-10 flex items-center justify-center overflow-hidden">
             <span
@@ -89,12 +118,16 @@ export default function NotFound() {
                 transform: excuseVisible ? "translateY(0)" : "translateY(-8px)",
               }}
             >
-              {excuseList[excuseIdx]}
+              {getText(lang, excuseList[excuseIdx])}
             </span>
           </div>
           <p className="text-gray-500 text-base sm:text-lg leading-relaxed max-w-sm mx-auto pt-1">
-            Don&apos;t worry � finding this page is easier than passing the
-            civics test. (And you&apos;ll ace that too! \ud83d\ude4f)
+            {l(
+              "Don't worry. Finding this page is easier than passing the civics test, and you'll ace that too.",
+              "വിഷമിക്കേണ്ട. ഈ പേജ് കണ്ടെത്തുന്നത് സിവിക്സ് പരീക്ഷയെക്കാൾ എളുപ്പമാണ്, അതും നിങ്ങൾ നന്നായി ചെയ്യും.",
+              "ચિંતા ન કરો. આ પેજ શોધવું સિવિક્સ ટેસ્ટ પાસ કરવા કરતાં સરળ છે, અને તે પણ તમે સારી રીતે કરશો.",
+              "Đừng lo. Tìm lại trang này còn dễ hơn cả đậu bài thi quốc tịch, và bạn cũng sẽ làm tốt bài thi đó.",
+            )}
           </p>
         </div>
 
@@ -109,8 +142,8 @@ export default function NotFound() {
               transform: factVisible ? "translateY(0)" : "translateY(-6px)",
             }}
           >
-            <span className="font-semibold">Did you know?</span>{" "}
-            {factList[factIdx]}
+            <span className="font-semibold">{l("Did you know?", "നിങ്ങൾക്കറിയാമോ?", "શું તમને ખબર છે?", "Bạn có biết không?")}</span>{" "}
+            {getText(lang, factList[factIdx])}
           </p>
         </div>
 
@@ -123,17 +156,16 @@ export default function NotFound() {
             className="flex items-center justify-center gap-2 min-h-[52px] bg-primary text-white text-base font-bold rounded-xl px-8 py-3 hover:bg-primary-dark active:scale-[0.97] transition-all no-underline shadow-md"
           >
             <Home className="w-4 h-4" />
-            Take me home
+            {l("Take me home", "ഹോം പേജിലേക്ക് കൊണ്ടുപോവൂ", "મને હોમ પર લઈ જાઓ", "Đưa tôi về trang chủ")}
           </Link>
           <Link
             href="/quiz"
             className="flex items-center justify-center gap-2 min-h-[52px] border-2 border-orange-300 text-orange-700 bg-orange-50 hover:bg-orange-100 text-base font-semibold rounded-xl px-8 py-3 active:scale-[0.97] transition-all no-underline"
           >
             <BookOpen className="w-4 h-4" />
-            Practice instead
+            {l("Practice instead", "പകരം പരിശീലിക്കാം", "બદલે પ્રેક્ટિસ કરો", "Luyện tập thay thế")}
           </Link>
         </div>
-
       </div>
     </div>
   );

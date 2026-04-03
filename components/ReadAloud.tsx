@@ -32,10 +32,10 @@ function buildText(
   options: BilingualText[] | undefined,
   lang: Lang,
 ): string {
-  let fullText = text[lang];
+  let fullText = text[lang] ?? text.en;
   if (options && options.length > 0) {
     const optionText = options
-      .map((opt, i) => `${i + 1}. ${opt[lang]}`)
+      .map((opt, i) => `${i + 1}. ${opt[lang] ?? opt.en}`)
       .join(". ... ");
     fullText += ". ... " + optionText;
   }
@@ -48,6 +48,8 @@ export default function ReadAloud({ text, options, lang }: ReadAloudProps) {
   const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
   const resumeTimer = useRef<ReturnType<typeof setInterval> | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const l = (en: string, ml: string, gu?: string, vi?: string) =>
+    lang === "en" ? en : lang === "ml" ? ml : lang === "gu" ? (gu ?? en) : (vi ?? en);
 
   // Load Web Speech voices — iOS fires voiceschanged asynchronously
   useEffect(() => {
@@ -187,17 +189,42 @@ export default function ReadAloud({ text, options, lang }: ReadAloudProps) {
     <button
       onClick={speaking ? stopAll : speak}
       disabled={loading}
-      className={`min-h-[44px] sm:min-h-[48px] px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl text-base sm:text-lg font-semibold
-                  transition-all active:scale-95 w-full
-                  ${
-                    loading
-                      ? "bg-gray-100 border-2 border-gray-300 text-gray-400 cursor-wait"
-                      : speaking
-                        ? "bg-orange-100 border-2 border-orange-400 text-orange-700"
-                        : "bg-blue-50 border-2 border-blue-200 text-primary hover:bg-blue-100"
+      aria-label={speaking
+        ? l("Stop reading", "വായന നിർത്തുക", "વાંચવું બંધ કરો", "Dừng đọc")
+        : l("Read question aloud", "ചോദ്യം ശബ്ദമായി വായിക്കുക", "પ્રશ્ન ઉંચે અવાજે વાંચો", "Đọc to câu hỏi")}
+      className={`min-h-[48px] px-5 py-3 rounded-btn border-2 text-[1rem] font-semibold
+                  transition-all active:scale-[0.97] w-full flex items-center justify-center gap-2.5
+                  ${loading
+                    ? "bg-gray-50 border-border text-text-secondary cursor-wait"
+                    : speaking
+                      ? "bg-primary-light border-primary text-primary shadow-sm"
+                      : "bg-white border-border text-text-body hover:border-primary hover:bg-primary-light hover:text-primary"
                   }`}
     >
-      {loading ? "⏳ Loading..." : speaking ? "⏹ Stop" : t("readAloud", lang)}
+      {loading ? (
+        <>
+          <span className="w-4 h-4 border-2 border-text-secondary border-t-transparent rounded-full animate-spin" />
+          {l("Loading audio...", "ഓഡിയോ ലോഡ് ചെയ്യുന്നു...", "ઓડિયો લોડ થઈ રહ્યું છે...", "Đang tải âm thanh...")}
+        </>
+      ) : speaking ? (
+        <>
+          <span className="flex items-center gap-0.5">
+            <span className="w-1 h-4 bg-primary rounded-full animate-pulse" />
+            <span className="w-1 h-5 bg-primary rounded-full animate-pulse [animation-delay:75ms]" />
+            <span className="w-1 h-3 bg-primary rounded-full animate-pulse [animation-delay:150ms]" />
+          </span>
+          {l("Stop", "നിർത്തുക", "બંધ કરો", "Dừng")}
+        </>
+      ) : (
+        <>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+            <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
+            <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
+          </svg>
+          {t("readAloud", lang)}
+        </>
+      )}
     </button>
   );
 }

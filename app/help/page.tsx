@@ -4,6 +4,17 @@ import Link from "next/link";
 import { useLanguage } from "@/lib/LanguageContext";
 import { t } from "@/lib/i18n";
 import { useState } from "react";
+import { ArrowLeft, ChevronDown, ChevronUp, Heart, BookOpen, HelpCircle, Building2, Wrench, Mail } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 16 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.35, ease: "easeOut" as const } },
+};
+
+const stagger = {
+  show: { transition: { staggerChildren: 0.08 } },
+};
 
 /* ── Trilingual content helpers ────────────────────── */
 type Tri = { en: string; ml: string; gu: string; vi: string };
@@ -154,27 +165,35 @@ function Accordion({
 }) {
   const [open, setOpen] = useState(defaultOpen);
   return (
-    <div className="border border-gray-200 rounded-xl overflow-hidden">
+    <div className="border border-border rounded-card overflow-hidden">
       <button
         onClick={() => setOpen(!open)}
-        className="w-full flex items-center justify-between px-5 py-4 bg-white hover:bg-gray-50 transition-colors text-left"
+        className="w-full flex items-center justify-between px-5 py-4 bg-white hover:bg-primary-light transition-colors text-left min-h-[52px]"
       >
-        <span className="text-base sm:text-lg font-semibold text-gray-800">
-          {title}
-        </span>
-        <span
-          className={`text-gray-400 transition-transform duration-200 ${
-            open ? "rotate-180" : ""
-          }`}
+        <span className="text-[1rem] font-semibold text-text-body">{title}</span>
+        <motion.span
+          animate={{ rotate: open ? 180 : 0 }}
+          transition={{ duration: 0.2 }}
+          className="text-text-secondary flex-shrink-0"
         >
-          ▼
-        </span>
+          <ChevronDown size={20} />
+        </motion.span>
       </button>
-      {open && (
-        <div className="px-5 pb-5 pt-2 bg-white border-t border-gray-100">
-          {children}
-        </div>
-      )}
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.25, ease: "easeOut" }}
+            className="overflow-hidden"
+          >
+            <div className="px-5 pb-5 pt-3 bg-white border-t border-border">
+              {children}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
@@ -195,28 +214,32 @@ export default function HelpPage() {
     lang === "en" ? en : lang === "ml" ? ml : lang === "gu" ? (gu ?? en) : (vi ?? en);
 
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 py-6 sm:py-8 space-y-8">
+    <motion.div
+      initial="hidden" animate="show" variants={stagger}
+      className="max-w-content mx-auto px-4 sm:px-6 py-6 sm:py-8 space-y-8"
+    >
       {/* Header */}
-      <div className="flex items-center justify-between mb-2">
+      <motion.div variants={fadeUp} className="flex items-center justify-between mb-2">
         <Link
           href="/"
-          className="min-h-[44px] px-5 py-2.5 rounded-xl bg-white hover:bg-gray-50
-                     text-gray-700 border border-gray-200 shadow-sm
-                     font-semibold text-base active:scale-95 transition-all no-underline"
+          className="inline-flex items-center gap-1.5 min-h-[44px] px-4 py-2 rounded-btn
+                     bg-white border border-border text-text-secondary text-[0.9375rem] font-medium
+                     hover:border-primary hover:text-primary transition-colors shadow-card no-underline"
         >
-          ← {t("home", lang)}
+          <ArrowLeft size={15} /> {t("home", lang)}
         </Link>
-        <h1 className="text-xl sm:text-2xl font-bold text-primary">
+        <h1 className="text-[1.25rem] font-bold text-text-heading font-serif">
           {l("Help & Support", "സഹായവും പിന്തുണയും", "સહાય અને સમર્થન", "Trợ giúp & Hỗ trợ")}
         </h1>
-      </div>
+      </motion.div>
 
-      {/* ─── 1. About Us / Mission ─────────────────── */}
-      <section className="bg-gradient-to-br from-orange-50 to-amber-50 rounded-2xl p-6 sm:p-8 border border-orange-100">
-        <h2 className="text-lg sm:text-xl font-bold text-gray-800 mb-3">
-          🧡 {l("Our Mission", "ഞങ്ങളുടെ ദൗത്യം", "અમારું લક્ષ્ય", "Sứ mệnh của chúng tôi")}
+      {/* ─── 1. About Us / Mission ─────────────────────────── */}
+      <motion.section variants={fadeUp} className="bg-primary-light rounded-card p-5 sm:p-6 border border-primary">
+        <h2 className="text-[1.0625rem] font-bold text-primary font-serif flex items-center gap-2 mb-3">
+          <Heart size={18} className="flex-shrink-0" />
+          {l("Our Mission", "ഞങ്ങളുടെ ദൗത്യം", "અમારું લક્ષ્ય", "Sứ mệnh của chúng tôi")}
         </h2>
-        <p className="text-gray-700 leading-relaxed">
+        <p className="text-[1rem] text-text-body leading-relaxed">
           {l(
             "For Our Parents was built by the children of immigrants to help parents and elders prepare for the U.S. citizenship naturalization test. We know how stressful this process can be — especially when study materials aren't available in your language. This app provides all 100 official USCIS civics questions in English, Malayalam, Gujarati, and Vietnamese, with practice modes, audio support, and personalized questions based on your congressional district. It's completely free, and always will be.",
             "'For Our Parents' കുടിയേറ്റക്കാരുടെ മക്കൾ നിർമ്മിച്ചതാണ് — മലയാളം സംസാരിക്കുന്ന മാതാപിതാക്കളെയും മുതിർന്നവരെയും യു.എസ്. പൗരത്വ നാച്ചുറലൈസേഷൻ ടെസ്റ്റിന് തയ്യാറെടുക്കാൻ സഹായിക്കാൻ. ഈ പ്രക്രിയ എത്ര സമ്മർദ്ദകരമാണെന്ന് ഞങ്ങൾക്കറിയാം — പ്രത്യേകിച്ചും പഠന സാമഗ്രികൾ നിങ്ങളുടെ ഭാഷയിൽ ലഭ്യമല്ലാത്തപ്പോൾ. 100 ഔദ്യോഗിക USCIS സിവിക്സ് ചോദ്യങ്ങളും ഇംഗ്ലീഷിലും മലയാളത്തിലും ഈ ആപ്പ് നൽകുന്നു — പ്രാക്ടീസ് മോഡുകൾ, ഓഡിയോ പിന്തുണ, നിങ്ങളുടെ കോൺഗ്രഷണൽ ജില്ല അടിസ്ഥാനമാക്കിയുള്ള വ്യക്തിഗത ചോദ്യങ്ങൾ എന്നിവയോടൊപ്പം. ഇത് പൂർണ്ണമായും സൌജന്യമാണ്, എപ്പോഴും അങ്ങനെ തന്നെ ആയിരിക്കും.",
@@ -224,12 +247,13 @@ export default function HelpPage() {
             "'For Our Parents' được xây dựng bởi con cái của người nhập cư — để giúp cha mẹ và người lớn tuổi chuẩn bị cho bài thi nhập tịch Hoa Kỳ. Chúng tôi hiểu quá trình này căng thẳng đến thế nào — đặc biệt khi tài liệu học không có sẵn bằng ngôn ngữ của bạn. Ứng dụng này cung cấp tất cả 100 câu hỏi công dân USCIS chính thức bằng tiếng Anh, Malayalam, Gujarati và tiếng Việt — với các chế độ luyện tập, hỗ trợ âm thanh và câu hỏi cá nhân dựa trên khu vực quốc hội của bạn. Hoàn toàn miễn phí và sẽ luôn như vậy."
           )}
         </p>
-      </section>
+      </motion.section>
 
-      {/* ─── 2. How to Use the App ─────────────────── */}
-      <section className="space-y-3">
-        <h2 className="text-lg sm:text-xl font-bold text-gray-800">
-          📖 {l("How to Use This App", "ഈ ആപ്പ് എങ്ങനെ ഉപയോഗിക്കാം", "આ એપ કેવી રીતે વાપરવી", "Cách sử dụng ứng dụng này")}
+      {/* ─── 2. How to Use the App ───────────────── */}
+      <motion.section variants={fadeUp} className="space-y-3">
+        <h2 className="text-[1.0625rem] font-bold text-text-body flex items-center gap-2">
+          <BookOpen size={18} className="text-primary flex-shrink-0" />
+          {l("How to Use This App", "ഈ ആപ്പ് എങ്ങനെ ഉപയോഗിക്കാം", "આ એપ કેવી રીતે વાપરવી", "Cách sử dụng ứng dụng này")}
         </h2>
 
         <div className="space-y-3">
@@ -237,7 +261,7 @@ export default function HelpPage() {
             title={l("1. Create an Account", "1. ഒരു അക്കൗണ്ട് ഉണ്ടാക്കുക", "1. ખાતું બનાવો", "1. Tạo tài khoản")}
             defaultOpen
           >
-            <p className="text-gray-600 leading-relaxed">
+            <p className="text-[0.9375rem] text-text-body leading-relaxed">
               {l(
                 "Tap \"Log In / Sign Up\" on the home page, then select \"Create Account.\" Enter your first name, last name, email, phone number, and choose a 4-digit PIN. You'll also select your state and congressional district so the app can ask you personalized questions about your representatives.",
                 "ഹോം പേജിൽ \"ലോഗ് ഇൻ / സൈൻ അപ്\" ടാപ്പ് ചെയ്യുക, തുടർന്ന് \"അക്കൗണ്ട് ഉണ്ടാക്കുക\" തിരഞ്ഞെടുക്കുക. നിങ്ങളുടെ ആദ്യ പേര്, അവസാന പേര്, ഇമെയിൽ, ഫോൺ നമ്പർ എന്നിവ നൽകി 4 അക്ക PIN തിരഞ്ഞെടുക്കുക. നിങ്ങളുടെ സ്റ്റേറ്റും കോൺഗ്രഷണൽ ജില്ലയും തിരഞ്ഞെടുക്കുക — അങ്ങനെ ആപ്പിന് നിങ്ങളുടെ പ്രതിനിധികളെ കുറിച്ചുള്ള വ്യക്തിഗത ചോദ്യങ്ങൾ ചോദിക്കാൻ കഴിയും.",
@@ -319,33 +343,35 @@ export default function HelpPage() {
             </p>
           </Accordion>
         </div>
-      </section>
+      </motion.section>
 
-      {/* ─── 3. FAQ ────────────────────────────────── */}
-      <section className="space-y-3">
-        <h2 className="text-lg sm:text-xl font-bold text-gray-800">
-          ❓ {l("Frequently Asked Questions", "പതിവ് ചോദ്യങ്ങൾ", "વારંવાર પૂછાતા પ્રશ્નો", "Câu hỏi thường gặp")}
+      {/* ─── 3. FAQ ───────────────── */}
+      <motion.section variants={fadeUp} className="space-y-3">
+        <h2 className="text-[1.0625rem] font-bold text-text-body flex items-center gap-2">
+          <HelpCircle size={18} className="text-primary flex-shrink-0" />
+          {l("Frequently Asked Questions", "പതിവ് ചോദ്യങ്ങൾ", "વારંવાર પૂછાતા પ્રશ્નો", "Câu hỏi thường gặp")}
         </h2>
-        <div className="space-y-3">
+        <div className="space-y-2">
           {faqs.map((faq, i) => (
             <Accordion key={i} title={faq.q[lang]}>
-              <p className="text-gray-600 leading-relaxed">{faq.a[lang]}</p>
+              <p className="text-[0.9375rem] text-text-body leading-relaxed">{faq.a[lang]}</p>
             </Accordion>
           ))}
         </div>
-      </section>
+      </motion.section>
 
-      {/* ─── 4. About the USCIS Naturalization Process  */}
-      <section className="space-y-4">
-        <h2 className="text-lg sm:text-xl font-bold text-gray-800">
-          🏛️ {l("About the Naturalization Process", "നാച്ചുറലൈസേഷൻ പ്രക്രിയയെ കുറిച്ച്", "નેચરલાઇઝેશન પ્રક્રિયા વિશે", "Về quy trình nhập tịch")}
+      {/* ─── 4. About the USCIS Naturalization Process */}
+      <motion.section variants={fadeUp} className="space-y-4">
+        <h2 className="text-[1.0625rem] font-bold text-text-body flex items-center gap-2">
+          <Building2 size={18} className="text-primary flex-shrink-0" />
+          {l("About the Naturalization Process", "നാച്ചുറലൈസേഷൻ പ്രക്രിയയെ കുറിച്ച്", "નેચરલાઇઝેશન પ્રક્રિ૯ા વિશે", "Về quy trình nhập tịch")}
         </h2>
-        <div className="bg-white rounded-xl border border-gray-200 p-5 sm:p-6 space-y-4">
+        <div className="bg-white rounded-card border border-border p-5 sm:p-6 space-y-4">
           <div>
-            <h3 className="font-semibold text-gray-800 mb-1">
+            <h3 className="font-semibold text-text-body mb-1">
               {l("Eligibility", "യോഗ്യത", "યોગ્યતા", "Điều kiện đủ tư cách")}
             </h3>
-            <p className="text-gray-600 text-sm leading-relaxed">
+            <p className="text-[0.9375rem] text-text-secondary leading-relaxed">
               {l(
                 "You must be at least 18 years old, a lawful permanent resident (green card holder) for at least 5 years (or 3 years if married to a U.S. citizen), have continuous residence and physical presence in the U.S., and demonstrate good moral character.",
                 "കുറഞ്ഞത് 18 വയസ്സ് ആയിരിക്കണം, കുറഞ്ഞത് 5 വർഷമായി നിയമാനുസൃത സ്ഥിര താമസക്കാരൻ (ഗ്രീൻ കാർഡ് ഉടമ) ആയിരിക്കണം (യു.എസ്. പൗരനെ വിവാഹം കഴിച്ചവർക്ക് 3 വർഷം), യു.എസ്.-ൽ തുടർച്ചയായ താമസവും ശാരീരിക സാന്നിധ്യവും ഉണ്ടായിരിക്കണം, നല്ല ധാർമ്മിക സ്വഭാവം പ്രകടിപ്പിക്കണം.",
@@ -355,10 +381,10 @@ export default function HelpPage() {
             </p>
           </div>
           <div>
-            <h3 className="font-semibold text-gray-800 mb-1">
+            <h3 className="font-semibold text-text-body mb-1">
               {l("The Interview", "ഇന്റർവ്യൂ", "ઇન્ટરવ્યૂ", "Buổi phỏng vấn")}
             </h3>
-            <p className="text-gray-600 text-sm leading-relaxed">
+            <p className="text-[0.9375rem] text-text-secondary leading-relaxed">
               {l(
                 "Your naturalization interview includes an English test (reading, writing, and speaking) and a civics test. A USCIS officer will ask you up to 10 civics questions and you must answer at least 6 correctly. The interview is conducted in English.",
                 "നിങ്ങളുടെ നാച്ചുറലൈസേഷൻ ഇന്റർവ്യൂവിൽ ഒരു ഇംഗ്ലീഷ് ടെസ്റ്റ് (വായന, എഴുത്ത്, സംസാരം) കൂടാതെ ഒരു സിവിക്സ് ടെസ്റ്റും ഉൾപ്പെടുന്നു. USCIS ഓഫീസർ 10 സിവിക്സ് ചോദ്യങ്ങൾ വരെ ചോദിക്കും, കുറഞ്ഞത് 6 എണ്ണം ശരിയായി ഉത്തരം നൽകണം. ഇന്റർവ്യൂ ഇംഗ്ലീഷിൽ ആണ് നടത്തുന്നത്.",
@@ -368,10 +394,10 @@ export default function HelpPage() {
             </p>
           </div>
           <div>
-            <h3 className="font-semibold text-gray-800 mb-1">
-              {l("Test Day Tips", "ടെസ്റ്റ് ദിവസ നുറുങ്ങുകൾ", "ટેસ્ટ દિવસની ટિપ્સ", "Mẹo ngày thi")}
+            <h3 className="font-semibold text-text-body mb-1">
+              {l("Test Day Tips", "ടെസ്റ്റ് ദിവസ നുറുങ്ങുകൾ", "ટેસ્ટ દિવસની ટિપ્સ", "Mẻ o ngày thi")}
             </h3>
-            <ul className="text-gray-600 text-sm leading-relaxed space-y-1 list-disc list-inside">
+            <ul className="text-[0.9375rem] text-text-secondary leading-relaxed space-y-1 list-disc list-inside">
               <li>
                 {l(
                   "Bring your green card, state-issued ID, and appointment notice",
@@ -411,39 +437,36 @@ export default function HelpPage() {
               href="https://www.uscis.gov/citizenship/find-study-materials-and-resources/study-for-the-test"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-block text-sm font-semibold text-orange-600 hover:text-orange-700 underline"
+              className="inline-block text-[0.9375rem] font-semibold text-primary hover:text-primary-dark underline"
             >
-              {l(
-                "→ Official USCIS Study Materials",
-                "→ ഔദ്യോഗിക USCIS പഠന സാമഗ്രികൾ",
-                "→ સત્તાવાર USCIS અભ્યાસ સામગ્રી",
-                "→ Tài liệu học tập USCIS chính thức"
-              )}
+              {l("Official USCIS Study Materials", "ഔദ്യോഗിക USCIS പഠന സാമഗ്രികൾ", "સત્તાવાર USCIS અભ્યાસ સામગ્રી", "Tài liệu học tập USCIS chính thức")}
             </a>
           </div>
         </div>
-      </section>
+      </motion.section>
 
-      {/* ─── 5. Troubleshooting ────────────────────── */}
-      <section className="space-y-3">
-        <h2 className="text-lg sm:text-xl font-bold text-gray-800">
-          🔧 {l("Troubleshooting", "ട്രബിൾഷൂട്ടിംഗ്", "સમસ્યા નિવારણ", "Khắc phục sự cố")}
+      {/* ─── 5. Troubleshooting ──────────────────── */}
+      <motion.section variants={fadeUp} className="space-y-3">
+        <h2 className="text-[1.0625rem] font-bold text-text-body flex items-center gap-2">
+          <Wrench size={18} className="text-primary flex-shrink-0" />
+          {l("Troubleshooting", "ട്രബിള്‍ഷൂട്ടിംഗ്", "સમસ્યા નિવારણ", "Khắc phục sự cố")}
         </h2>
-        <div className="space-y-3">
+        <div className="space-y-2">
           {troubleshooting.map((item, i) => (
             <Accordion key={i} title={item.issue[lang]}>
-              <p className="text-gray-600 leading-relaxed">{item.fix[lang]}</p>
+              <p className="text-[0.9375rem] text-text-body leading-relaxed">{item.fix[lang]}</p>
             </Accordion>
           ))}
         </div>
-      </section>
+      </motion.section>
 
-      {/* ─── 6. Contact / Feedback ─────────────────── */}
-      <section className="bg-white rounded-2xl border border-gray-200 p-6 sm:p-8 text-center space-y-4">
-        <h2 className="text-lg sm:text-xl font-bold text-gray-800">
-          💬 {l("Contact & Feedback", "ബന്ധപ്പെടുക & ഫീഡ്ബാക്ക്", "સંપર્ક અને પ્રતિસાદ", "Liên hệ & Phản hồi")}
+      {/* ─── 6. Contact / Feedback ───────────────── */}
+      <motion.section variants={fadeUp} className="bg-white rounded-card border border-border p-5 sm:p-6 text-center space-y-4 shadow-card">
+        <h2 className="text-[1.0625rem] font-bold text-text-body flex items-center justify-center gap-2">
+          <Mail size={18} className="text-primary flex-shrink-0" />
+          {l("Contact & Feedback", "ബന്ധപ്പെടുക & ഫീഡ്ബാക്ക്", "સંપર્ક અને પ્રતિસાદ", "Liên hệ & Phản hồi")}
         </h2>
-        <p className="text-gray-600 leading-relaxed max-w-xl mx-auto">
+        <p className="text-[1rem] text-text-secondary leading-relaxed max-w-xl mx-auto">
           {l(
             "Have a question, need help with your password or PIN, found a bug, or want to suggest a feature? Email us and we'll get back to you.",
             "ഒരു ചോദ്യമുണ്ടോ, പാസ്‌വേഡ് അല്ലെങ്കിൽ PIN-ൽ സഹായം വേണോ, ഒരു ബഗ് കണ്ടെത്തിയോ, അല്ലെങ്കിൽ ഒരു ഫീച്ചർ നിർദ്ദേശിക്കാൻ ആഗ്രഹിക്കുന്നുണ്ടോ? ഞങ്ങൾക്ക് ഇമെയിൽ ചെയ്യുക, ഞങ്ങൾ മറുപടി നൽകും.",
@@ -453,16 +476,16 @@ export default function HelpPage() {
         </p>
         <a
           href="mailto:contact.forourparents@gmail.com"
-          className="inline-block px-8 py-3 rounded-xl bg-primary text-white font-semibold
-                     hover:bg-orange-600 active:scale-95 transition-all no-underline
-                     min-h-[48px] text-base"
+          className="inline-block px-8 py-3 rounded-btn bg-primary text-white font-semibold
+                     hover:bg-primary-dark active:scale-95 transition-all no-underline
+                     min-h-[48px] text-[1rem] shadow-btn"
         >
           contact.forourparents@gmail.com
         </a>
-      </section>
+      </motion.section>
 
       {/* Bottom spacer */}
       <div className="h-8" />
-    </div>
+    </motion.div>
   );
 }

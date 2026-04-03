@@ -94,7 +94,23 @@ export type TranslationKey =
   | "congressionalDistrict"
   | "selectDistrict"
   | "findYourDistrict"
-  | "atLargeDistrict";
+  | "atLargeDistrict"
+  | "landingHero"
+  | "landingGetStarted"
+  | "landingAlreadyHave"
+  | "landingFreeTitle"
+  | "landingFreeDesc"
+  | "landingLangTitle"
+  | "landingLangDesc"
+  | "landingBuiltTitle"
+  | "landingBuiltDesc"
+  | "landingTryTitle"
+  | "landingTryDesc"
+  | "landingTrySample"
+  | "landingCtaTitle"
+  | "landingCtaFree"
+  | "landingFooter"
+  | "landingFooterSub";
 
 export const translations: Record<TranslationKey, Record<Lang, string>> = {
   appName: {
@@ -179,7 +195,7 @@ export const translations: Record<TranslationKey, Record<Lang, string>> = {
   greeting: {
     en: "Welcome to For Our Parents!",
     ml: "നമ്മുടെ മാതാപിതാക്കൾക്കായി-ലേക്ക് സ്വാഗതം!",
-    gu: "આપણા માતાપિતા માટેમાં આપનું સ્વાગત છે!",
+    gu: "આपणा मातापिता माटेमां आपनुं स्वागत छे!",
     vi: "Chào mừng đến với For Our Parents!",
   },
   homeSubtitle: {
@@ -336,6 +352,104 @@ export const translations: Record<TranslationKey, Record<Lang, string>> = {
   selectDistrict: { en: "Select your district", ml: "നിങ്ങളുടെ ജില്ല തിരഞ്ഞെടുക്കുക", gu: "તમારો ડિસ્ટ્રિક્ટ પસંદ કરો", vi: "Chọn khu vực của bạn" },
   findYourDistrict: { en: "Don't know your district? Find it here →", ml: "നിങ്ങളുടെ ജില്ല അറിയില്ലേ? ഇവിടെ കണ്ടെത്തുക →", gu: "તમારો ડિસ્ટ્રિક્ટ ખબર નથી? અહીં શોધો →", vi: "Không biết khu vực của bạn? Tìm ở đây →" },
   atLargeDistrict: { en: "At-Large (entire state)", ml: "മുഴുവൻ സംസ്ഥാനം", gu: "સમગ્ર રાજ્ય", vi: "Toàn tiểu bang" },
+
+  /* ── Landing Page ── */
+  landingHero: {
+    en: "The free, easy, and effective way to pass the citizenship test!",
+    ml: "പൗരത്വ പരീക്ഷ വിജയിക്കാനുള്ള സൗജന്യവും എളുപ്പവും ഫലപ്രദവുമായ മാർഗ്ഗം!",
+    gu: "નાગરિકતા ટેસ્ટ પાસ કરવાનો મફત, સરળ અને અસરકારક રસ્તો!",
+    vi: "Cách miễn phí, dễ dàng và hiệu quả để đậu bài thi quốc tịch!",
+  },
+  landingGetStarted: {
+    en: "GET STARTED",
+    ml: "ആരംഭിക്കുക",
+    gu: "શરૂ કરો",
+    vi: "BẮT ĐẦU",
+  },
+  landingAlreadyHave: {
+    en: "I ALREADY HAVE AN ACCOUNT",
+    ml: "എനിക്ക് ഇതിനകം ഒരു അക്കൗണ്ട് ഉണ്ട്",
+    gu: "મારી પાસે પહેલેથી એકાઉન્ટ છે",
+    vi: "TÔI ĐÃ CÓ TÀI KHOẢN",
+  },
+  landingFreeTitle: {
+    en: "practice makes citizens.",
+    ml: "പരിശീലനം പൗരന്മാരെ ഉണ്ടാക്കും.",
+    gu: "પ્રેક્ટિસ નાગરિક બનાવે.",
+    vi: "luyện tập tạo nên công dân.",
+  },
+  landingFreeDesc: {
+    en: "Preparing for the citizenship test doesn\u2019t have to be stressful. With quick practice sessions in your language, you\u2019ll build confidence and master every topic \u2014 completely free.",
+    ml: "പൗരത്വ പരീക്ഷയ്ക്ക് തയ്യാറെടുക്കുന്നത് സമ്മർദ്ദമാകേണ്ട. നിങ്ങളുടെ ഭാഷയിൽ പെട്ടെന്നുള്ള പരിശീലനത്തിലൂടെ ആത്മവിശ്വാസം നേടൂ — തികച്ചും സൗജന്യം.",
+    gu: "નાગરિકતા ટેસ્ટની તૈયારી તણાવપૂર્ણ હોવી જરૂરી નથી. તમારી ભાષામાં ઝડપી પ્રેક્ટિસ સાથે, દરેક વિષય — સંપૂર્ણપણે મફત.",
+    vi: "Chuẩn bị cho bài thi quốc tịch không cần phải căng thẳng. Với các buổi luyện tập nhanh bằng ngôn ngữ của bạn — hoàn toàn miễn phí.",
+  },
+  landingLangTitle: {
+    en: "study in your language",
+    ml: "നിങ്ങളുടെ ഭാഷയിൽ പഠിക്കുക",
+    gu: "તમારી ભાષામાં અભ્યાસ કરો",
+    vi: "học bằng ngôn ngữ của bạn",
+  },
+  landingLangDesc: {
+    en: "Available in English, Malayalam, Gujarati, and Vietnamese. Every question comes with audio so you can listen and learn \u2014 even if reading is difficult.",
+    ml: "ഇംഗ്ലീഷ്, മലയാളം, ഗുജറാത്തി, വിയറ്റ്നാമീസ് ഭാഷകളിൽ ലഭ്യം. എല്ലാ ചോദ്യങ്ങൾക്കും ഓഡിയോ ഉണ്ട് — വായിക്കാൻ ബുദ്ധിമുട്ടാണെങ്കിലും.",
+    gu: "અંગ્રેજી, મલયાલમ, ગુજરાતી અને વિએતનામીસમાં ઉપલબ્ધ. દરેક પ્રશ્ન ઑડિયો સાથે આવે છે — વાંચવું મુશ્કેલ હોય તો પણ.",
+    vi: "Có sẵn bằng tiếng Anh, Malayalam, Gujarati và tiếng Việt. Mỗi câu hỏi đều có audio — kể cả khi bạn khó đọc.",
+  },
+  landingBuiltTitle: {
+    en: "built for your parents",
+    ml: "നിങ്ങളുടെ മാതാപിതാക്കൾക്കായി നിർമ്മിച്ചത്",
+    gu: "તમારા માતાપિતા માટે બનાવેલ",
+    vi: "xây dựng cho bố mẹ bạn",
+  },
+  landingBuiltDesc: {
+    en: "Large text, simple navigation, and audio on every question. Designed for people aged 50+ who qualify for the 50/20, 55/15, or 65/20 citizenship exemptions. No English test required \u2014 just the civics test in your own language.",
+    ml: "വലിയ ടെക്സ്റ്റ്, ലളിതമായ നാവിഗേഷൻ, ഓരോ ചോദ്യത്തിലും ഓഡിയോ. 50/20, 55/15, 65/20 ഇളവുകൾക്ക് യോഗ്യരായ 50+ പ്രായക്കാർക്കായി — ഇംഗ്ലീഷ് ടെസ്റ്റ് ആവശ്യമില്ല.",
+    gu: "મોટું લખાણ, સરળ નેવિગેશન, દરેક પ્રશ્ન પર ઑડિયો. 50/20, 55/15, 65/20 છૂટ માટે લાયક 50+ ઉંમરના લોકો માટે — અંગ્રેજી ટેસ્ટ જરૂરી નથી.",
+    vi: "Chữ lớn, điều hướng đơn giản, và audio cho mỗi câu hỏi. Thiết kế cho người 50+ tuổi đủ điều kiện miễn trừ 50/20, 55/15, hoặc 65/20 — không cần thi tiếng Anh.",
+  },
+  landingTryTitle: {
+    en: "try it out",
+    ml: "ഒന്ന് ശ്രമിച്ചുനോക്കൂ",
+    gu: "અજમાવી જુઓ",
+    vi: "thử ngay",
+  },
+  landingTryDesc: {
+    en: "See what the citizenship test looks like.",
+    ml: "പൗരത്വ പരീക്ഷ എങ്ങനെയുള്ളതെന്ന് കാണൂ.",
+    gu: "નાગરિકતા ટેસ્ટ કેવી દેખાય છે તે જુઓ.",
+    vi: "Xem bài thi quốc tịch trông như thế nào.",
+  },
+  landingTrySample: {
+    en: "This is a sample. Sign up for all 128 official USCIS questions in your language.",
+    ml: "ഇത് ഒരു സാമ്പിൾ ആണ്. നിങ്ങളുടെ ഭാഷയിൽ 128 USCIS ചോദ്യങ്ങൾക്കായി സൈൻ അപ്പ് ചെയ്യുക.",
+    gu: "આ એક નમૂનો છે. તમારી ભાષામાં 128 USCIS પ્રશ્નો માટે સાઇન અપ કરો.",
+    vi: "Đây là mẫu thử. Đăng ký để làm tất cả 128 câu hỏi USCIS chính thức bằng ngôn ngữ của bạn.",
+  },
+  landingCtaTitle: {
+    en: "help your parents become citizens",
+    ml: "നിങ്ങളുടെ മാതാപിതാക്കളെ പൗരന്മാരാക്കൂ",
+    gu: "તમારા માતાપિતાને નાગરિક બનવામાં મદદ કરો",
+    vi: "giúp bố mẹ bạn trở thành công dân",
+  },
+  landingCtaFree: {
+    en: "It's completely free. No ads, no subscriptions.",
+    ml: "തികച്ചും സൗജന്യം. പരസ്യങ്ങളില്ല, സബ്സ്ക്രിപ്ഷനുകളില്ല.",
+    gu: "સંપૂર્ણપણે મફત. કોઈ જાહેરાત નહીં, કોઈ સબ્સ્ક્રિપ્શન નહીં.",
+    vi: "Hoàn toàn miễn phí. Không quảng cáo, không đăng ký.",
+  },
+  landingFooter: {
+    en: "For Our Parents",
+    ml: "നമ്മുടെ മാതാപിതാക്കൾക്കായി",
+    gu: "આપણા માતાપિતા માટે",
+    vi: "Vì Cha Mẹ Chúng Ta",
+  },
+  landingFooterSub: {
+    en: "Helping immigrant elders become U.S. citizens",
+    ml: "കുടിയേറ്റ മുതിർന്നവർക്ക് അമേരിക്കൻ പൗരത്വം നേടാൻ സഹായിക്കുന്നു",
+    gu: "ઈમિગ્રન્ટ વડીલોને U.S. નાગરિક બનવામાં મદદ",
+    vi: "Giúp người cao tuổi nhập cư trở thành công dân Hoa Kỳ",
+  },
 };
 
 export function t(key: TranslationKey, lang: Lang): string {

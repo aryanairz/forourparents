@@ -6,6 +6,143 @@ import Image from "next/image";
 import { useLanguage } from "@/lib/LanguageContext";
 import { t } from "@/lib/i18n";
 import { getCurrentUser } from "@/lib/storage";
+import { motion, useScroll, useMotionValueEvent } from "framer-motion";
+import DemoQuiz from "@/components/DemoQuiz";
+import FAQAccordion from "@/components/FAQAccordion";
+
+/* ─── Color constants ─── */
+const NAVY = "#1B2A4A";
+const RED = "#C41E3A";
+
+/* ─── Animation helpers ─── */
+const fadeInUp = {
+  hidden: { opacity: 0, y: 32 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease: "easeOut" as const } },
+};
+
+const fadeFromLeft = {
+  hidden: { opacity: 0, x: -40 },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.6, ease: "easeOut" as const } },
+};
+
+const fadeFromRight = {
+  hidden: { opacity: 0, x: 40 },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.6, ease: "easeOut" as const, delay: 0.15 } },
+};
+
+/* ─── Marquee data ─── */
+const marqueeItems = [
+  { text: "English", native: "English" },
+  { text: "Malayalam", native: "മലയാളം" },
+  { text: "Gujarati", native: "ગુજરાતી" },
+  { text: "Vietnamese", native: "Tiếng Việt" },
+  { text: "English", native: "English" },
+  { text: "Malayalam", native: "മലയാളം" },
+  { text: "Gujarati", native: "ગુજરાતી" },
+  { text: "Vietnamese", native: "Tiếng Việt" },
+];
+
+/* ─── Floating Nav (appears after hero) ─── */
+function FloatingNav() {
+  const [visible, setVisible] = useState(false);
+  const { scrollY } = useScroll();
+
+  useMotionValueEvent(scrollY, "change", (y) => {
+    setVisible(y > 480);
+  });
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: -20, x: "-50%" }}
+      animate={{ opacity: visible ? 1 : 0, y: visible ? 0 : -20, x: "-50%" }}
+      transition={{ duration: 0.3, ease: "easeOut" }}
+      style={{
+        position: "fixed",
+        top: 20,
+        left: "50%",
+        zIndex: 100,
+        pointerEvents: visible ? "auto" : "none",
+      }}
+    >
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: 24,
+          background: NAVY,
+          borderRadius: 999,
+          padding: "10px 20px",
+          boxShadow: "0 8px 32px rgba(0,0,0,0.25)",
+        }}
+      >
+        <Link href="/" style={{ display: "flex", alignItems: "center", gap: 8, textDecoration: "none" }}>
+          <Image src="/logo.png" alt="For Our Parents" width={26} height={26} style={{ borderRadius: 6 }} />
+          <span
+            style={{
+              color: "#FFFFFF",
+              fontWeight: 700,
+              fontSize: 14,
+              fontFamily: "var(--font-dm-sans, system-ui, sans-serif)",
+              whiteSpace: "nowrap",
+            }}
+          >
+            For Our Parents
+          </span>
+        </Link>
+
+        <Link
+          href="/login"
+          style={{
+            background: RED,
+            color: "#FFFFFF",
+            borderRadius: 999,
+            padding: "7px 18px",
+            fontSize: 13,
+            fontWeight: 700,
+            letterSpacing: "0.05em",
+            textTransform: "uppercase",
+            textDecoration: "none",
+            fontFamily: "var(--font-dm-sans, system-ui, sans-serif)",
+            whiteSpace: "nowrap",
+          }}
+        >
+          Get Started
+        </Link>
+      </div>
+    </motion.div>
+  );
+}
+
+/* ─── Language Marquee ─── */
+function LanguageMarquee() {
+  return (
+    <section style={{ background: RED, overflow: "hidden", padding: "14px 0" }}>
+      <div className="marquee-track">
+        {[...marqueeItems, ...marqueeItems].map((item, i) => (
+          <span
+            key={i}
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 10,
+              padding: "0 36px",
+              fontFamily: "var(--font-dm-sans, system-ui, sans-serif)",
+              color: "#FFFFFF",
+              fontSize: 15,
+              fontWeight: 600,
+              letterSpacing: "0.04em",
+              whiteSpace: "nowrap",
+            }}
+          >
+            <span style={{ opacity: 0.55, fontSize: 20, fontWeight: 300 }}>★</span>
+            {item.text}
+            <span style={{ opacity: 0.7, fontSize: 14, fontWeight: 400 }}>({item.native})</span>
+          </span>
+        ))}
+      </div>
+    </section>
+  );
+}
 
 export default function HomePage() {
   const { lang, mounted } = useLanguage();
@@ -17,218 +154,787 @@ export default function HomePage() {
 
   if (!mounted) {
     return (
-      <div className="flex items-center justify-center min-h-[60vh]">
-        <div className="w-10 h-10 border-4 border-orange-400 border-t-transparent rounded-full animate-spin" />
+      <div className="flex flex-col items-center justify-center min-h-[60vh] gap-3">
+        <div className="w-10 h-10 border-4 border-t-transparent rounded-full animate-spin" style={{ borderColor: RED, borderTopColor: "transparent" }} />
       </div>
     );
   }
 
-  // Trilingual helper: gu defaults to en for marketing copy
+  if (isLoggedIn) {
+    return <AuthenticatedHome />;
+  }
+
+  return (
+    <div className="landing-page" style={{ background: "#FFFFFF" }}>
+
+      {/* Floating nav pill */}
+      <FloatingNav />
+
+      {/* ══════════════════════════════════════════════════
+          SECTION 1: HERO
+          ══════════════════════════════════════════════════ */}
+      <section style={{ background: "#FFFFFF", padding: "80px 0 64px" }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 32px" }}>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 64,
+              flexWrap: "wrap",
+            }}
+          >
+            {/* Left: Text + CTA */}
+            <motion.div
+              initial="hidden"
+              animate="visible"
+              variants={fadeFromLeft}
+              style={{ flex: "1 1 380px" }}
+            >
+              {/* Overline */}
+              <p
+                style={{
+                  fontSize: 12,
+                  fontWeight: 700,
+                  letterSpacing: "0.15em",
+                  textTransform: "uppercase",
+                  color: RED,
+                  marginBottom: 16,
+                  fontFamily: "var(--font-dm-sans, system-ui, sans-serif)",
+                }}
+              >
+                U.S. Citizenship Test Prep
+              </p>
+
+              {/* Headline */}
+              <h1
+                style={{
+                  fontFamily: "var(--font-dm-sans, system-ui, sans-serif)",
+                  fontWeight: 800,
+                  fontSize: "clamp(32px, 5vw, 52px)",
+                  color: NAVY,
+                  lineHeight: 1.1,
+                  marginBottom: 20,
+                  letterSpacing: "-0.02em",
+                }}
+              >
+                {t("landingHero", lang)}
+              </h1>
+
+              {/* Subtext */}
+              <p
+                style={{
+                  fontSize: 17,
+                  color: "#4B5563",
+                  lineHeight: 1.65,
+                  marginBottom: 36,
+                  fontFamily: "var(--font-dm-sans, system-ui, sans-serif)",
+                }}
+              >
+                Free practice in English, Malayalam, Gujarati, and Vietnamese.
+                Designed for immigrant parents — large text, audio, and zero fluff.
+              </p>
+
+              {/* CTA buttons */}
+              <div style={{ display: "flex", flexDirection: "column", gap: 12, maxWidth: 340 }}>
+                <Link
+                  href="/login"
+                  className="btn-red-3d"
+                  style={{ height: 56, fontSize: 16, paddingLeft: 32, paddingRight: 32 }}
+                >
+                  {t("landingGetStarted", lang)}
+                </Link>
+                <Link
+                  href="/login"
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    height: 44,
+                    fontSize: 14,
+                    fontWeight: 600,
+                    color: "#6B7280",
+                    textDecoration: "none",
+                    fontFamily: "var(--font-dm-sans, system-ui, sans-serif)",
+                  }}
+                >
+                  {t("landingAlreadyHave", lang)}
+                </Link>
+              </div>
+            </motion.div>
+
+            {/* Right: Hero image */}
+            <motion.div
+              initial="hidden"
+              animate="visible"
+              variants={fadeFromRight}
+              style={{ flex: "1 1 360px", display: "flex", justifyContent: "center" }}
+            >
+              <Image
+                src="/hero.png"
+                alt="Elderly couple studying for the citizenship test"
+                width={420}
+                height={420}
+                className="object-contain"
+                priority
+                style={{ maxWidth: "100%", height: "auto", borderRadius: 24 }}
+              />
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════════════════
+          SECTION 2: LANGUAGE MARQUEE TICKER
+          ══════════════════════════════════════════════════ */}
+      <LanguageMarquee />
+
+      {/* ══════════════════════════════════════════════════
+          SECTION 3: BIG CENTERED STATEMENT
+          ══════════════════════════════════════════════════ */}
+      <motion.section
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.3 }}
+        variants={fadeInUp}
+        style={{ background: "#FFFFFF", padding: "100px 0" }}
+      >
+        <div style={{ maxWidth: 860, margin: "0 auto", padding: "0 32px", textAlign: "center" }}>
+          <h2
+            style={{
+              fontFamily: "var(--font-dm-sans, system-ui, sans-serif)",
+              fontWeight: 800,
+              fontSize: "clamp(36px, 6vw, 64px)",
+              color: NAVY,
+              lineHeight: 1.1,
+              letterSpacing: "-0.03em",
+              marginBottom: 24,
+            }}
+          >
+            {t("landingFreeTitle", lang)}
+          </h2>
+          <p
+            style={{
+              fontSize: 18,
+              color: "#6B7280",
+              lineHeight: 1.65,
+              maxWidth: 560,
+              margin: "0 auto",
+              fontFamily: "var(--font-dm-sans, system-ui, sans-serif)",
+            }}
+          >
+            {t("landingFreeDesc", lang)}
+          </p>
+        </div>
+      </motion.section>
+
+      {/* ══════════════════════════════════════════════════
+          SECTION 4: TWO FEATURE BLOCKS
+          ══════════════════════════════════════════════════ */}
+      <section style={{ background: "#F8F9FA", padding: "80px 0" }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 32px" }}>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+              gap: 32,
+            }}
+          >
+            {/* Block 1: 128 Questions */}
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.3 }}
+              variants={fadeFromLeft}
+              style={{
+                background: "#FFFFFF",
+                borderRadius: 20,
+                padding: "40px 36px",
+                border: `2px solid #E5E7EB`,
+                overflow: "hidden",
+              }}
+            >
+              <div
+                style={{
+                  fontSize: "clamp(56px, 8vw, 80px)",
+                  fontWeight: 900,
+                  color: RED,
+                  lineHeight: 1,
+                  marginBottom: 8,
+                  fontFamily: "var(--font-dm-sans, system-ui, sans-serif)",
+                }}
+              >
+                128
+              </div>
+              <h3
+                style={{
+                  fontSize: 22,
+                  fontWeight: 700,
+                  color: NAVY,
+                  marginBottom: 12,
+                  fontFamily: "var(--font-dm-sans, system-ui, sans-serif)",
+                }}
+              >
+                Official USCIS Questions
+              </h3>
+              <p style={{ fontSize: 15, color: "#6B7280", lineHeight: 1.6, fontFamily: "var(--font-dm-sans, system-ui, sans-serif)" }}>
+                Every single question from the official USCIS civics test, translated and verified in all 4 languages.
+              </p>
+
+              {/* Visual bar chart */}
+              <div style={{ marginTop: 32, display: "flex", alignItems: "flex-end", gap: 6, height: 64 }}>
+                {[30, 42, 54, 63, 72, 82, 91, 100].map((h, i) => (
+                  <motion.div
+                    key={i}
+                    initial={{ height: 0 }}
+                    whileInView={{ height: `${h}%` }}
+                    viewport={{ once: true }}
+                    transition={{ delay: i * 0.08, duration: 0.5, ease: "easeOut" }}
+                    style={{
+                      flex: 1,
+                      background: i === 7 ? RED : `rgba(196, 30, 58, ${0.15 + i * 0.1})`,
+                      borderRadius: "4px 4px 0 0",
+                    }}
+                  />
+                ))}
+              </div>
+              <p style={{ fontSize: 12, color: "#9CA3AF", marginTop: 8, fontFamily: "var(--font-dm-sans, system-ui, sans-serif)" }}>
+                Score improvement over practice sessions
+              </p>
+            </motion.div>
+
+            {/* Block 2: 4 Languages */}
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.3 }}
+              variants={fadeFromRight}
+              style={{
+                background: NAVY,
+                borderRadius: 20,
+                padding: "40px 36px",
+                overflow: "hidden",
+                position: "relative",
+              }}
+            >
+              {/* Background star decoration */}
+              <div
+                style={{
+                  position: "absolute",
+                  top: -20,
+                  right: -20,
+                  fontSize: 160,
+                  opacity: 0.04,
+                  lineHeight: 1,
+                  userSelect: "none",
+                }}
+              >
+                ★
+              </div>
+
+              <div
+                style={{
+                  fontSize: "clamp(56px, 8vw, 80px)",
+                  fontWeight: 900,
+                  color: "#FFFFFF",
+                  lineHeight: 1,
+                  marginBottom: 8,
+                  fontFamily: "var(--font-dm-sans, system-ui, sans-serif)",
+                }}
+              >
+                4
+              </div>
+              <h3
+                style={{
+                  fontSize: 22,
+                  fontWeight: 700,
+                  color: "#FFFFFF",
+                  marginBottom: 12,
+                  fontFamily: "var(--font-dm-sans, system-ui, sans-serif)",
+                }}
+              >
+                Languages Supported
+              </h3>
+              <p style={{ fontSize: 15, color: "rgba(255,255,255,0.65)", lineHeight: 1.6, fontFamily: "var(--font-dm-sans, system-ui, sans-serif)" }}>
+                Study in the language your parents are most comfortable with. No English required.
+              </p>
+
+              {/* Language pills */}
+              <div style={{ marginTop: 32, display: "flex", flexWrap: "wrap", gap: 10 }}>
+                {[
+                  { name: "English", code: "us" },
+                  { name: "മലയാളം", code: "in" },
+                  { name: "ગુજરાતી", code: "in" },
+                  { name: "Tiếng Việt", code: "vn" },
+                ].map((l) => (
+                  <span
+                    key={l.name}
+                    style={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: 6,
+                      padding: "6px 14px",
+                      background: "rgba(255,255,255,0.12)",
+                      borderRadius: 999,
+                      color: "#FFFFFF",
+                      fontSize: 14,
+                      fontWeight: 600,
+                      fontFamily: "var(--font-dm-sans, system-ui, sans-serif)",
+                    }}
+                  >
+                    <span className={`fi fi-${l.code}`} style={{ borderRadius: 2, fontSize: 13 }} />
+                    {l.name}
+                  </span>
+                ))}
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════════════════
+          SECTION 5: INTERACTIVE DEMO
+          ══════════════════════════════════════════════════ */}
+      <section style={{ background: "#FFFFFF", padding: "100px 0" }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 32px" }}>
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.3 }}
+            variants={fadeInUp}
+            style={{ textAlign: "center", marginBottom: 56 }}
+          >
+            <h2
+              style={{
+                fontFamily: "var(--font-dm-sans, system-ui, sans-serif)",
+                fontWeight: 800,
+                fontSize: "clamp(28px, 4vw, 44px)",
+                color: NAVY,
+                lineHeight: 1.15,
+                letterSpacing: "-0.02em",
+                marginBottom: 16,
+              }}
+            >
+              {t("landingTryTitle", lang)}
+            </h2>
+            <p style={{ fontSize: 17, color: "#6B7280", fontFamily: "var(--font-dm-sans, system-ui, sans-serif)" }}>
+              {t("landingTryDesc", lang)}
+            </p>
+          </motion.div>
+
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.2 }}
+            variants={{ hidden: { opacity: 0, scale: 0.97 }, visible: { opacity: 1, scale: 1, transition: { duration: 0.5 } } }}
+            style={{ maxWidth: 680, margin: "0 auto" }}
+          >
+            {/* Device frame in navy */}
+            <div
+              style={{
+                borderRadius: 24,
+                border: `8px solid ${NAVY}`,
+                background: "#FFFFFF",
+                overflow: "hidden",
+                boxShadow: `0 24px 64px rgba(27, 42, 74, 0.18)`,
+              }}
+            >
+              <div
+                style={{
+                  background: NAVY,
+                  padding: "12px 20px",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 8,
+                }}
+              >
+                {[RED, "#F59E0B", "#22C55E"].map((c, i) => (
+                  <div key={i} style={{ width: 10, height: 10, borderRadius: "50%", background: c }} />
+                ))}
+                <span
+                  style={{
+                    marginLeft: 8,
+                    fontSize: 12,
+                    color: "rgba(255,255,255,0.5)",
+                    fontFamily: "var(--font-dm-sans, system-ui, sans-serif)",
+                  }}
+                >
+                  forourparents.app
+                </span>
+              </div>
+              <DemoQuiz />
+            </div>
+          </motion.div>
+
+          <p
+            style={{
+              textAlign: "center",
+              fontSize: 14,
+              color: "#9CA3AF",
+              marginTop: 24,
+              fontFamily: "var(--font-dm-sans, system-ui, sans-serif)",
+            }}
+          >
+            {t("landingTrySample", lang)}
+          </p>
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════════════════
+          SECTION 6: TESTIMONIAL
+          ══════════════════════════════════════════════════ */}
+      <section style={{ background: "#F8F9FA", padding: "100px 0" }}>
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.3 }}
+          variants={fadeInUp}
+          style={{ maxWidth: 720, margin: "0 auto", padding: "0 32px", textAlign: "center" }}
+        >
+          {/* Stars */}
+          <div style={{ fontSize: 22, color: "#FCD34D", marginBottom: 24, letterSpacing: 4 }}>
+            ★★★★★
+          </div>
+
+          <blockquote
+            style={{
+              fontFamily: "var(--font-dm-sans, system-ui, sans-serif)",
+              fontSize: "clamp(20px, 3vw, 26px)",
+              fontWeight: 600,
+              color: NAVY,
+              lineHeight: 1.5,
+              letterSpacing: "-0.01em",
+              margin: "0 0 32px 0",
+              fontStyle: "italic",
+            }}
+          >
+            "My mother is 67 and barely speaks English. She passed the civics test on her first try using this app in Malayalam. I cried when she called me."
+          </blockquote>
+
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 12 }}>
+            <div
+              style={{
+                width: 44,
+                height: 44,
+                borderRadius: "50%",
+                background: `linear-gradient(135deg, ${RED}, ${NAVY})`,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                color: "#FFFFFF",
+                fontWeight: 700,
+                fontSize: 16,
+                fontFamily: "var(--font-dm-sans, system-ui, sans-serif)",
+              }}
+            >
+              A
+            </div>
+            <div style={{ textAlign: "left" }}>
+              <p style={{ fontSize: 15, fontWeight: 700, color: NAVY, fontFamily: "var(--font-dm-sans, system-ui, sans-serif)", margin: 0 }}>
+                Anjali R.
+              </p>
+              <p style={{ fontSize: 13, color: "#6B7280", fontFamily: "var(--font-dm-sans, system-ui, sans-serif)", margin: 0 }}>
+                Daughter of a new U.S. citizen
+              </p>
+            </div>
+          </div>
+        </motion.div>
+      </section>
+
+      {/* ══════════════════════════════════════════════════
+          SECTION 7: FAQ
+          ══════════════════════════════════════════════════ */}
+      <section style={{ background: "#FFFFFF", padding: "100px 0" }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 32px" }}>
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.3 }}
+            variants={fadeInUp}
+            style={{ textAlign: "center", marginBottom: 64 }}
+          >
+            <h2
+              style={{
+                fontFamily: "var(--font-dm-sans, system-ui, sans-serif)",
+                fontWeight: 800,
+                fontSize: "clamp(28px, 4vw, 44px)",
+                color: NAVY,
+                lineHeight: 1.15,
+                letterSpacing: "-0.02em",
+              }}
+            >
+              Common questions
+            </h2>
+          </motion.div>
+
+          <FAQAccordion />
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════════════════
+          SECTION 8: BOTTOM CTA
+          ══════════════════════════════════════════════════ */}
+      <motion.section
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.3 }}
+        variants={fadeInUp}
+        style={{ background: NAVY, padding: "120px 0" }}
+      >
+        <div
+          style={{
+            maxWidth: 720,
+            margin: "0 auto",
+            padding: "0 32px",
+            textAlign: "center",
+          }}
+        >
+          {/* American flag stars decorative */}
+          <div
+            style={{
+              fontSize: 28,
+              color: "rgba(255,255,255,0.15)",
+              letterSpacing: 12,
+              marginBottom: 32,
+            }}
+          >
+            ★ ★ ★ ★ ★
+          </div>
+
+          <h2
+            style={{
+              fontFamily: "var(--font-dm-sans, system-ui, sans-serif)",
+              fontWeight: 800,
+              fontSize: "clamp(32px, 5vw, 52px)",
+              color: "#FFFFFF",
+              lineHeight: 1.1,
+              letterSpacing: "-0.02em",
+              marginBottom: 20,
+            }}
+          >
+            {t("landingCtaTitle", lang)}
+          </h2>
+
+          <p
+            style={{
+              fontSize: 18,
+              color: "rgba(255,255,255,0.65)",
+              marginBottom: 48,
+              fontFamily: "var(--font-dm-sans, system-ui, sans-serif)",
+            }}
+          >
+            {t("landingCtaFree", lang)}
+          </p>
+
+          <Link
+            href="/login"
+            className="btn-red-3d"
+            style={{ height: 60, fontSize: 17, paddingLeft: 48, paddingRight: 48 }}
+          >
+            {t("landingGetStarted", lang)}
+          </Link>
+        </div>
+      </motion.section>
+
+      {/* ══════════════════════════════════════════════════
+          SECTION 9: FOOTER
+          ══════════════════════════════════════════════════ */}
+      <footer style={{ background: "#0F1C31", padding: "48px 0 36px" }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 32px" }}>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "flex-start",
+              justifyContent: "space-between",
+              gap: 32,
+              flexWrap: "wrap",
+              marginBottom: 40,
+            }}
+          >
+            {/* Brand */}
+            <div>
+              <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
+                <Image src="/logo.png" alt="For Our Parents" width={32} height={32} style={{ borderRadius: 8 }} />
+                <span
+                  style={{
+                    color: "#FFFFFF",
+                    fontWeight: 700,
+                    fontSize: 16,
+                    fontFamily: "var(--font-dm-sans, system-ui, sans-serif)",
+                  }}
+                >
+                  {t("landingFooter", lang)}
+                </span>
+              </div>
+              <p
+                style={{
+                  fontSize: 14,
+                  color: "rgba(255,255,255,0.4)",
+                  fontFamily: "var(--font-dm-sans, system-ui, sans-serif)",
+                  maxWidth: 260,
+                  lineHeight: 1.55,
+                  margin: 0,
+                }}
+              >
+                {t("landingFooterSub", lang)}
+              </p>
+            </div>
+
+            {/* Links */}
+            <div style={{ display: "flex", gap: 48, flexWrap: "wrap" }}>
+              <div>
+                <p
+                  style={{
+                    fontSize: 11,
+                    fontWeight: 700,
+                    letterSpacing: "0.1em",
+                    textTransform: "uppercase",
+                    color: "rgba(255,255,255,0.35)",
+                    marginBottom: 12,
+                    fontFamily: "var(--font-dm-sans, system-ui, sans-serif)",
+                  }}
+                >
+                  App
+                </p>
+                {[
+                  { label: "Practice Test", href: "/login" },
+                  { label: "Flashcard Mode", href: "/login" },
+                  { label: "Eligibility Check", href: "/eligibility" },
+                ].map((link) => (
+                  <div key={link.label} style={{ marginBottom: 8 }}>
+                    <Link
+                      href={link.href}
+                      style={{
+                        fontSize: 14,
+                        color: "rgba(255,255,255,0.55)",
+                        textDecoration: "none",
+                        fontFamily: "var(--font-dm-sans, system-ui, sans-serif)",
+                      }}
+                    >
+                      {link.label}
+                    </Link>
+                  </div>
+                ))}
+              </div>
+
+              <div>
+                <p
+                  style={{
+                    fontSize: 11,
+                    fontWeight: 700,
+                    letterSpacing: "0.1em",
+                    textTransform: "uppercase",
+                    color: "rgba(255,255,255,0.35)",
+                    marginBottom: 12,
+                    fontFamily: "var(--font-dm-sans, system-ui, sans-serif)",
+                  }}
+                >
+                  Languages
+                </p>
+                {["English", "Malayalam", "Gujarati", "Vietnamese"].map((l) => (
+                  <div key={l} style={{ marginBottom: 8 }}>
+                    <span
+                      style={{
+                        fontSize: 14,
+                        color: "rgba(255,255,255,0.55)",
+                        fontFamily: "var(--font-dm-sans, system-ui, sans-serif)",
+                      }}
+                    >
+                      {l}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Divider */}
+          <div style={{ borderTop: "1px solid rgba(255,255,255,0.08)", paddingTop: 24 }}>
+            <p
+              style={{
+                fontSize: 13,
+                color: "rgba(255,255,255,0.3)",
+                textAlign: "center",
+                fontFamily: "var(--font-dm-sans, system-ui, sans-serif)",
+                margin: 0,
+              }}
+            >
+              © {new Date().getFullYear()} For Our Parents · Built with ❤️ for immigrant families · Not affiliated with USCIS
+            </p>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+}
+
+/* ── Authenticated Home (preserves existing functionality) ── */
+function AuthenticatedHome() {
+  const { lang } = useLanguage();
+
   const l = (en: string, ml: string, gu?: string, vi?: string) =>
     lang === "en" ? en : lang === "ml" ? ml : lang === "gu" ? (gu ?? en) : (vi ?? en);
 
   return (
-    <div className="-mx-4 sm:-mx-5">
-      {/* ── Hero Section ── */}
-      <section className="relative mb-8">
-        {/* Decorative hearts background */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-20">
-          <div className="absolute top-12 left-[10%] text-2xl text-rose-300">💕</div>
-          <div className="absolute top-32 right-[15%] text-xl text-rose-300">💕</div>
-          <div className="absolute bottom-20 left-[20%] text-lg text-rose-300">💕</div>
-          <div className="absolute top-24 right-[8%] text-sm text-rose-300">💕</div>
-        </div>
+    <div className="max-w-grid mx-auto px-4 sm:px-6">
+      <section className="py-8">
+        <h1
+          className="text-2xl sm:text-3xl font-bold text-text-heading mb-6"
+          style={{ fontFamily: "var(--font-dm-sans, system-ui, sans-serif)" }}
+        >
+          {l("Welcome back!", "തിരികെ സ്വാഗതം!", "પાછા આવો!", "Chào mừng trở lại!")}
+        </h1>
 
-        {/* Main hero container with rounded background */}
-        <div className="relative bg-gradient-to-br from-[#FDEFEB] via-[#FFF5F0] to-[#FFF0EB] 
-                        px-8 sm:px-12 md:px-16 lg:px-24 py-12 sm:py-16 md:py-20">
-          <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-12 lg:gap-16 max-w-7xl mx-auto">
-            {/* Left — text */}
-            <div className="flex-1 min-w-0 text-center md:text-left space-y-5 max-w-2xl">
-              <h1 
-                className={lang === "en" 
-                  ? "text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-900 tracking-tight leading-[1.15]" 
-                  : "text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold text-gray-900 tracking-normal leading-[1.6] break-words"
-                }
-                style={lang !== "en" ? { lineHeight: '1.6' } : undefined}
-              >
-                {lang === "en" ? (
-                  <>Help Your Parents Pass the U.S. Citizenship Test</>
-                ) : lang === "ml" ? (
-                  <>നിങ്ങളുടെ മാതാപിതാക്കളെ യു.എസ്. പൗരത്വ ടെസ്റ്റ് പാസാക്കാൻ സഹായിക്കുക</>
-                ) : lang === "gu" ? (
-                  <>તમારા માતાપિતાને યુ.એસ. નાગરિકતા ટેસ્ટ પાસ કરવામાં મદદ કરો</>
-                ) : (
-                  <>Giúp ba mẹ bạn vượt qua bài thi quốc tịch Hoa Kỳ</>
-                )}
-              </h1>
-              <p 
-                className={lang === "en" 
-                  ? "text-base sm:text-lg text-gray-600 leading-relaxed max-w-lg mx-auto md:mx-0" 
-                  : "text-base sm:text-lg text-gray-600 leading-[1.8] max-w-lg mx-auto md:mx-0"
-                }
-                style={lang !== "en" ? { lineHeight: '1.8' } : undefined}
-              >
-                {lang === "en"
-                  ? "Practice the civics test in your language. Built for the 50/20, 55/15, and 65/20 citizenship rules under U.S. immigration law."
-                  : lang === "ml"
-                  ? "മലയാളത്തിൽ സിവിക്സ് ടെസ്റ്റ് പരിശീലിക്കുക. യു.എസ്. ഇമിഗ്രേഷൻ നിയമത്തിലെ 50/20, 55/15, 65/20 പൗരത്വ നിയമങ്ങൾക്കായി നിർമ്മിച്ചത്."
-                  : lang === "gu"
-                  ? "ગુજરાતીમાં સિવિક્સ ટેસ્ટની પ્રેક્ટિસ કરો. યુ.એસ. ઇમિગ્રેશન કાયદા હેઠળ 50/20, 55/15, 65/20 નાગરિકતા નિયમો માટે બનાવેલ."
-                  : "Luyện thi quốc tịch bằng ngôn ngữ của bạn. Được xây dựng cho quy tắc quốc tịch 50/20, 55/15 và 65/20 theo luật di trú Hoa Kỳ."}
-              </p>
-              <div className="pt-2">
-                <Link
-                  href="/quiz"
-                  className="inline-flex items-center gap-2 min-h-[52px] sm:min-h-[56px]
-                             bg-[#e87c3a] hover:bg-[#d66d2d] text-white
-                             text-lg sm:text-xl font-bold rounded-xl shadow-lg shadow-orange-200
-                             px-10 py-3.5 transition-all active:scale-[0.97] no-underline"
-                >
-                  {lang === "en" ? "Start Practicing" : lang === "ml" ? "മലയാളത്തിൽ പരിശീലിക്കുക" : lang === "gu" ? "ગુજરાતીમાં પ્રેક્ટિસ કરો" : "Bắt đầu luyện tập"}
-                </Link>
-              </div>
-            </div>
-
-            {/* Right — hero image */}
-            <div className="flex-shrink-0 w-72 h-72 sm:w-80 sm:h-80 md:w-[26rem] md:h-[26rem] lg:w-[30rem] lg:h-[30rem] relative">
-              <Image
-                src="/hero.png"
-                alt="Elderly couple"
-                fill
-                className="object-contain drop-shadow-xl"
-                priority
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {[
+            {
+              href: "/quiz",
+              title: l("Practice Test", "പ്രാക്ടീസ് ടെസ്റ്റ്", "પ્રેક્ટિસ ટેસ્ટ", "Bài thi thử"),
+              desc: l("Multiple-choice, just like the real test", "യഥാർത്ഥ ടെസ്റ്റ് പോലെ", "ખરેખર ટેસ્ટ જેવo", "Giống bài thi thật"),
+              color: "#D4772C",
+            },
+            {
+              href: "/practice",
+              title: l("Practice Mode", "പ്രാക്ടീസ് മോഡ്", "પ્રેક્ટિસ મોડ", "Luyện tập"),
+              desc: l("Flashcards — see the answer at your own pace", "ഫ്ലാഷ്കാർഡ് — സ്വന്തം ഗതിയിൽ", "ફ્લૅશકાર્ડ્સ", "Thẻ ghi nhớ"),
+              color: "#B45309",
+            },
+            {
+              href: "/mistakes",
+              title: l("Review Mistakes", "തെറ്റുകൾ അവലോകനം", "ભૂલો સમીક્ષા", "Ôn lỗi sai"),
+              desc: l("Focus on the questions you got wrong", "തെറ്റായ ചോദ്യങ്ങൾ", "ખોટા પ્રશ્નો", "Câu hỏi sai"),
+              color: "#0891B2",
+            },
+            {
+              href: "/eligibility",
+              title: l("Do You Qualify?", "യോഗ്യത?", "શું તમે લાયક છો?", "Điều kiện?"),
+              desc: l("Special rules for ages 50+", "50+ ആള്‍ക്ക് പ്രത്യേക നിയമങ്ങൾ", "50+ ઉંમર નિયમો", "Quy tắc cho 50+"),
+              color: "#7C3AED",
+            },
+            {
+              href: "/dashboard",
+              title: l("Dashboard", "ഡാഷ്ബോർഡ്", "ડૅશબોર્ડ", "Bảng điều khiển"),
+              desc: l("Track your progress", "പുരോഗതി ട്രാക്ക് ചെയ്യുക", "પ્રગતિ ટ્રૅક કરો", "Theo dõi tiến độ"),
+              color: "#2563EB",
+            },
+          ].map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className="block p-6 rounded-card border border-border hover:shadow-card-hover hover:border-primary/30
+                         hover:-translate-y-1 transition-all duration-300 no-underline bg-white"
+            >
+              <div
+                className="w-3 h-3 rounded-full mb-3"
+                style={{ backgroundColor: item.color }}
               />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── Quick Actions ── */}
-      <section className="pt-8 space-y-4 px-6 sm:px-8 mx-auto max-w-5xl">
-        <div className="grid grid-cols-2 gap-4">
-          <Link
-            href="/quiz"
-            className="min-h-[72px] bg-white hover:bg-orange-50 text-gray-800
-                       text-[15px] font-semibold rounded-2xl shadow-sm
-                       border border-gray-200
-                       flex items-center justify-center gap-2 px-4 py-4
-                       transition-all active:scale-[0.97] no-underline text-center"
-          >
-            📝 {l("Practice Test", "പ്രാക്ടീസ് ടെസ്റ്റ്", "પ્રેક્ટિસ ટેસ્ટ", "Bài thi thử")}
-          </Link>
-          <Link
-            href="/practice"
-            className="min-h-[72px] bg-white hover:bg-orange-50 text-gray-800
-                       text-[15px] font-semibold rounded-2xl shadow-sm
-                       border border-gray-200
-                       flex items-center justify-center gap-2 px-4 py-4
-                       transition-all active:scale-[0.97] no-underline text-center"
-          >
-            🎯 {t("practice", lang)}
-          </Link>
-          <Link
-            href="/mistakes"
-            className="min-h-[72px] bg-white hover:bg-orange-50 text-gray-800
-                       text-[15px] font-semibold rounded-2xl shadow-sm
-                       border border-gray-200
-                       flex items-center justify-center gap-2 px-4 py-4
-                       transition-all active:scale-[0.97] no-underline text-center"
-          >
-            🔄 {t("reviewMistakes", lang)}
-          </Link>
-          <Link
-            href="/eligibility"
-            className="min-h-[72px] bg-white hover:bg-orange-50 text-gray-800
-                       text-[15px] font-semibold rounded-2xl shadow-sm
-                       border border-gray-200
-                       flex items-center justify-center gap-2 px-4 py-4
-                       transition-all active:scale-[0.97] no-underline text-center"
-          >
-            <Image src="/flag.png" alt="USA Flag" width={22} height={15} className="rounded-sm flex-shrink-0" />
-            {l("Do You Qualify?", "യോഗ്യത?", "શું તમે યોગ્ય છો?", "Bạn có đủ điều kiện?")}
-          </Link>
-        </div>
-        {isLoggedIn && (
-          <Link
-            href="/dashboard"
-            className="block w-full min-h-[60px] bg-white hover:bg-orange-50 text-gray-800
-                       text-[15px] font-semibold rounded-2xl shadow-sm border border-gray-200
-                       flex items-center justify-center gap-2 px-4 py-3
-                       transition-all active:scale-[0.97] no-underline text-center"
-          >
-            📊 {t("viewDashboard", lang)}
-          </Link>
-        )}
-      </section>
-
-      {/* ── Who Is This For ── */}
-      <section className="pt-8 px-6 sm:px-8 mx-auto max-w-5xl">
-        <div className="bg-white rounded-2xl p-7 shadow-sm border border-gray-100 space-y-4">
-          <h2 className="text-xl font-bold text-gray-900 text-center">
-            {l("Who Is This For?", "ഇത് ആർക്കാണ്?", "આ કોના માટે છે?", "Đây dành cho ai?")}
-          </h2>
-          <p className="text-base text-gray-600 text-center leading-relaxed">
-            {l(
-              "If you are 50+ years old and have held a Green Card for 15\u201320+ years, you can take the civics test in your language with your own interpreter. No English test needed!",
-              "നിങ്ങള്ക്ക് 50+ വയസ്സ് ഉണ്ടെങ്കിലും 15\u201320+ വർഷമായി ഗ്രീൻ കാർഡ് ഉടമയാണെങ്കിലും, സിവിക്സ് ടെസ്റ്റ് മലയാളത്തിൽ നിങ്ങളുടെ സ്വന്തം വ്യാഖ്യാതാവുമായി എടുക്കാം. ഇംഗ്ലീഷ് ടെസ്റ്റ് ആവശ്യമില്ല!",
-              "જો તમે 50+ વર્ષના છો અને 15\u201320+ વર્ષથી ગ્રીન કાર્ડ ધરાવો છો, તો તમે તમારી ભાષામાં તમારા પોતાના દુભાષિયા સાથે સિવિક્સ ટેસ્ટ આપી શકો છો. અંગ્રેજી ટેસ્ટની જરૂર નથી!",
-              "Nếu bạn từ 50 tuổi trở lên và đã có Thẻ Xanh từ 15\u201320+ năm, bạn có thể thi quốc tịch bằng ngôn ngữ của mình với phiên dịch viên riêng. Không cần thi tiếng Anh!"
-            )}
-          </p>
-          <div className="flex justify-center pt-2">
-            <Link
-              href="/eligibility"
-              className="min-h-[52px] bg-orange-600 hover:bg-orange-700 text-white
-                         font-semibold text-[15px] rounded-xl px-8 py-3
-                         transition-all active:scale-[0.97] no-underline inline-flex items-center justify-center"
-            >
-              {l("Learn more →", "കൂടുതൽ അറിയുക →", "વધુ જાણો →", "Tìm hiểu thêm →")}
+              <h3 className="text-[1.0625rem] font-bold text-text-heading mb-1">
+                {item.title}
+              </h3>
+              <p className="text-[0.9375rem] text-text-secondary">{item.desc}</p>
             </Link>
-          </div>
+          ))}
         </div>
       </section>
-
-      {/* ── Sign Up Prompt ── */}
-      {!isLoggedIn && (
-        <section className="pt-8 px-6 sm:px-8 mx-auto max-w-5xl">
-          <div className="bg-gradient-to-r from-orange-50 to-amber-50 rounded-2xl p-7 text-center space-y-4 border border-orange-100">
-            <p className="text-base text-gray-700 font-medium">
-              {l(
-                "Create a free account to track your progress.",
-                "നിങ്ങളുടെ പുരോഗതി ട്രാക്ക് ചെയ്യാൻ ഒരു സൌജന്യ അക്കൌണ്ട് സൃഷ്ടിക്കുക.",
-                "તમારી પ્રગતિ ટ્રેક કરવા માટે મફત ખાતું બનાવો.",
-                "Tạo tài khoản miễn phí để theo dõi tiến độ của bạn."
-              )}
-            </p>
-            <Link
-              href="/login"
-              className="inline-flex items-center justify-center min-h-[56px] bg-gray-900 hover:bg-gray-800 text-white
-                         text-[15px] font-semibold rounded-xl px-10 py-3
-                         transition-all active:scale-[0.97] no-underline"
-            >
-              {t("login", lang)} / {t("signup", lang)}
-            </Link>
-          </div>
-        </section>
-      )}
-
-      {/* ── Footer ── */}
-      <footer className="pt-10 pb-4 text-center space-y-1 px-4 sm:px-5">
-        <p className="text-xs text-gray-400">
-          {l("Built with ❤️ by", "❤️ ഉപയോഗിച്ച് നിർമ്മിച്ചത്", "❤️ સાથે બનાવેલ", "Được xây dựng với ❤️ bởi")}{" "}
-          <span className="font-semibold text-gray-500">For Our Parents</span>
-        </p>
-        <p className="text-xs text-gray-400">
-          {lang === "en"
-            ? "Helping immigrant elders become U.S. citizens"
-            : lang === "ml"
-            ? "മലയാളം സംസാരിക്കുന്ന മുതിർന്നവരെ യു.എസ്. പൗരന്മാരാകാൻ സഹായിക്കുന്നു"
-            : lang === "gu"
-            ? "ગુજરાતી બોલતા વડીલોને યુ.એસ. નાગરિક બનવામાં મદદ કરવી"
-            : "Giúp người cao tuổi nhập cư trở thành công dân Hoa Kỳ"}
-        </p>
-      </footer>
     </div>
   );
 }

@@ -155,7 +155,7 @@ export default function DashboardPage() {
                 {lang === "en" ? "Focus on:" : lang === "ml" ? "ശ്രദ്ധിക്കേണ്ട വിഷയം:" : lang === "gu" ? "ધ્યાન આપો:" : "Tập trung vào:"}
               </p>
               <p className="text-orange-900 font-bold mt-1">
-                {topicLabels[weakestTopic[0] as Topic][lang]} (
+                {topicLabels[weakestTopic[0] as Topic][lang] ?? topicLabels[weakestTopic[0] as Topic].en} (
                 {mistakesByTopic[weakestTopic[0] as Topic]})
               </p>
             </div>

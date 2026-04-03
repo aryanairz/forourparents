@@ -6,7 +6,7 @@ export interface BilingualText {
   en: string;
   ml: string;
   gu: string;
-  vi: string;
+  vi?: string;
 }
 
 export interface Question {
@@ -15,6 +15,7 @@ export interface Question {
   question: BilingualText;
   options: BilingualText[];
   correctIndex: number;
+  correctIndices?: number[];
   explanation: BilingualText;
 }
 
@@ -1067,7 +1068,6 @@ export const questions: Question[] = [
       en: 'The national anthem is "The Star-Spangled Banner."',
       ml: '"ദി സ്റ്റാർ-സ്പാംഗിൾഡ് ബാനർ" ആണ് ദേശീയ ഗാനം.',
       gu: 'રાષ્ટ્રગીત "ધ સ્ટાર-સ્પેન્ગલ્ડ બેનર" છે.',
-      vi: 'Quốc ca là "The Star-Spangled Banner."',
     },
   },
   {
@@ -1077,20 +1077,18 @@ export const questions: Question[] = [
       en: 'What does "E Pluribus Unum" mean?',
       ml: '"ഇ പ്ലൂരിബസ് യൂനം" എന്നാൽ എന്താണ് അർത്ഥം?',
       gu: '"ઇ પ્લ્યુરિબસ યુનમ" નો અર્થ શું છે?',
-      vi: '"E Pluribus Unum" có nghĩa là gì?',
     },
     options: [
-      { en: "Out of many, one", ml: "അനേകത്തിൽ നിന്ന് ഒന്ന്", gu: "ઘણામાંથી એક", vi: "Từ nhiều thành một" },
-      { en: "In God we trust", ml: "ദൈവത്തിൽ നാം വിശ്വസിക്കുന്നു", gu: "ભગવાનમાં આપણને વિશ્વાસ છે", vi: "Chúng tôi tin vào Chúa" },
-      { en: "Liberty and justice", ml: "സ്വാതന്ത്ര്യവും നീതിയും", gu: "સ્વતંત્રતા અને ન્યાય", vi: "Tự do và công lý" },
-      { en: "We the people", ml: "നമ്മൾ ജനങ്ങൾ", gu: "અમે લોકો", vi: "Chúng tôi, nhân dân" },
+      { en: "Out of many, one", ml: "അനേകത്തിൽ നിന്ന് ഒന്ന്", gu: "ઘણામાંથી એક" },
+      { en: "In God we trust", ml: "ദൈവത്തിൽ നാം വിശ്വസിക്കുന്നു", gu: "ભગવાનમાં આપણને વિશ્વાસ છે" },
+      { en: "Liberty and justice", ml: "സ്വാതന്ത്ര്യവും നീതിയും", gu: "સ્વતંત્રતા અને ન્યાય" },
+      { en: "We the people", ml: "നമ്മൾ ജനങ്ങൾ", gu: "અમે લોકો" },
     ],
     correctIndex: 0,
     explanation: {
       en: '"E Pluribus Unum" means "Out of many, one."',
       ml: '"ഇ പ്ലൂരിബസ് യൂനം" എന്നാൽ "അനേകത്തിൽ നിന്ന് ഒന്ന്" എന്നാണ് അർത്ഥം.',
       gu: '"ઇ પ્લ્યુરિબસ યુનમ" નો અર્થ "ઘણામાંથી એક" છે.',
-      vi: '"E Pluribus Unum" có nghĩa là "Từ nhiều thành một."',
     },
   },
   {
@@ -1147,14 +1145,14 @@ export const questions: Question[] = [
     },
     options: [
       {
-        en: "Celebration of U.S. independence (country's birthday)",
-        ml: "അമേരിക്കൻ സ്വാതന്ത്ര്യത്തിന്റെ ആഘോഷം (രാജ്യത്തിന്റെ ജന്മദിനം)",
-        gu: "યુ.એસ. સ્વાધીનતા ઉત્સવ (દેશ-જન્મ-ઉત્સવ)",
-        vi: "Kỷ niệm ngày độc lập Hoa Kỳ (sinh nhật đất nước)",
+        en: "Celebration of U.S. independence",
+        ml: "അമേരിക്കൻ സ്വാതന്ത്ര്യത്തിന്റെ ആഘോഷം",
+        gu: "યુ.એસ. સ્વાધીનતા ઉત્સવ",
+        vi: "Kỷ niệm ngày độc lập Hoa Kỳ",
       },
       { en: "End of the Civil War", ml: "ആഭ്യന്തര യുദ്ധത്തിന്റെ അവസാനം", gu: "ગૃહયુદ્ધનો અંત", vi: "Kết thúc Nội chiến" },
       { en: "Signing of the Constitution", ml: "ഭരണഘടനയുടെ ഒപ്പിടൽ", gu: "બંધારણ પર હસ્તાક્ષર", vi: "Ký kết Hiến pháp" },
-      { en: "Thanksgiving", ml: "നന്ദി ദിനം", gu: "થેંક્સગિવિંગ", vi: "Lễ Tạ ơn" },
+      { en: "Day honoring U.S. veterans", ml: "അമേരിക്കൻ സൈനികരെ ആദരിക്കുന്ന ദിനം", gu: "યુ.એસ. સૈનિકોનો સન્માન દિવસ", vi: "Ngày tôn vinh cựu chiến binh Hoa Kỳ" },
     ],
     correctIndex: 0,
     explanation: {
@@ -1199,7 +1197,7 @@ export const questions: Question[] = [
       en: "The U.S. Constitution starts with \"We the People.\" What does \"We the People\" mean?",
       ml: "അമേരിക്കൻ ഭരണഘടന \"We the People\" (നാം ജനങ്ങൾ) എന്ന വാക്കുകളിൽ തുടങ്ങുന്നു. ഇതിന്റെ അർഥം എന്താണ്?",
       gu: "યુ.એસ. બંધારણ \"We the People\" થી શરૂ થાય છે. \"We the People\" નો અર્થ શું છે?",
-      vi: "Hiến pháp Hoa Kỳ bắt đầu bằng \"We the People.\" \"We the People\" có nghĩa là gì?",
+      vi: "Hiến pháp Hoa Kỳ bắt đầu bằng \\",
     },
     options: [
       { en: "The President rules alone", ml: "പ്രസിഡന്റ് ഒറ്റയ്ക്ക് ഭരിക്കുന്നു", gu: "રાષ્ટ્રપતિ એકલા શાસન કરે છે", vi: "Tổng thống cai trị một mình" },
@@ -1212,7 +1210,7 @@ export const questions: Question[] = [
       en: "\"We the People\" means self-government — the people govern themselves through consent of the governed.",
       ml: "\"We the People\" എന്നാൽ സ്വയം ഭരണമാണ് — ജനങ്ങൾ സ്വയം ഭരിക്കുന്നു.",
       gu: "\"We the People\" નો અર્થ સ્વ-શાસન છે — લોકો શાસિતોની સંમતિથી પોતાનું શાસન કરે છે.",
-      vi: "\"We the People\" có nghĩa là tự quản — nhân dân tự cai trị thông qua sự đồng ý của người bị cai trị.",
+      vi: "\\",
     },
   },
   {
@@ -1314,7 +1312,7 @@ export const questions: Question[] = [
       en: "The words \"Life, Liberty, and the pursuit of Happiness\" are in what founding document?",
       ml: "\"ജീവൻ, സ്വാതന്ത്ര്യം, സന്തോഷം തേടൽ\" എന്ന വാക്കുകൾ ഏത് രൂപകർത്ത രേഖയിലാണ്?",
       gu: "\"Life, Liberty, and the pursuit of Happiness\" શબ્દો કયા સ્થાપક દસ્તાવેજમાં છે?",
-      vi: "Câu \"Life, Liberty, and the pursuit of Happiness\" nằm trong tài liệu lập quốc nào?",
+      vi: "Câu \\",
     },
     options: [
       { en: "Bill of Rights", ml: "അവകാശ ബിൽ", gu: "અધિકારોનું વિધેયક", vi: "Đạo luật Nhân quyền" },
@@ -1327,7 +1325,7 @@ export const questions: Question[] = [
       en: "\"Life, Liberty, and the pursuit of Happiness\" are words from the Declaration of Independence.",
       ml: "\"ജീവൻ, സ്വാതന്ത്ര്യം, സന്തോഷം തേടൽ\" സ്വാതന്ത്ര്യ പ്രഖ്യാപനത്തിലെ വാക്കുകളാണ്.",
       gu: "\"Life, Liberty, and the pursuit of Happiness\" સ્વતંત્રતાના ઘોષણાપત્રના શબ્દો છે.",
-      vi: "\"Life, Liberty, and the pursuit of Happiness\" là câu từ Tuyên ngôn Độc lập.",
+      vi: "\\",
     },
   },
   {

@@ -9,7 +9,8 @@
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.39.0",
-    "framer-motion": "^12.36.0",
+    "flag-icons": "^7.5.0",
+    "framer-motion": "^12.37.0",
     "lucide-react": "^0.577.0",
     "msedge-tts": "^2.0.4",
     "next": "^14.2.0",

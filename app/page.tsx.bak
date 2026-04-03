@@ -1,0 +1,234 @@
+﻿"use client";
+
+import { useState, useEffect } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { useLanguage } from "@/lib/LanguageContext";
+import { t } from "@/lib/i18n";
+import { getCurrentUser } from "@/lib/storage";
+import {
+  ClipboardList,
+  BookOpen,
+  RotateCcw,
+  ShieldCheck,
+  BarChart3,
+  ChevronRight,
+  ArrowRight,
+  Star,
+} from "lucide-react";
+
+export default function HomePage() {
+  const { lang, mounted } = useLanguage();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    setIsLoggedIn(!!getCurrentUser());
+  }, []);
+
+  if (!mounted) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[60vh] gap-3">
+        <div className="w-10 h-10 border-4 border-primary border-t-transparent rounded-full animate-spin" />
+        <p className="text-text-secondary text-[1rem]">Loading your questions...</p>
+      </div>
+    );
+  }
+
+  const l = (en: string, ml: string, gu?: string, vi?: string) =>
+    lang === "en" ? en : lang === "ml" ? ml : lang === "gu" ? (gu ?? en) : (vi ?? en);
+
+  const featureCards = [
+    {
+      href: "/quiz",
+      icon: <ClipboardList size={28} className="text-primary" />,
+      title: l("Practice Test", "പ്രാക്ടീസ് ടെസ്റ്റ്", "પ્રેક્ટિસ ટેસ્ટ", "Bài thi thử"),
+      desc: l("Multiple-choice, just like the real test", "യഥാർത്ഥ ടെസ്റ്റ് പോലെ", "ખરેખર ટેસ്ટ જેવo", "Giống bài thi thật"),
+    },
+    {
+      href: "/practice",
+      icon: <BookOpen size={28} className="text-primary" />,
+      title: l("Practice Mode", "പ്രാക്ടീസ് മോഡ്", "પ્રેક્ટિસ મોડ", "Luyện tập"),
+      desc: l("Flashcards — see the answer at your own pace", "ഫ്ലാഷ്കാർഡ് — സ്വന്തം ഗതിയിൽ", "ફ્લૅશકાર્ડ્સ", "Thẻ ghi nhớ"),
+    },
+    {
+      href: "/mistakes",
+      icon: <RotateCcw size={28} className="text-primary" />,
+      title: l("Review Mistakes", "തെറ്റുകൾ അവലോകനം", "ભૂલો સમીક્ષા", "Ôn lỗi sai"),
+      desc: l("Focus on the questions you got wrong", "തെറ്റായ ചോദ്യങ്ങൾ", "ખોટા પ્રશ્નો", "Câu hỏi sai"),
+    },
+    {
+      href: "/eligibility",
+      icon: <ShieldCheck size={28} className="text-primary" />,
+      title: l("Do You Qualify?", "യോഗ്യത?", "શું તમે લાયક છો?", "Điều kiện?"),
+      desc: l("Special rules for ages 50+", "50+ ആള്‍ക്ക് പ്രത്യേക നിയമങ്ങൾ", "50+ ઉંમર નિયમો", "Quy tắc cho 50+"),
+    },
+  ];
+
+  return (
+    <div className="max-w-grid mx-auto px-4 sm:px-6">
+
+      {/* ── Hero Section ── */}
+      <section className="rounded-lg bg-gradient-to-br from-[#FDF1E8] via-[#FFF8F3] to-[#FAFAF7] border border-border
+                          px-6 sm:px-10 md:px-14 py-10 sm:py-14 mb-10">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-8 md:gap-12">
+          {/* Text */}
+          <div className="flex-1 min-w-0 text-center md:text-left space-y-5 max-w-xl">
+            <h1
+              className={`font-bold text-text-body
+                ${lang === "en"
+                  ? "text-3xl sm:text-4xl md:text-[2.6rem] leading-[1.2] font-serif"
+                  : "text-2xl sm:text-3xl leading-[1.5] font-sans"
+                }`}
+            >
+              {l(
+                "Help Your Parents Pass the U.S. Citizenship Test",
+                "നിങ്ങളുടെ മാതാപിതാക്കളെ യു.എസ്. പൗരത്വ ടെസ്റ്റ് പാസാക്കാൻ സഹായിക്കുക",
+                "તમારા માતાપિતાને યુ.એસ. નાગരિકતા ટેસ્ટ પાસ કરવામાં મદદ કરો",
+                "Giúp ba mẹ bạn vượt qua bài thi quốc tịch Hoa Kỳ",
+              )}
+            </h1>
+            <p className="text-[1.0625rem] text-text-secondary leading-relaxed max-w-md mx-auto md:mx-0">
+              {l(
+                "Practice the civics test in your language. Built for the 50/20, 55/15, and 65/20 citizenship rules.",
+                "മലയാളത്തിൽ സിവിക്സ് ടെസ്റ്റ് പരിശീലിക്കുക. 50/20, 55/15, 65/20 നിയമങ്ങൾക്ക്.",
+                "ગુજરાતીમાં સિવિક્સ ટેસ્ટ. 50/20, 55/15, 65/20 નિયમો.",
+                "Luyện thi bằng tiếng Việt. Dành cho quy tắc 50/20, 55/15, 65/20.",
+              )}
+            </p>
+            <div className="pt-1">
+              <Link
+                href="/quiz"
+                className="inline-flex items-center gap-2 min-h-[56px] bg-primary hover:bg-primary-dark
+                           text-white text-[1.125rem] font-bold rounded-lg shadow-btn
+                           px-8 py-3.5 transition-all active:scale-[0.97] no-underline"
+              >
+                {l("Start Practicing", "പ്രാക്ടീസ് തുടങ്ങുക", "પ્રેક્ટિસ શરૂ કરો", "Bắt đầu luyện tập")}
+                <ArrowRight size={20} />
+              </Link>
+            </div>
+          </div>
+
+          {/* Hero image */}
+          <div className="flex-shrink-0 w-56 h-56 sm:w-64 sm:h-64 md:w-72 md:h-72 relative">
+            <Image
+              src="/hero.png"
+              alt="Elderly couple studying together"
+              fill
+              className="object-contain drop-shadow-lg"
+              priority
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* ── Feature Cards Grid ── */}
+      <section className="mb-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {featureCards.map((card) => (
+            <Link
+              key={card.href}
+              href={card.href}
+              className="group bg-white rounded-lg border border-border shadow-card
+                         hover:shadow-card-hover hover:border-primary hover:-translate-y-1
+                         p-6 flex items-start gap-4 no-underline transition-all duration-300"
+            >
+              <div className="flex-shrink-0 w-12 h-12 rounded-lg bg-primary-light flex items-center justify-center
+                              group-hover:bg-primary group-hover:text-white transition-colors">
+                <div className="group-hover:[&>svg]:text-white transition-colors">
+                  {card.icon}
+                </div>
+              </div>
+              <div className="flex-1 min-w-0">
+                <h3 className="text-[1.0625rem] font-bold text-text-body mb-0.5 leading-snug">{card.title}</h3>
+                <p className="text-[0.9375rem] text-text-secondary leading-snug">{card.desc}</p>
+              </div>
+              <ChevronRight size={18} className="flex-shrink-0 text-text-secondary group-hover:text-primary transition-colors mt-0.5" />
+            </Link>
+          ))}
+          {isLoggedIn && (
+            <Link
+              href="/dashboard"
+              className="group sm:col-span-2 bg-white rounded-lg border border-border shadow-card
+                         hover:shadow-card-hover hover:border-primary hover:-translate-y-1
+                         p-6 flex items-center gap-4 no-underline transition-all duration-300"
+            >
+              <div className="flex-shrink-0 w-12 h-12 rounded-lg bg-primary-light flex items-center justify-center">
+                <BarChart3 size={26} className="text-primary" />
+              </div>
+              <div className="flex-1">
+                <h3 className="text-[1.0625rem] font-bold text-text-body">{t("viewDashboard", lang)}</h3>
+              </div>
+              <ChevronRight size={18} className="flex-shrink-0 text-text-secondary group-hover:text-primary transition-colors" />
+            </Link>
+          )}
+        </div>
+      </section>
+
+      {/* ── Who Is This For? (callout card) ── */}
+      <section className="mb-10">
+        <div className="bg-callout border-l-4 border-primary border border-amber-200 rounded-lg p-6 sm:p-7 space-y-3">
+          <div className="flex items-center gap-2">
+            <Star size={20} className="text-primary flex-shrink-0" />
+            <h2 className="text-[1.1875rem] font-bold text-text-body font-serif">
+              {l("Who Is This For?", "ഇത് ആർക്കാണ്?", "આ કોના માટે છે?", "Đây dành cho ai?")}
+            </h2>
+          </div>
+          <p className="text-[1rem] text-text-body leading-relaxed">
+            {l(
+              "If you are 50+ years old and have held a Green Card for 15–20+ years, you can take the civics test in your own language with an interpreter. No English test needed!",
+              "നിങ്ങൾക്ക് 50+ വയസ്സ് ഉണ്ടെങ്കിലും 15–20+ വർഷമായി ഗ്രീൻ കാർഡ് ഉടമയാണെങ്കിലും, സിവിക്സ് ടെസ്റ്റ് നിങ്ങളുടെ ഭാഷയിൽ എടുക്കാം. ഇംഗ്ലീഷ് ടെസ്റ്റ് ആവശ്യമില്ല!",
+              "જો તમે 50+ વર્ષના છો અને 15–20+ વર્ષથી ગ્રીન કાર્ડ ધરાવો છો, તો સિવિક્સ ટેસ્ટ ગુજરાતીમાં આપી શકો. અંગ્રેજી ટેસ્ટ જરૂરી નથી!",
+              "Nếu bạn từ 50 tuổi và có Thẻ Xanh từ 15–20+ năm, bạn có thể thi quốc tịch bằng tiếng Việt. Không cần thi tiếng Anh!",
+            )}
+          </p>
+          <Link
+            href="/eligibility"
+            className="inline-flex items-center gap-1.5 text-primary font-semibold text-[1rem] hover:underline no-underline"
+          >
+            {l("See the rules →", "നിയമങ്ങൾ കാണുക →", "નિયમો જુઓ →", "Xem quy tắc →")}
+          </Link>
+        </div>
+      </section>
+
+      {/* ── Sign Up Prompt ── */}
+      {!isLoggedIn && (
+        <section className="mb-10">
+          <div className="bg-white rounded-lg border border-border shadow-card p-6 sm:p-7 text-center space-y-4">
+            <p className="text-[1.0625rem] text-text-body font-medium">
+              {l(
+                "Create a free account to track your progress and review mistakes.",
+                "നിങ്ങളുടെ പുരോഗതി ട്രാക്ക് ചെയ്യാൻ ഒരു സൌജന്യ അക്കൗണ്ട് സൃഷ്ടിക്കുക.",
+                "પ્રગતિ ટ્રૅક કરવા માટે મફત ખાતું બનાવો.",
+                "Tạo tài khoản miễn phí để theo dõi tiến độ.",
+              )}
+            </p>
+            <Link
+              href="/login"
+              className="inline-flex items-center justify-center min-h-[56px] bg-text-body hover:bg-gray-800
+                         text-white text-[1rem] font-semibold rounded-lg px-10 py-3
+                         transition-all active:scale-[0.97] no-underline"
+            >
+              {t("login", lang)} / {t("signup", lang)}
+            </Link>
+          </div>
+        </section>
+      )}
+
+      {/* ── Footer ── */}
+      <footer className="py-8 text-center space-y-1 border-t border-border">
+        <p className="text-[0.875rem] text-text-secondary">
+          {l("Built with ❤️ by", "❤️ ഉപയോഗിച്ച് നിർമ്മിച്ചത്", "❤️ સાથે બનાવેલ", "Được xây dựng với ❤️ bởi")}{" "}
+          <span className="font-semibold text-text-body">For Our Parents</span>
+        </p>
+        <p className="text-[0.8125rem] text-text-secondary">
+          {l(
+            "Helping immigrant elders become U.S. citizens",
+            "മലയാളം സംസാരിക്കുന്ന മുതിർന്നവരെ യു.എസ്. പൗരന്മാരാകാൻ സഹായിക്കുന്നു",
+            "ગુજરાતી બોലતા વડીલોને નાગരિક",
+            "Giúp người cao tuổi nhập cư thành công dân Hoa Kỳ",
+          )}
+        </p>
+      </footer>
+    </div>
+  );
+}

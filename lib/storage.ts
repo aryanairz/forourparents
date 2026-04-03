@@ -105,7 +105,7 @@ export async function signupUser(
   lastName: string,
   email: string,
   pin: string,
-  phone?: string,
+  phone: string,
   state?: string,
   district?: number,
 ): Promise<{ user: User | null; errorMsg?: string }> {
@@ -114,15 +114,17 @@ export async function signupUser(
     const { data, error } = await supabase
       .from("users")
       // @ts-ignore - Types will work once Supabase credentials are configured
-      .insert({ name, first_name: firstName.trim(), last_name: lastName.trim(), email: email.trim().toLowerCase(), pin, phone: phone?.trim() || null, state: state || null, district: district ?? null })
+      .insert({ name, first_name: firstName.trim(), last_name: lastName.trim(), email: email.trim().toLowerCase(), pin, phone: phone.trim(), state: state || null, district: district ?? null })
       .select("id, name")
       .single<{ id: string; name: string }>();
 
     if (error) {
       console.error("Supabase signup error:", error);
-      // Check for duplicate email error
       if (error.code === '23505' && error.message.includes('users_email_key')) {
-        return { user: null, errorMsg: "This email already has an account. Please login instead." };
+        return { user: null, errorMsg: "An account with this email already exists. Please sign in instead." };
+      }
+      if (error.code === '23505' && error.message.includes('users_phone_key')) {
+        return { user: null, errorMsg: "An account with this phone number already exists. Please sign in instead." };
       }
       return { user: null, errorMsg: error.message };
     }
