@@ -7,7 +7,20 @@ import { t } from "@/lib/i18n";
 import { questions as civicsQuestions } from "@/data/questions";
 
 // Use first 10 questions from the official question bank (already translated in all 4 languages)
-const QUESTIONS = civicsQuestions.slice(0, 10);
+// Override g004 option 0 to show just "Capitalism" (not the slash variant) in the demo
+const QUESTIONS = civicsQuestions.slice(0, 10).map((q) => {
+  if (q.id === "g004") {
+    return {
+      ...q,
+      options: q.options.map((opt, i) =>
+        i === 0
+          ? { en: "Capitalism", ml: "മുതലാളിത്തം", gu: "મૂડીવાદ", vi: "Chủ nghĩa tư bản" }
+          : opt
+      ),
+    };
+  }
+  return q;
+});
 
 function shuffleOptions(options: (typeof QUESTIONS)[0]["options"], correctIndex: number) {
   const indexed = options.map((opt, i) => ({ opt, isCorrect: i === correctIndex }));
