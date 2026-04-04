@@ -30,10 +30,10 @@ const faqs: { q: Tri; a: Tri }[] = [
       "Bài thi công dân Hoa Kỳ là gì?"
     ),
     a: tri(
-      "During the naturalization interview, USCIS officers ask up to 10 questions from a list of 100 civics questions. You must answer at least 6 correctly to pass.",
-      "നാച്ചുറലൈസേഷൻ ഇന്റർവ്യൂവിൽ, 100 സിവിക്സ് ചോദ്യങ്ങളുടെ പട്ടികയിൽ നിന്ന് USCIS ഓഫീസർമാർ 10 ചോദ്യങ്ങൾ വരെ ചോദിക്കുന്നു. പാസാകാൻ കുറഞ്ഞത് 6 എണ്ണം ശരിയായി ഉത്തരം നൽകണം.",
-      "નેચરલાઇઝેશન ઇન્ટરવ્યૂ દરમિયાન, USCIS અધિકારીઓ 100 સિવિક્સ પ્રશ્નોની યાદીમાંથી 10 સુધી પ્રશ્નો પૂછે છે. પાસ થવા માટે તમારે ઓછામાં ઓછા 6 સાચા જવાબ આપવા પડશે.",
-      "Trong buổi phỏng vấn nhập tịch, nhân viên USCIS hỏi tối đa 10 câu từ danh sách 100 câu hỏi công dân. Bạn phải trả lời đúng ít nhất 6 câu để đạt."
+      "During the naturalization interview, USCIS officers ask up to 10 questions from a list of 128 civics questions. You must answer at least 6 correctly to pass.",
+      "നാച്ചുറലൈസേഷൻ ഇന്റർവ്യൂവിൽ, 128 സിവിക്സ് ചോദ്യങ്ങളുടെ പട്ടികയിൽ നിന്ന് USCIS ഓഫീസർമാർ 10 ചോദ്യങ്ങൾ വരെ ചോദിക്കുന്നു. പാസാകാൻ കുറഞ്ഞത് 6 എണ്ണം ശരിയായി ഉത്തരം നൽകണം.",
+      "નેચરલાઇઝેશન ઇન્ટરવ્યૂ દરમિયાન, USCIS અધિકારીઓ 128 સિવિક્સ પ્રશ્નોની યાદીમાંથી 10 સુધી પ્રશ્નો પૂછે છે. પાસ થવા માટે તમારે ઓછામાં ઓછા 6 સાચા જવાબ આપવા પડશે.",
+      "Trong buổi phỏng vấn nhập tịch, nhân viên USCIS hỏi tối đa 10 câu từ danh sách 128 câu hỏi công dân. Bạn phải trả lời đúng ít nhất 6 câu để đạt."
     ),
   },
   {
@@ -58,10 +58,10 @@ const faqs: { q: Tri; a: Tri }[] = [
       "Bài thi thật có bao nhiêu câu hỏi?"
     ),
     a: tri(
-      "The USCIS officer will ask you up to 10 civics questions from the official list of 100. You need to get 6 out of 10 correct to pass the civics portion.",
-      "100 ചോദ്യങ്ങളുടെ ഔദ്യോഗിക പട്ടികയിൽ നിന്ന് USCIS ഓഫീസർ 10 സിവിക്സ് ചോദ്യങ്ങൾ വരെ ചോദിക്കും. സിവിക്സ് ഭാഗം പാസാകാൻ 10-ൽ 6 ശരിയാക്കണം.",
-      "100 પ્રશ્નોની સત્તાવાર યાદીમાંથી USCIS અધિકારી 10 સિવિક્સ પ્રશ્નો સુધી પૂછશે. સિવિક્સ ભાગ પાસ કરવા માટે 10માંથી 6 સાચા મેળવવા જરૂરી છે.",
-      "Nhân viên USCIS sẽ hỏi bạn tối đa 10 câu hỏi công dân từ danh sách chính thức 100 câu. Bạn cần trả lời đúng 6 trong 10 câu để đạt phần công dân."
+      "The USCIS officer will ask you up to 10 civics questions from the official list of 128. You need to get 6 out of 10 correct to pass the civics portion.",
+      "128 ചോദ്യങ്ങളുടെ ഔദ്യോഗിക പട്ടികയിൽ നിന്ന് USCIS ഓഫീസർ 10 സിവിക്സ് ചോദ്യങ്ങൾ വരെ ചോദിക്കും. സിവിക്സ് ഭാഗം പാസാകാൻ 10-ൽ 6 ശരിയാക്കണം.",
+      "128 પ્રશ્નોની સત્તાવાર યાદીમાંથી USCIS અધિકારી 10 સિવિક્સ પ્રশ્નો સુધી પૂછશે. સિવિક્સ ભાગ પાસ કરવા માટે 10માંથી 6 સાચા મેળવવા જરૂરી છે.",
+      "Nhân viên USCIS sẽ hỏi bạn tối đa 10 câu hỏi công dân từ danh sách chính thức 128 câu. Bạn cần trả lời đúng 6 trong 10 câu để đạt phần công dân."
     ),
   },
   {
@@ -241,10 +241,10 @@ export default function HelpPage() {
         </h2>
         <p className="text-[1rem] text-text-body leading-relaxed">
           {l(
-            "For Our Parents was built by the children of immigrants to help parents and elders prepare for the U.S. citizenship naturalization test. We know how stressful this process can be — especially when study materials aren't available in your language. This app provides all 100 official USCIS civics questions in English, Malayalam, Gujarati, and Vietnamese, with practice modes, audio support, and personalized questions based on your congressional district. It's completely free, and always will be.",
-            "'For Our Parents' കുടിയേറ്റക്കാരുടെ മക്കൾ നിർമ്മിച്ചതാണ് — മലയാളം സംസാരിക്കുന്ന മാതാപിതാക്കളെയും മുതിർന്നവരെയും യു.എസ്. പൗരത്വ നാച്ചുറലൈസേഷൻ ടെസ്റ്റിന് തയ്യാറെടുക്കാൻ സഹായിക്കാൻ. ഈ പ്രക്രിയ എത്ര സമ്മർദ്ദകരമാണെന്ന് ഞങ്ങൾക്കറിയാം — പ്രത്യേകിച്ചും പഠന സാമഗ്രികൾ നിങ്ങളുടെ ഭാഷയിൽ ലഭ്യമല്ലാത്തപ്പോൾ. 100 ഔദ്യോഗിക USCIS സിവിക്സ് ചോദ്യങ്ങളും ഇംഗ്ലീഷിലും മലയാളത്തിലും ഈ ആപ്പ് നൽകുന്നു — പ്രാക്ടീസ് മോഡുകൾ, ഓഡിയോ പിന്തുണ, നിങ്ങളുടെ കോൺഗ്രഷണൽ ജില്ല അടിസ്ഥാനമാക്കിയുള്ള വ്യക്തിഗത ചോദ്യങ്ങൾ എന്നിവയോടൊപ്പം. ഇത് പൂർണ്ണമായും സൌജന്യമാണ്, എപ്പോഴും അങ്ങനെ തന്നെ ആയിരിക്കും.",
-            "'For Our Parents' ઇમિગ્રન્ટ્સના બાળકો દ્વારા બનાવવામાં આવ્યું છે — ગુજરાતી બોલતા માતાપિતા અને વડીલોને યુ.એસ. નાગરિકતા નેચરલાઇઝેશન ટેસ્ટ માટે તૈયાર કરવામાં મદદ કરવા. આ પ્રક્રિયા કેટલી તણાવપૂર્ણ હોઈ શકે છે તે અમે જાણીએ છીએ — ખાસ કરીને જ્યારે અભ્યાસ સામગ્રી તમારી ભાષામાં ઉપલબ્ધ ન હોય. આ એપ 100 સત્તાવાર USCIS સિવિક્સ પ્રશ્નો અંગ્રેજી, મલયાલમ, ગુજરાતી અને વિયેતનામીસમાં પ્રદાન કરે છે — પ્રેક્ટિસ મોડ્સ, ઓડિયો સપોર્ટ અને તમારા કોંગ્રેસનલ ડિસ્ટ્રિક્ટ પર આધારિત વ્યક્તિગત પ્રશ્નો સાથે. તે સંપૂર્ણપણે મફત છે, અને હંમેશા રહેશે.",
-            "'For Our Parents' được xây dựng bởi con cái của người nhập cư — để giúp cha mẹ và người lớn tuổi chuẩn bị cho bài thi nhập tịch Hoa Kỳ. Chúng tôi hiểu quá trình này căng thẳng đến thế nào — đặc biệt khi tài liệu học không có sẵn bằng ngôn ngữ của bạn. Ứng dụng này cung cấp tất cả 100 câu hỏi công dân USCIS chính thức bằng tiếng Anh, Malayalam, Gujarati và tiếng Việt — với các chế độ luyện tập, hỗ trợ âm thanh và câu hỏi cá nhân dựa trên khu vực quốc hội của bạn. Hoàn toàn miễn phí và sẽ luôn như vậy."
+            "For Our Parents was built by the children of immigrants to help parents and elders prepare for the U.S. citizenship naturalization test. We know how stressful this process can be — especially when study materials aren't available in your language. This app provides all 128 official USCIS civics questions in English, Malayalam, Gujarati, and Vietnamese, with practice modes, audio support, and personalized questions based on your congressional district. It's completely free, and always will be.",
+            "'For Our Parents' കുടിയേറ്റക്കാരുടെ മക്കൾ നിർമ്മിച്ചതാണ് — മലയാളം സംസാരിക്കുന്ന മാതാപിതാക്കളെയും മുതിർന്നവരെയും യു.എസ്. പൗരത്വ നാച്ചുറലൈസേഷൻ ടെസ്റ്റിന് തയ്യാറെടുക്കാൻ സഹായിക്കാൻ. ഈ പ്രക്രിയ എത്ര സമ്മർദ്ദകരമാണെന്ന് ഞങ്ങൾക്കറിയാം — പ്രത്യേകിച്ചും പഠന സാമഗ്രികൾ നിങ്ങളുടെ ഭാഷയിൽ ലഭ്യമല്ലാത്തപ്പോൾ. 128 ഔദ്യോഗിക USCIS സിവിക്സ് ചോദ്യങ്ങളും ഇംഗ്ലീഷിലും മലയാളത്തിലും ഈ ആപ്പ് നൽകുന്നു — പ്രാക്ടീസ് മോഡുകൾ, ഓഡിയോ പിന്തുണ, നിങ്ങളുടെ കോൺഗ്രഷണൽ ജില്ല അടിസ്ഥാനമാക്കിയുള്ള വ്യക്തിഗത ചോദ്യങ്ങൾ എന്നിവയോടൊപ്പം. ഇത് പൂർണ്ണമായും സൌജന്യമാണ്, എപ്പോഴും അങ്ങനെ തന്നെ ആയിരിക്കും.",
+            "'For Our Parents' ઇમિગ્રન્ટ્સના બાળકો દ્વારા બનાવવામાં આવ્યું છે — ગુજરાતી બોલતા માતાપિતા અને વડીલોને યુ.એસ. નાગરિકતા નેચરલાઇઝેશન ટેસ્ટ માટે તૈયાર કરવામાં મદદ કરવા. આ પ્રક્રિયા કેટલી તણાવપૂર્ણ હોઈ શકે છે તે અમે જાણીએ છીએ — ખાસ કરીને જ્યારે અભ્યાસ સામગ્રી તમારી ભાષામાં ઉપલબ્ધ ન હોય. આ એપ 128 સત્તાવાર USCIS સિવિક્સ પ્રશ્નો અંગ્રેજી, મલયાલમ, ગુજરાતી અને વિયેતનામીસમાં પ્રદાન કરે છે — પ્રેક્ટિસ મોડ્સ, ઓડિયો સપોર્ટ અને તમારા કોંગ્રેસનલ ડિસ્ટ્રિક્ટ પર આધારિત વ્યક્તિગત પ્રશ્નો સાથે. તે સંપૂર્ણપણે મફત છે, અને હંમેશા રહેશે.",
+            "'For Our Parents' được xây dựng bởi con cái của người nhập cư — để giúp cha mẹ và người lớn tuổi chuẩn bị cho bài thi nhập tịch Hoa Kỳ. Chúng tôi hiểu quá trình này căng thẳng đến thế nào — đặc biệt khi tài liệu học không có sẵn bằng ngôn ngữ của bạn. Ứng dụng này cung cấp tất cả 128 câu hỏi công dân USCIS chính thức bằng tiếng Anh, Malayalam, Gujarati và tiếng Việt — với các chế độ luyện tập, hỗ trợ âm thanh và câu hỏi cá nhân dựa trên khu vực quốc hội của bạn. Hoàn toàn miễn phí và sẽ luôn như vậy."
           )}
         </p>
       </motion.section>

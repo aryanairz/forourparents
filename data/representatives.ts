@@ -263,7 +263,7 @@ export const stateData: Record<string, StateData> = {
     name: "Oklahoma",
     capital: "Oklahoma City",
     governor: "Kevin Stitt",
-    senators: ["Jim Inhofe", "Markwayne Mullin"],
+    senators: ["James Lankford", "Alan Armstrong"],
     districts: {"1":"Kevin Hern","2":"Josh Brecheen","3":"Frank Lucas","4":"Tom Cole"},
   },
   OR: {

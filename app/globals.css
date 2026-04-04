@@ -72,12 +72,17 @@ h1, h2, h3, h4, h5, h6 {
   border-radius: 4px;
 }
 
-/* Large tap targets everywhere */
+/* Large tap targets everywhere — touch-action: manipulation removes the 300ms tap delay */
 button,
-a {
+a,
+[role="button"],
+input[type="submit"],
+input[type="button"],
+label {
   -webkit-tap-highlight-color: transparent;
   -webkit-user-select: none;
   user-select: none;
+  touch-action: manipulation;
 }
 
 /* Allow text selection on content */
@@ -324,7 +329,7 @@ body:has(.login-page) #main-content {
 .marquee-track {
   display: flex;
   white-space: nowrap;
-  animation: marquee-scroll 30s linear infinite;
+  animation: marquee-scroll 12s linear infinite;
 }
 .marquee-track:hover {
   animation-play-state: paused;

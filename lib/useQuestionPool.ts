@@ -11,7 +11,7 @@ import { getPersonalizedQuestions } from "@/data/personalizedQuestions";
 import { getCurrentUser } from "@/lib/storage";
 
 /** Question IDs that are state-specific and should be replaced by personalized ones */
-const STATE_SPECIFIC_IDS = new Set(["q023", "q029", "q061", "q062"]);
+const STATE_SPECIFIC_IDS = new Set(["g030", "g035", "g054", "g055"]);
 
 export function useQuestionPool(): Question[] {
   const [pool, setPool] = useState<Question[]>([]);

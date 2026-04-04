@@ -1068,6 +1068,7 @@ export const questions: Question[] = [
       en: 'The national anthem is "The Star-Spangled Banner."',
       ml: '"ദി സ്റ്റാർ-സ്പാംഗിൾഡ് ബാനർ" ആണ് ദേശീയ ഗാനം.',
       gu: 'રાષ્ટ્રગીત "ધ સ્ટાર-સ્પેન્ગલ્ડ બેનર" છે.',
+      vi: 'Quốc ca là "The Star-Spangled Banner."',
     },
   },
   {
@@ -1077,18 +1078,20 @@ export const questions: Question[] = [
       en: 'What does "E Pluribus Unum" mean?',
       ml: '"ഇ പ്ലൂരിബസ് യൂനം" എന്നാൽ എന്താണ് അർത്ഥം?',
       gu: '"ઇ પ્લ્યુરિબસ યુનમ" નો અર્થ શું છે?',
+      vi: '"E Pluribus Unum" có nghĩa là gì?',
     },
     options: [
-      { en: "Out of many, one", ml: "അനേകത്തിൽ നിന്ന് ഒന്ന്", gu: "ઘણામાંથી એક" },
-      { en: "In God we trust", ml: "ദൈവത്തിൽ നാം വിശ്വസിക്കുന്നു", gu: "ભગવાનમાં આપણને વિશ્વાસ છે" },
-      { en: "Liberty and justice", ml: "സ്വാതന്ത്ര്യവും നീതിയും", gu: "સ્વતંત્રતા અને ન્યાય" },
-      { en: "We the people", ml: "നമ്മൾ ജനങ്ങൾ", gu: "અમે લોકો" },
+      { en: "Out of many, one", ml: "അനേകത്തിൽ നിന്ന് ഒന്ന്", gu: "ઘણામાંથી એક", vi: "Từ nhiều, thành một" },
+      { en: "In God we trust", ml: "ദൈവത്തിൽ നാം വിശ്വസിക്കുന്നു", gu: "ભગવાનમાં આપણને વિશ્વાસ છે", vi: "Chúng ta tin vào Chúa" },
+      { en: "Liberty and justice", ml: "സ്വാതന്ത്ര്യവും നീതിയും", gu: "સ્વતંત્રતા અને ન્યાય", vi: "Tự do và công lý" },
+      { en: "We the people", ml: "നമ്മൾ ജനങ്ങൾ", gu: "અમે લોકો", vi: "Chúng ta, nhân dân" },
     ],
     correctIndex: 0,
     explanation: {
       en: '"E Pluribus Unum" means "Out of many, one."',
       ml: '"ഇ പ്ലൂരിബസ് യൂനം" എന്നാൽ "അനേകത്തിൽ നിന്ന് ഒന്ന്" എന്നാണ് അർത്ഥം.',
       gu: '"ઇ પ્લ્યુરિબસ યુનમ" નો અર્થ "ઘણામાંથી એક" છે.',
+      vi: '"E Pluribus Unum" có nghĩa là "Từ nhiều, thành một."',
     },
   },
   {
@@ -1197,7 +1200,7 @@ export const questions: Question[] = [
       en: "The U.S. Constitution starts with \"We the People.\" What does \"We the People\" mean?",
       ml: "അമേരിക്കൻ ഭരണഘടന \"We the People\" (നാം ജനങ്ങൾ) എന്ന വാക്കുകളിൽ തുടങ്ങുന്നു. ഇതിന്റെ അർഥം എന്താണ്?",
       gu: "યુ.એસ. બંધારણ \"We the People\" થી શરૂ થાય છે. \"We the People\" નો અર્થ શું છે?",
-      vi: "Hiến pháp Hoa Kỳ bắt đầu bằng \\",
+      vi: "Hiến pháp Hoa Kỳ bắt đầu bằng \"We the People.\" \"We the People\" có nghĩa là gì?",
     },
     options: [
       { en: "The President rules alone", ml: "പ്രസിഡന്റ് ഒറ്റയ്ക്ക് ഭരിക്കുന്നു", gu: "રાષ્ટ્રપતિ એકલા શાસન કરે છે", vi: "Tổng thống cai trị một mình" },
@@ -1210,7 +1213,7 @@ export const questions: Question[] = [
       en: "\"We the People\" means self-government — the people govern themselves through consent of the governed.",
       ml: "\"We the People\" എന്നാൽ സ്വയം ഭരണമാണ് — ജനങ്ങൾ സ്വയം ഭരിക്കുന്നു.",
       gu: "\"We the People\" નો અર્થ સ્વ-શાસન છે — લોકો શાસિતોની સંમતિથી પોતાનું શાસન કરે છે.",
-      vi: "\\",
+      vi: "\"We the People\" có nghĩa là tự quản — người dân tự cai trị thông qua sự đồng ý của những người bị cai trị.",
     },
   },
   {
@@ -1312,7 +1315,7 @@ export const questions: Question[] = [
       en: "The words \"Life, Liberty, and the pursuit of Happiness\" are in what founding document?",
       ml: "\"ജീവൻ, സ്വാതന്ത്ര്യം, സന്തോഷം തേടൽ\" എന്ന വാക്കുകൾ ഏത് രൂപകർത്ത രേഖയിലാണ്?",
       gu: "\"Life, Liberty, and the pursuit of Happiness\" શબ્દો કયા સ્થાપક દસ્તાવેજમાં છે?",
-      vi: "Câu \\",
+      vi: "Câu \"Life, Liberty, and the pursuit of Happiness\" xuất hiện trong tài liệu lập quốc nào?",
     },
     options: [
       { en: "Bill of Rights", ml: "അവകാശ ബിൽ", gu: "અધિકારોનું વિધેયક", vi: "Đạo luật Nhân quyền" },
@@ -1325,7 +1328,7 @@ export const questions: Question[] = [
       en: "\"Life, Liberty, and the pursuit of Happiness\" are words from the Declaration of Independence.",
       ml: "\"ജീവൻ, സ്വാതന്ത്ര്യം, സന്തോഷം തേടൽ\" സ്വാതന്ത്ര്യ പ്രഖ്യാപനത്തിലെ വാക്കുകളാണ്.",
       gu: "\"Life, Liberty, and the pursuit of Happiness\" સ્વતંત્રતાના ઘોષણાપત્રના શબ્દો છે.",
-      vi: "\\",
+      vi: "\"Life, Liberty, and the pursuit of Happiness\" là những từ trong Tuyên ngôn Độc lập.",
     },
   },
   {
@@ -1890,7 +1893,7 @@ export const questions: Question[] = [
       vi: "Nhánh hành pháp có nhiều bộ phận. Kể tên một.",
     },
     options: [
-      { en: "President / Cabinet / Federal departments and agencies", ml: "പ്രസിഡന്റ് / കാബിനറ്റ് / ഫെഡറൽ വകുപ്പുകളും ഏജൻസികളും", gu: "રાષ્ટ્રપતિ / કેબિનેટ / ફેડરલ વિભાગો અને એજન્સીઓ", vi: "Tổng thống / Nội các / Các bộ và cơ quan liên bang" },
+      { en: "President", ml: "പ്രസിഡന്റ്", gu: "રાષ્ટ્રપતિ", vi: "Tổng thống" },
       { en: "Senate", ml: "സെനറ്റ്", gu: "સેનેટ", vi: "Thượng viện" },
       { en: "House of Representatives", ml: "ജനപ്രതിനിധി സഭ", gu: "પ્રતિનિધિ સભા", vi: "Hạ viện" },
       { en: "Supreme Court", ml: "സുപ്രീം കോടതി", gu: "સુપ્રીમ કોર્ટ", vi: "Tòa án Tối cao" },
@@ -2143,7 +2146,7 @@ export const questions: Question[] = [
       vi: "Một cách người Mỹ có thể phục vụ đất nước là gì?",
     },
     options: [
-      { en: "Vote / Pay taxes / Obey the law / Serve in the military", ml: "വോട്ട് ചെയ്യുക / നികുതി അടക്കുക / നിയമം അനുസരിക്കുക / സൈന്യത്തിൽ സേവിക്കുക", gu: "મતદાન / કર ચૂકવવો / કાયદાનું પાલન / સેનામાં સેવા", vi: "Bỏ phiếu / Đóng thuế / Tuân thủ pháp luật / Phục vụ quân đội" },
+      { en: "Vote", ml: "വോട്ട് ചെയ്യുക", gu: "મતદાન", vi: "Bỏ phiếu" },
       { en: "Leave the country", ml: "രാജ്യം വിടുക", gu: "દેશ છોડો", vi: "Rời khỏi đất nước" },
       { en: "Refuse to pay taxes", ml: "നികുതി അടക്കാൻ വിസമ്മതിക്കുക", gu: "કર ચૂકવવાનો ઇનકાર", vi: "Từ chối đóng thuế" },
       { en: "Ignore elections", ml: "തിരഞ്ഞെടുപ്പുകൾ അവഗണിക്കുക", gu: "ચૂંટણીઓની અવગણના", vi: "Bỏ qua các cuộc bầu cử" },
@@ -2282,7 +2285,7 @@ export const questions: Question[] = [
     },
     options: [
       { en: "Thomas Jefferson", ml: "തോമസ് ജെഫേഴ്‌സൺ", gu: "થોમસ જેફરસન", vi: "Thomas Jefferson" },
-      { en: "James Madison / Alexander Hamilton / John Jay", ml: "ജെയിംസ് മാഡിസൺ / അലക്സാണ്ടർ ഹാമിൽടൺ / ജോൺ ജേ", gu: "જેમ્સ મેડિસન / ઍલેક્ઝાન્ડર હૅમિલ્ટન / જ્હોન જૅ", vi: "James Madison / Alexander Hamilton / John Jay" },
+      { en: "James Madison", ml: "ജെയിംസ് മാഡിസൺ", gu: "જેમ્સ મેડિસન", vi: "James Madison" },
       { en: "George Washington", ml: "ജോർജ് വാഷിംഗ്ടൺ", gu: "જ્યોર્જ વોશિંગ્ટન", vi: "George Washington" },
       { en: "Benjamin Franklin", ml: "ബെഞ്ചമിൻ ഫ്രാങ്ക്ലിൻ", gu: "બેન્જામિન ફ્રેન્કલિન", vi: "Benjamin Franklin" },
     ],
@@ -2329,7 +2332,7 @@ export const questions: Question[] = [
     options: [
       { en: "First President of the United States", ml: "അമേരിക്കയുടെ ആദ്യ പ്രസിഡന്റ്", gu: "યુનાઈટેડ સ્ટેટ્સના પ્રથમ રાષ્ટ્રપતિ", vi: "Tổng thống đầu tiên của Hoa Kỳ" },
       { en: "Writing the Constitution alone", ml: "ഭരണഘടന ഒറ്റയ്ക്ക് എഴുതി", gu: "એકલા બંધારણ લખવું", vi: "Viết Hiến pháp một mình" },
-      { en: "Founded first public libraries / First Postmaster General / Inventor / U.S. diplomat", ml: "ആദ്യ പൊതു ലൈബ്രറികൾ സ്ഥാപിച്ചു / ആദ്യ പോസ്റ്റ്മാസ്റ്റർ ജനറൽ / കണ്ടുപിടുത്തക്കാരൻ / നയതന്ത്രജ്ഞൻ", gu: "પ્રથમ જાહેર પુસ્તકાલયોની સ્થાપના / પ્રથમ પોસ્ટમાસ્ટર જનરલ / શોધક / યુ.એસ. રાજદ્વારી", vi: "Sáng lập thư viện công cộng đầu tiên / Tổng Giám đốc Bưu điện đầu tiên / Nhà phát minh / Nhà ngoại giao Hoa Kỳ" },
+      { en: "Inventor", ml: "കണ്ടുപിടുത്തക്കാരൻ", gu: "શોધક", vi: "Nhà phát minh" },
       { en: "Leading the Civil War", ml: "ആഭ്യന്തര യുദ്ധം നയിച്ചു", gu: "ગૃહયુદ્ધનું નેતૃત્વ", vi: "Lãnh đạo Nội chiến" },
     ],
     correctIndex: 2,
@@ -2350,7 +2353,7 @@ export const questions: Question[] = [
       vi: "Kể một điều George Washington nổi tiếng.",
     },
     options: [
-      { en: "First President / Father of Our Country / Continental Army General", ml: "ആദ്യ പ്രസിഡന്റ് / നമ്മുടെ രാജ്യത്തിന്റെ പിതാവ് / കോണ്ടിനെന്റൽ ആർമി ജനറൽ", gu: "પ્રથમ રાષ્ટ્રપતિ / આપણા દેશના પિતા / કોન્ટિનેન્ટલ આર્મી જનરલ", vi: "Tổng thống đầu tiên / Cha của Đất nước / Tướng Quân đội Lục địa" },
+      { en: "First President", ml: "ആദ്യ പ്രസിഡന്റ്", gu: "પ્રથમ રાષ્ટ્રપતિ", vi: "Tổng thống đầu tiên" },
       { en: "Writing the Declaration of Independence", ml: "സ്വാതന്ത്ര്യ പ്രഖ്യാപനം എഴുതി", gu: "સ્વતંત્રતાનું ઘોષણાપત્ર લખવું", vi: "Viết Tuyên ngôn Độc lập" },
       { en: "Freeing the slaves", ml: "അടിമകളെ മോചിപ്പിച്ചു", gu: "ગુલામોને મુક્ત કરવા", vi: "Giải phóng nô lệ" },
       { en: "Inventing electricity", ml: "വൈദ്യുതി കണ്ടുപിടിച്ചു", gu: "વીજળીની શોધ", vi: "Phát minh ra điện" },
@@ -2374,7 +2377,7 @@ export const questions: Question[] = [
     },
     options: [
       { en: "Leading the Civil War", ml: "ആഭ്യന്തര യുദ്ധം നയിച്ചു", gu: "ગૃહયુદ્ધનું નેતૃત્વ", vi: "Lãnh đạo Nội chiến" },
-      { en: "Wrote the Declaration of Independence / Third President / Louisiana Purchase", ml: "സ്വാതന്ത്ര്യ പ്രഖ്യാപനം എഴുതി / മൂന്നാം പ്രസിഡന്റ് / ലൂസിയാന പർച്ചേസ്", gu: "સ્વતંત્રતાનું ઘોષણાપત્ર લખ્યું / ત્રીજા રાષ્ટ્રપતિ / લુઇસિયાના ખરીદી", vi: "Viết Tuyên ngôn Độc lập / Tổng thống thứ ba / Mua Louisiana" },
+      { en: "Wrote the Declaration of Independence", ml: "സ്വാതന്ത്ര്യ പ്രഖ്യാപനം എഴുതി", gu: "સ્વતંત્રતાનું ઘોષણાપત્ર લખ્યું", vi: "Viết Tuyên ngôn Độc lập" },
       { en: "Founding the first bank", ml: "ആദ്യ ബാങ്ക് സ്ഥാപിച്ചു", gu: "પ્રથમ બેંકની સ્થાપના", vi: "Sáng lập ngân hàng đầu tiên" },
       { en: "Being the first Chief Justice", ml: "ആദ്യ ചീഫ് ജസ്റ്റിസ്", gu: "પ્રથમ ચીફ જસ્ટિસ હોવું", vi: "Là Chánh án đầu tiên" },
     ],
@@ -2396,7 +2399,7 @@ export const questions: Question[] = [
       vi: "Kể một điều James Madison nổi tiếng.",
     },
     options: [
-      { en: "Father of the Constitution / Fourth President / Federalist Papers writer", ml: "ഭരണഘടനയുടെ പിതാവ് / നാലാം പ്രസിഡന്റ് / ഫെഡറലിസ്റ്റ് പേപ്പേഴ്സ് എഴുത്തുകാരൻ", gu: "બંધારણના પિતા / ચોથા રાષ્ટ્રપતિ / ફેડરલિસ્ટ પેપર્સના લેખક", vi: "Cha đẻ Hiến pháp / Tổng thống thứ tư / Tác giả Các bài Liên bang" },
+      { en: "Father of the Constitution", ml: "ഭരണഘടനയുടെ പിതാവ്", gu: "બંધારણના પિતા", vi: "Cha đẻ Hiến pháp" },
       { en: "First President", ml: "ആദ്യ പ്രസിഡന്റ്", gu: "પ્રથમ રાષ્ટ્રપતિ", vi: "Tổng thống đầu tiên" },
       { en: "Freeing the slaves", ml: "അടിമകളെ മോചിപ്പിച്ചു", gu: "ગુલામોને મુક્ત કરવા", vi: "Giải phóng nô lệ" },
       { en: "Discovering America", ml: "അമേരിക്ക കണ്ടെത്തി", gu: "અૅમેરિકા શોધવું", vi: "Khám phá nước Mỹ" },
@@ -2421,7 +2424,7 @@ export const questions: Question[] = [
     options: [
       { en: "Writing the Declaration of Independence", ml: "സ്വാതന്ത്ര്യ പ്രഖ്യാപനം എഴുതി", gu: "સ્વતંત્રતાનું ઘોષણાપત્ર લખવું", vi: "Viết Tuyên ngôn Độc lập" },
       { en: "Being the first President", ml: "ആദ്യ പ്രസിഡന്റ്", gu: "પ્રથમ રાષ્ટ્રપતિ હોવું", vi: "Là Tổng thống đầu tiên" },
-      { en: "First Secretary of Treasury / Federalist Papers writer / Established First Bank", ml: "ആദ്യ ട്രഷറി സെക്രട്ടറി / ഫെഡറലിസ്റ്റ് പേപ്പേഴ്സ് എഴുത്തുകാരൻ / ആദ്യ ബാങ്ക് സ്ഥാപിച്ചു", gu: "ખજાનાના પ્રથમ સચિવ / ફેડરલિસ્ટ પેપર્સના લેખક / પ્રથમ બેંકની સ્થાપના", vi: "Bộ trưởng Tài chính đầu tiên / Tác giả Các bài Liên bang / Thành lập Ngân hàng đầu tiên" },
+      { en: "First Secretary of the Treasury", ml: "ആദ്യ ട്രഷറി സെക്രട്ടറി", gu: "ખજાનાના પ્રથમ સચિવ", vi: "Bộ trưởng Tài chính đầu tiên" },
       { en: "Leading the Civil War", ml: "ആഭ്യന്തര യുദ്ധം നയിച്ചു", gu: "ગૃહયુદ્ધનું નેતૃત્વ", vi: "Lãnh đạo Nội chiến" },
     ],
     correctIndex: 2,
@@ -2442,7 +2445,7 @@ export const questions: Question[] = [
       vi: "Kể tên một cuộc chiến Hoa Kỳ chiến đấu trong những năm 1800.",
     },
     options: [
-      { en: "War of 1812 / Mexican-American War / Civil War / Spanish-American War", ml: "1812-ലെ യുദ്ധം / മെക്സിക്കൻ-അമേരിക്കൻ യുദ്ധം / ആഭ്യന്തര യുദ്ധം / സ്പാനിഷ്-അമേരിക്കൻ യുദ്ധം", gu: "1812નું યુદ્ધ / મેક્સિકન-અમેરિકન યુદ્ધ / ગૃહયુદ્ધ / સ્પેનિશ-અમેરિકન યુદ્ધ", vi: "Chiến tranh 1812 / Chiến tranh Mexico-Mỹ / Nội chiến / Chiến tranh Tây Ban Nha-Mỹ" },
+      { en: "Civil War", ml: "ആഭ്യന്തര യുദ്ധം", gu: "ગૃહ-યુદ્ધ", vi: "Nội chiến" },
       { en: "World War I", ml: "ഒന്നാം ലോകയുദ്ധം", gu: "પ્રથમ વિશ્વયુદ્ધ", vi: "Chiến tranh Thế giới thứ Nhất" },
       { en: "Vietnam War", ml: "വിയറ്റ്നാം യുദ്ധം", gu: "વિયેતનામ યુદ્ધ", vi: "Chiến tranh Việt Nam" },
       { en: "Korean War", ml: "കൊറിയൻ യുദ്ധം", gu: "કોરિયન યુદ્ધ", vi: "Chiến tranh Triều Tiên" },
@@ -2467,7 +2470,7 @@ export const questions: Question[] = [
     options: [
       { en: "Boston Tea Party", ml: "ബോസ്റ്റൺ ടീ പാർടി", gu: "બૉસ્ટન ટી પાર્ટી", vi: "Tiệc trà Boston" },
       { en: "Pearl Harbor attack", ml: "പേൾ ഹാർബർ ആക്രമണം", gu: "પર્લ હાર્બર હુમલો", vi: "Cuộc tấn công Trân Châu Cảng" },
-      { en: "Fort Sumter / Emancipation Proclamation / Gettysburg", ml: "ഫോർട്ട് സംടർ / എമൻസിപ്പേഷൻ പ്രൊക്ലമേഷൻ / ഗെറ്റിസ്ബർഗ്", gu: "ફોર્ટ સમ્ટર / મુક્તિ ઘોષણા / ગેટ્ટીસબર્ગ", vi: "Fort Sumter / Tuyên ngôn Giải phóng Nô lệ / Gettysburg" },
+      { en: "Emancipation Proclamation", ml: "എമൻസിപ്പേഷൻ പ്രൊക്ലമേഷൻ", gu: "મુક્તિ ઘોષણા", vi: "Tuyên ngôn Giải phóng Nô lệ" },
       { en: "Signing the Constitution", ml: "ഭരണഘടന ഒപ്പിടൽ", gu: "બંધારણ પર હસ્તાક્ષર કરવા", vi: "Ký kết Hiến pháp" },
     ],
     correctIndex: 2,
@@ -2490,7 +2493,7 @@ export const questions: Question[] = [
     options: [
       { en: "First President", ml: "ആദ്യ പ്രസിഡന്റ്", gu: "પ્રથમ રાષ્ટ્રપતિ", vi: "Tổng thống đầu tiên" },
       { en: "Writing the Constitution", ml: "ഭരണഘടന എഴുതി", gu: "બંધારણ લખવું", vi: "Viết Hiến pháp" },
-      { en: "Freed the slaves / Preserved the Union / 16th President / Gettysburg Address", ml: "അടിമകളെ മോചിപ്പിച്ചു / യൂണിയൻ സംരക്ഷിച്ചു / 16-ആം പ്രസിഡന്റ് / ഗെറ്റിസ്ബർഗ് അഡ്രസ്", gu: "ગુલામોને મુક્ત કર્યા / સંઘનું રક્ષણ / 16મા રાષ્ટ્રપતિ / ગેટ્ટીસબર્ગ સંબોધન", vi: "Giải phóng nô lệ / Bảo toàn Liên bang / Tổng thống thứ 16 / Diễn văn Gettysburg" },
+      { en: "Freed the slaves", ml: "അടിമകളെ മോചിപ്പിച്ചു", gu: "ગુલામોને મુક્ત કર્યા", vi: "Giải phóng nô lệ" },
       { en: "Louisiana Purchase", ml: "ലൂസിയാന പർച്ചേസ്", gu: "લુઇસિયાના ખરીદી", vi: "Mua Louisiana" },
     ],
     correctIndex: 2,
@@ -2582,7 +2585,7 @@ export const questions: Question[] = [
     options: [
       { en: "Civil War", ml: "ആഭ്യന്തര യുദ്ധം", gu: "ગૃહ-યુદ્ધ", vi: "Nội chiến" },
       { en: "Revolutionary War", ml: "വിപ്ലവ യുദ്ധം", gu: "ક્રાંતિકારી યુદ્ધ", vi: "Chiến tranh Cách mạng" },
-      { en: "World War I / World War II / Korean War / Vietnam War / Gulf War", ml: "ഒന്നാം ലോകയുദ്ധം / രണ്ടാം ലോകയുദ്ധം / കൊറിയൻ യുദ്ധം / വിയറ്റ്നാം യുദ്ധം / ഗൾഫ് യുദ്ധം", gu: "પ્રથમ વિશ્વયુદ્ધ / બીજું વિશ્વયુદ્ધ / કોરિયન યુદ્ધ / વિયેતનામ યુદ્ધ / ખાડી યુદ્ધ", vi: "Chiến tranh Thế giới thứ Nhất / Chiến tranh Thế giới thứ Hai / Chiến tranh Triều Tiên / Chiến tranh Việt Nam / Chiến tranh Vùng Vịnh" },
+      { en: "World War II", ml: "രണ്ടാം ലോകയുദ്ധം", gu: "બીજું વિશ્વયુદ્ધ", vi: "Chiến tranh Thế giới thứ Hai" },
       { en: "War of 1812", ml: "1812-ലെ യുദ്ധം", gu: "1812નું યુદ્ધ", vi: "Chiến tranh 1812" },
     ],
     correctIndex: 2,
@@ -2672,7 +2675,7 @@ export const questions: Question[] = [
       vi: "Tại sao Hoa Kỳ tham gia Chiến tranh Thế giới thứ Hai?",
     },
     options: [
-      { en: "Pearl Harbor / Support the Allies / Oppose the Axis powers", ml: "പേൾ ഹാർബർ / സഖ്യകക്ഷികളെ പിന്തുണക്കാൻ / ആക്സിസ് ശക്തികളെ എതിർക്കാൻ", gu: "પર્લ હાર્બર / સાથી દેશોને ટેકો / ધરી શક્તિઓનો વિરોધ", vi: "Trân Châu Cảng / Hỗ trợ Đồng minh / Chống lại phe Trục" },
+      { en: "Pearl Harbor", ml: "പേൾ ഹാർബർ", gu: "પર્લ હાર્બર", vi: "Trân Châu Cảng" },
       { en: "To stop communism", ml: "കമ്മ്യൂണിസം തടയാൻ", gu: "સામ્યવાદ રોકવા", vi: "Để ngăn chặn chủ nghĩa cộng sản" },
       { en: "Because of the Great Depression", ml: "മഹാ സാമ്പത്തിക മാന്ദ്യം കാരണം", gu: "ગ્રૅટ ડિપ્રૅશનને કારણે", vi: "Vì Đại Suy thoái" },
       { en: "To gain territory in Europe", ml: "യൂറോപ്പിൽ പ്രദേശം നേടാൻ", gu: "યુરોપમાં પ્રદેશ મેળવવા", vi: "Để chiếm lãnh thổ ở châu Âu" },
@@ -2696,7 +2699,7 @@ export const questions: Question[] = [
     },
     options: [
       { en: "Writing the Constitution", ml: "ഭരണഘടന എഴുതി", gu: "બંધારણ લખવું", vi: "Viết Hiến pháp" },
-      { en: "WWII General / 34th President / Interstate Highway System", ml: "രണ്ടാം ലോകയുദ്ധ ജനറൽ / 34-ആം പ്രസിഡന്റ് / ഇന്റർസ്റ്റേറ്റ് ഹൈവേ സിസ്റ്റം", gu: "બીજા વિશ્વયુદ્ધના જનરલ / 34મા રાષ્ટ્રપતિ / ઇન્ટરસ્ટેટ હાઇવે સિસ્ટમ", vi: "Tướng Thế chiến II / Tổng thống thứ 34 / Hệ thống Xa lộ Liên tiểu bang" },
+      { en: "WWII General", ml: "രണ്ടാം ലോകയുദ്ധ ജനറൽ", gu: "બીજા વિશ્વયુદ્ધના જનરલ", vi: "Tướng Thế chiến II" },
       { en: "Freeing the slaves", ml: "അടിമകളെ മോചിപ്പിച്ചു", gu: "ગુલામોને મુક્ત કરવા", vi: "Giải phóng nô lệ" },
       { en: "First President", ml: "ആദ്യ പ്രസിഡന്റ്", gu: "પ્રથમ રાષ્ટ્રપતિ", vi: "Tổng thống đầu tiên" },
     ],
@@ -2881,7 +2884,7 @@ export const questions: Question[] = [
     options: [
       { en: "Vietnam War", ml: "വിയറ്റ്നാം യുദ്ധം", gu: "વિયેતનામ યુદ્ધ", vi: "Chiến tranh Việt Nam" },
       { en: "Korean War", ml: "കൊറിയൻ യുദ്ധം", gu: "કોરિયન યુદ્ધ", vi: "Chiến tranh Triều Tiên" },
-      { en: "War on Terror / War in Afghanistan / War in Iraq", ml: "ഭീകരതക്കെതിരായ യുദ്ധം / അഫ്ഗാനിസ്ഥാനിലെ യുദ്ധം / ഇറാഖിലെ യുദ്ധം", gu: "આતંકવાદ સામે યુદ્ધ / અફઘાનિસ્તાનમાં યુદ્ધ / ઇરાકમાં યુદ્ધ", vi: "Chiến tranh chống Khủng bố / Chiến tranh Afghanistan / Chiến tranh Iraq" },
+      { en: "War in Afghanistan", ml: "അഫ്ഗാനിസ്ഥാനിലെ യുദ്ധം", gu: "અફઘાનિસ્તાનમાં યુદ્ધ", vi: "Chiến tranh Afghanistan" },
       { en: "Gulf War", ml: "ഗൾഫ് യുദ്ധം", gu: "ખાડી યુદ્ધ", vi: "Chiến tranh Vùng Vịnh" },
     ],
     correctIndex: 2,
@@ -2902,7 +2905,7 @@ export const questions: Question[] = [
       vi: "Kể tên một bộ lạc Da đỏ ở Hoa Kỳ.",
     },
     options: [
-      { en: "Cherokee / Navajo / Sioux / Apache / Hopi", ml: "ചെറോക്കി / നവാജോ / സിയൂക്സ് / അപ്പാഷെ / ഹോപ്പി", gu: "ચૅરોકી / નૅવૅઝ / સ્યૂ / અૅપૅચ / હોપી", vi: "Cherokee / Navajo / Sioux / Apache / Hopi" },
+      { en: "Cherokee", ml: "ചെറോക്കി", gu: "ચૅરોકી", vi: "Cherokee" },
       { en: "Aztec", ml: "ആസ്ടെക്", gu: "ઍઝ્ટૅક", vi: "Aztec" },
       { en: "Inca", ml: "ഇൻക", gu: "ઇન્કા", vi: "Inca" },
       { en: "Maya", ml: "മായ", gu: "માયા", vi: "Maya" },
@@ -2926,7 +2929,7 @@ export const questions: Question[] = [
     },
     options: [
       { en: "The printing press", ml: "പ്രിന്റിംഗ് പ്രസ്", gu: "છાપખાનું", vi: "Máy in" },
-      { en: "Light bulb / Airplane / Assembly line / Moon landing", ml: "ബൾബ് / വിമാനം / അസംബ്ലി ലൈൻ / ചന്ദ്ര ലാൻഡിംഗ്", gu: "લાઇટ બલ્બ / વિમાન / ઍસેમ્બલી લાઇન / ચંદ્ર પર ઉતરાણ", vi: "Bóng đèn / Máy bay / Dây chuyền lắp ráp / Đổ bộ lên Mặt Trăng" },
+      { en: "Airplane", ml: "വിമാനം", gu: "વિમાન", vi: "Máy bay" },
       { en: "The wheel", ml: "ചക്രം", gu: "પૈડું", vi: "Bánh xe" },
       { en: "Paper", ml: "പേപ്പർ", gu: "કાગળ", vi: "Giấy" },
     ],

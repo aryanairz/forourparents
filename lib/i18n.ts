@@ -24,6 +24,7 @@ export type TranslationKey =
   | "practiceMode"
   | "selectTopic"
   | "startPractice"
+  | "startQuiz"
   | "startReview"
   | "attempted"
   | "score"
@@ -141,6 +142,7 @@ export const translations: Record<TranslationKey, Record<Lang, string>> = {
   practiceMode: { en: "Practice Mode", ml: "പരിശീലന മോഡ്", gu: "પ્રેક્ટિસ મોડ", vi: "Chế độ luyện tập" },
   selectTopic: { en: "Select a Topic", ml: "ഒരു വിഷയം തിരഞ്ഞെടുക്കുക", gu: "એક વિષય પસંદ કરો", vi: "Chọn một chủ đề" },
   startPractice: { en: "Start Practice", ml: "പരിശീലനം ആരംഭിക്കുക", gu: "પ્રેક્ટિસ શરૂ કરો", vi: "Bắt đầu luyện tập" },
+  startQuiz: { en: "Start Quiz", ml: "ക്വിസ് ആരംഭിക്കുക", gu: "ક્વિઝ શરૂ કરો", vi: "Bắt đầu kiểm tra" },
   startReview: { en: "Start Review", ml: "പരിശോധന ആരംഭിക്കുക", gu: "સમીક્ષા શરૂ કરો", vi: "Bắt đầu ôn tập" },
   attempted: { en: "Attempted", ml: "ശ്രമിച്ചത്", gu: "પ્રયત્ન કર્યા", vi: "Đã làm" },
   score: { en: "Score", ml: "സ്കോർ", gu: "સ્કોર", vi: "Điểm" },
@@ -373,7 +375,7 @@ export const translations: Record<TranslationKey, Record<Lang, string>> = {
     vi: "TÔI ĐÃ CÓ TÀI KHOẢN",
   },
   landingFreeTitle: {
-    en: "practice makes citizens.",
+    en: "Practice makes citizens.",
     ml: "പരിശീലനം പൗരന്മാരെ ഉണ്ടാക്കും.",
     gu: "પ્રેક્ટિસ નાગરિક બનાવે.",
     vi: "luyện tập tạo nên công dân.",

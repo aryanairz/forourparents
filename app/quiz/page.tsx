@@ -1,10 +1,10 @@
 "use client";
 
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback, useRef, useMemo } from "react";
 import Link from "next/link";
 import { useLanguage } from "@/lib/LanguageContext";
 import { t } from "@/lib/i18n";
-import { questions as allQuestions, Question, BilingualText } from "@/data/questions";
+import { questions as allQuestions, Question, BilingualText, Topic, allTopics, topicLabels } from "@/data/questions";
 import { addMistake, saveQuizAttempt } from "@/lib/storage";
 import { useFeedbackSpeech } from "@/lib/useFeedbackSpeech";
 import { useQuestionPool } from "@/lib/useQuestionPool";
@@ -12,7 +12,7 @@ import QuestionCard from "@/components/QuestionCard";
 import OptionButton from "@/components/OptionButton";
 import ProgressBar from "@/components/ProgressBar";
 import ReadAloud from "@/components/ReadAloud";
-import { ArrowLeft, RotateCcw, Home, ChevronRight, Flag, Trophy } from "lucide-react";
+import { ArrowLeft, RotateCcw, Home, ChevronRight, Flag, Trophy, BookOpen, Landmark, Scale, ScrollText, MapPin, Check } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const fadeUp = {
@@ -124,6 +124,26 @@ function pickQuestion(pool: Question[], recentIds: string[]): {
   };
 }
 
+type TopicKey = Topic | "all" | "local";
+
+const topicIcons: Record<TopicKey, React.ReactNode> = {
+  all: <BookOpen size={22} className="text-primary" />,
+  government: <Landmark size={22} className="text-cat-government" />,
+  rights: <Scale size={22} className="text-cat-rights" />,
+  history: <ScrollText size={22} className="text-cat-history" />,
+  symbols: <Flag size={22} className="text-cat-symbols" />,
+  local: <MapPin size={22} className="text-primary" />,
+};
+
+const topicColors: Record<TopicKey, string> = {
+  all: "bg-primary",
+  government: "bg-cat-government",
+  rights: "bg-cat-rights",
+  history: "bg-cat-history",
+  symbols: "bg-cat-symbols",
+  local: "bg-primary",
+};
+
 /* ── component ─────────────────────────────────────── */
 
 export default function QuizPage() {
@@ -134,6 +154,8 @@ export default function QuizPage() {
   const l = (en: string, ml: string, gu?: string, vi?: string) =>
     lang === "en" ? en : lang === "ml" ? ml : lang === "gu" ? (gu ?? en) : (vi ?? en);
 
+  const [selectedTopic, setSelectedTopic] = useState<TopicKey>("all");
+  const [quizStarted, setQuizStarted] = useState(false);
   const [currentQ, setCurrentQ] = useState<Question | null>(null);
   const [displayOptions, setDisplayOptions] = useState<BilingualText[]>([]);
   const [displayCorrectIndex, setDisplayCorrectIndex] = useState(0);
@@ -149,9 +171,15 @@ export default function QuizPage() {
   const requiredCount = displayCorrectIndices?.length ?? 0;
   const answered = isMultiSelect ? multiSubmitted : selectedOption !== null;
 
+  const filteredPool = useMemo(() => {
+    if (selectedTopic === "all") return questionPool;
+    if (selectedTopic === "local") return questionPool.filter((q) => q.id.startsWith("p_"));
+    return questionPool.filter((q) => q.topic === selectedTopic);
+  }, [questionPool, selectedTopic]);
+
   const nextQuestion = useCallback(() => {
     stopFeedback();
-    const result = pickQuestion(questionPool, recentIdsRef.current);
+    const result = pickQuestion(filteredPool.length > 0 ? filteredPool : questionPool, recentIdsRef.current);
     recentIdsRef.current = [...recentIdsRef.current, result.question.id].slice(-MAX_RECENT);
     setCurrentQ(result.question);
     setDisplayOptions(result.displayOptions);
@@ -160,11 +188,11 @@ export default function QuizPage() {
     setSelectedOption(null);
     setSelectedOptions(new Set());
     setMultiSubmitted(false);
-  }, [stopFeedback, questionPool]);
+  }, [stopFeedback, filteredPool, questionPool]);
 
   useEffect(() => {
-    if (mounted && questionPool.length > 0) nextQuestion();
-  }, [mounted, nextQuestion]);
+    if (mounted && questionPool.length > 0 && quizStarted) nextQuestion();
+  }, [mounted, nextQuestion, quizStarted]);
 
   const handleSelect = useCallback(
     (idx: number) => {
@@ -237,15 +265,110 @@ export default function QuizPage() {
     setFinished(false);
     setSelectedOptions(new Set());
     setMultiSubmitted(false);
-    nextQuestion();
+    setQuizStarted(false);
+    setSelectedTopic("all");
   };
+
+  // ── Topic Selection ──
+  if (!quizStarted) {
+    const localCount = questionPool.filter((q) => q.id.startsWith("p_")).length;
+    const hasLocal = localCount > 0;
+    const topicOptions: { key: TopicKey; label: string; count: number }[] = [
+      { key: "all", label: t("allTopics", lang), count: questionPool.length },
+      ...allTopics.map((topic) => ({
+        key: topic as TopicKey,
+        label: topicLabels[topic][lang] ?? topicLabels[topic].en,
+        count: questionPool.filter((q) => q.topic === topic).length,
+      })),
+      ...(hasLocal ? [{ key: "local" as TopicKey, label: "Your State & Officials", count: localCount }] : []),
+    ];
+
+    return (
+      <motion.div
+        initial="hidden" animate="show" variants={stagger}
+        className="max-w-content mx-auto px-4 sm:px-6 py-6 sm:py-8 space-y-6"
+      >
+        <motion.div variants={fadeUp} className="flex items-center gap-3">
+          <Link
+            href="/"
+            className="flex items-center gap-1.5 min-h-[44px] px-4 py-2 rounded-btn bg-white border border-border
+                       text-text-secondary text-[0.9375rem] font-medium hover:border-primary hover:text-primary
+                       transition-colors no-underline shadow-card"
+          >
+            <ArrowLeft size={16} />
+            {t("home", lang)}
+          </Link>
+          <h1 className="text-[1.125rem] font-bold text-text-heading flex-1 text-right font-serif">
+            {t("quizMode", lang)}
+          </h1>
+        </motion.div>
+
+        <motion.div variants={fadeUp} className="bg-callout border border-amber-200 rounded-card p-4 text-center">
+          <p className="text-[1rem] text-text-body font-medium">
+            {l("Pick a topic to focus on, or quiz all topics.", "ഒരു വിഷയം തിരഞ്ഞെടുക്കുക, അല്ലെങ്കിൽ എല്ലാ വിഷയങ്ങളും.", "એક વિષય પસંદ કરો, અથવા બધા વિષયો.", "Chọn một chủ đề hoặc luyện tất cả.")}
+          </p>
+        </motion.div>
+
+        <motion.div variants={fadeUp}>
+          <h2 className="text-[1.25rem] font-bold text-text-heading text-center mb-4 font-serif">
+            {t("selectTopic", lang)}
+          </h2>
+          <div className="space-y-3">
+            {topicOptions.map(({ key, label, count }) => {
+              const active = selectedTopic === key;
+              return (
+                <motion.button
+                  key={key}
+                  whileHover={{ y: -2 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={() => setSelectedTopic(key)}
+                  className={`w-full min-h-[56px] px-4 py-4 rounded-card border-2 text-left
+                               flex items-center gap-3 transition-all
+                               ${active
+                                 ? "border-primary bg-primary-light shadow-card"
+                                 : "border-border bg-white hover:border-primary hover:bg-primary-light"
+                               }`}
+                >
+                  <span className={`flex-shrink-0 w-10 h-10 rounded-btn flex items-center justify-center
+                    ${active ? `${topicColors[key]} [&>svg]:text-white` : "bg-gray-100"}`}>
+                    {topicIcons[key]}
+                  </span>
+                  <span className={`flex-1 text-[1rem] font-semibold ${active ? "text-primary" : "text-text-body"}`}>
+                    {label}
+                  </span>
+                  <span className={`text-[0.8125rem] font-medium px-2 py-0.5 rounded-full flex-shrink-0
+                    ${active ? "bg-primary text-white" : "bg-gray-100 text-text-secondary"}`}>
+                    {count}
+                  </span>
+                  {active
+                    ? <Check size={20} className="text-primary flex-shrink-0" />
+                    : <ChevronRight size={18} className="text-text-secondary flex-shrink-0" />
+                  }
+                </motion.button>
+              );
+            })}
+          </div>
+        </motion.div>
+
+        <motion.div variants={fadeUp}>
+          <button
+            onClick={() => setQuizStarted(true)}
+            className="w-full min-h-[56px] bg-primary hover:bg-primary-dark text-white text-[1.125rem] font-bold
+                       rounded-btn px-6 py-4 shadow-btn hover:scale-[1.02] active:scale-[0.97] transition-all"
+          >
+            {t("startQuiz", lang)}
+          </button>
+        </motion.div>
+      </motion.div>
+    );
+  }
 
   if (!mounted || !currentQ) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] gap-3">
         <div className="w-10 h-10 border-4 border-primary border-t-transparent rounded-full animate-spin" />
         <p className="text-text-secondary text-[1rem]">
-          {l("Loading your questions...", "നിങ്ങളുടെ ചോദ്യങ്ങൾ ലോഡ് ചെയ്യുന്നു...", "તમારા પ્રશ્નો લોડ થઈ રહ્યા છે...", "Đang tải câu hỏi của bạn...")}
+          {l("Loading your questions...", "നിങ്ങളുടെ ചോദ്യങ്ങൾ ലോഡ് ചെയ്യുന്നു...", "તમારા પ્રশ્નો લોڈ થئی ਰਹੇ ਹਨ...", "Đang tải câu hỏi của bạn...")}
         </p>
       </div>
     );

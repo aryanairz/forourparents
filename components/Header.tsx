@@ -48,8 +48,8 @@ export default function Header() {
   const handleLogout = () => {
     logoutUser();
     setIsLoggedIn(false);
-    router.push("/");
     setMobileOpen(false);
+    window.location.href = "/";
   };
 
   const l = (en: string, ml: string, gu?: string, vi?: string) =>

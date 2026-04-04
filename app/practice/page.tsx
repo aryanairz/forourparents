@@ -11,7 +11,7 @@ import {
   allTopics,
   topicLabels,
 } from "@/data/questions";
-import { addMistake, saveQuizAttempt } from "@/lib/storage";
+import { addMistake, saveQuizAttempt, getCurrentUser } from "@/lib/storage";
 import { useFeedbackSpeech } from "@/lib/useFeedbackSpeech";
 import { useQuestionPool } from "@/lib/useQuestionPool";
 import QuestionCard from "@/components/QuestionCard";
@@ -23,6 +23,7 @@ import {
   Scale,
   ScrollText,
   Flag,
+  MapPin,
   ChevronRight,
   Check,
   Eye,
@@ -54,21 +55,24 @@ function shuffle<T>(arr: T[]): T[] {
 }
 
 type PracticeState = "select-topic" | "practicing" | "done";
+type TopicKey = Topic | "all" | "local";
 
-const topicIcons: Record<Topic | "all", React.ReactNode> = {
+const topicIcons: Record<TopicKey, React.ReactNode> = {
   all: <BookOpen size={22} className="text-primary" />,
   government: <Landmark size={22} className="text-cat-government" />,
   rights: <Scale size={22} className="text-cat-rights" />,
   history: <ScrollText size={22} className="text-cat-history" />,
   symbols: <Flag size={22} className="text-cat-symbols" />,
+  local: <MapPin size={22} className="text-violet-600" />,
 };
 
-const topicColors: Record<Topic | "all", string> = {
+const topicColors: Record<TopicKey, string> = {
   all: "bg-primary",
   government: "bg-cat-government",
   rights: "bg-cat-rights",
   history: "bg-cat-history",
   symbols: "bg-cat-symbols",
+  local: "bg-violet-600",
 };
 
 export default function PracticePage() {
@@ -78,7 +82,7 @@ export default function PracticePage() {
   const l = (en: string, ml: string, gu?: string, vi?: string) =>
     lang === "en" ? en : lang === "ml" ? ml : lang === "gu" ? (gu ?? en) : (vi ?? en);
   const [state, setState] = useState<PracticeState>("select-topic");
-  const [selectedTopic, setSelectedTopic] = useState<Topic | "all">("all");
+  const [selectedTopic, setSelectedTopic] = useState<TopicKey>("all");
   const [pool, setPool] = useState<Question[]>([]);
   const [currentIdx, setCurrentIdx] = useState(0);
   const [showAnswer, setShowAnswer] = useState(false);
@@ -89,6 +93,8 @@ export default function PracticePage() {
     const filtered =
       selectedTopic === "all"
         ? questions
+        : selectedTopic === "local"
+        ? questions.filter((q) => q.id.startsWith("p_"))
         : questions.filter((q) => q.topic === selectedTopic);
     setPool(shuffle(filtered));
     setCurrentIdx(0);
@@ -134,9 +140,20 @@ export default function PracticePage() {
 
   // ── Topic Selection ──
   if (state === "select-topic") {
-    const topicOptions: { key: Topic | "all"; label: string }[] = [
-      { key: "all", label: t("allTopics", lang) },
-      ...allTopics.map((topic) => ({ key: topic, label: topicLabels[topic][lang] ?? topicLabels[topic].en })),
+    const localCount = questions.filter((q) => q.id.startsWith("p_")).length;
+    const hasLocal = localCount > 0;
+    const topicOptions: { key: TopicKey; label: string; count: number }[] = [
+      { key: "all", label: t("allTopics", lang), count: questions.length },
+      ...allTopics.map((topic) => ({
+        key: topic as TopicKey,
+        label: topicLabels[topic][lang] ?? topicLabels[topic].en,
+        count: questions.filter((q) => q.topic === topic).length,
+      })),
+      ...(hasLocal ? [{
+        key: "local" as TopicKey,
+        label: "Your State & Officials",
+        count: localCount,
+      }] : []),
     ];
 
     return (
@@ -170,7 +187,7 @@ export default function PracticePage() {
             {t("selectTopic", lang)}
           </h2>
           <div className="space-y-3">
-            {topicOptions.map(({ key, label }) => {
+            {topicOptions.map(({ key, label, count }) => {
               const active = selectedTopic === key;
               return (
                 <motion.button
@@ -191,6 +208,10 @@ export default function PracticePage() {
                   </span>
                   <span className={`flex-1 text-[1rem] font-semibold ${active ? "text-primary" : "text-text-body"}`}>
                     {label}
+                  </span>
+                  <span className={`text-[0.8125rem] font-medium px-2 py-0.5 rounded-full flex-shrink-0
+                    ${active ? "bg-primary text-white" : "bg-gray-100 text-text-secondary"}`}>
+                    {count}
                   </span>
                   {active
                     ? <Check size={20} className="text-primary flex-shrink-0" />
@@ -262,7 +283,7 @@ export default function PracticePage() {
 
         <motion.div variants={fadeUp} className="space-y-3 pt-2">
           <button
-            onClick={() => { setState("select-topic"); setSelectedTopic("all"); }}
+            onClick={() => { setState("select-topic"); setSelectedTopic("all" as TopicKey); }}
             className="w-full min-h-[56px] bg-primary hover:bg-primary-dark text-white text-[1.125rem] font-bold
                        rounded-btn px-6 py-4 shadow-btn hover:scale-[1.02] active:scale-[0.97] transition-all flex items-center justify-center gap-2"
           >
