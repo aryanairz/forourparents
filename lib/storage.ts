@@ -110,27 +110,35 @@ export async function signupUser(
   district?: number,
 ): Promise<{ user: User | null; errorMsg?: string }> {
   try {
-    const name = `${firstName.trim()} ${lastName.trim()}`;
-    const { data, error } = await supabase
-      .from("users")
-      // @ts-ignore - Types will work once Supabase credentials are configured
-      .insert({ name, first_name: firstName.trim(), last_name: lastName.trim(), email: email.trim().toLowerCase(), pin, phone: phone.trim(), state: state || null, district: district ?? null })
-      .select("id, name")
-      .single<{ id: string; name: string }>();
+    const res = await fetch("/api/signup", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ firstName, lastName, email, pin, phone, state, district }),
+    });
 
-    if (error) {
-      console.error("Supabase signup error:", error);
-      if (error.code === '23505' && error.message.includes('users_email_key')) {
+    const json = await res.json();
+
+    if (!res.ok) {
+      if (json.code === "23505" && json.error?.includes("users_email_key")) {
         return { user: null, errorMsg: "An account with this email already exists. Please sign in instead." };
       }
-      if (error.code === '23505' && error.message.includes('users_phone_key')) {
+      if (json.code === "23505" && json.error?.includes("users_phone_key")) {
         return { user: null, errorMsg: "An account with this phone number already exists. Please sign in instead." };
       }
-      return { user: null, errorMsg: error.message };
+      return { user: null, errorMsg: json.error || "Something went wrong. Please try again." };
     }
-    if (!data) return { user: null, errorMsg: "No data returned" };
+
     return {
-      user: { id: data.id, name: data.name, firstName: firstName.trim(), lastName: lastName.trim(), email: email.trim().toLowerCase(), phone: phone?.trim() || undefined, state: state || undefined, district: district },
+      user: {
+        id: json.user.id,
+        name: json.user.name,
+        firstName: firstName.trim(),
+        lastName: lastName.trim(),
+        email: email.trim().toLowerCase(),
+        phone: phone?.trim() || undefined,
+        state: state || undefined,
+        district,
+      },
     };
   } catch (e) {
     console.error("Signup exception:", e);
