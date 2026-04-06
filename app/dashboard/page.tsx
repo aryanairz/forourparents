@@ -72,6 +72,7 @@ export default function DashboardPage() {
     rights: 0,
     history: 0,
     symbols: 0,
+    extra: 0,
   };
   mistakeQuestions.forEach((q) => {
     mistakesByTopic[q.topic]++;
