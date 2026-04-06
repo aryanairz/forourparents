@@ -93,6 +93,7 @@ function FloatingNav() {
 
         <Link
           href="/login"
+          prefetch={false}
           style={{
             background: RED,
             color: "#FFFFFF",
@@ -943,6 +944,7 @@ function AuthenticatedHome() {
             <Link
               key={item.href}
               href={item.href}
+              prefetch={false}
               className="block p-6 rounded-card border border-border hover:shadow-card-hover hover:border-primary/30
                          hover:-translate-y-1 transition-all duration-300 no-underline bg-white"
             >

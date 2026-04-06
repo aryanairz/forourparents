@@ -207,16 +207,15 @@ export default function Header() {
             <Link
               key={link.href}
               href={link.href}
+              prefetch={false}
               className="relative px-4 py-2 text-[0.9375rem] font-medium transition-colors no-underline min-h-[40px] flex items-center whitespace-nowrap"
               style={{ color: isActive(link.href) ? "#FFFFFF" : "rgba(255,255,255,0.65)", fontWeight: isActive(link.href) ? 600 : 500 }}
             >
               {link.label[lang]}
               {isActive(link.href) && (
-                <motion.div
-                  layoutId="nav-underline"
+                <div
                   className="absolute bottom-0 left-2 right-2 h-[2px] rounded-full"
                   style={{ background: "#C41E3A" }}
-                  transition={{ type: "spring", stiffness: 380, damping: 30 }}
                 />
               )}
             </Link>
@@ -289,6 +288,7 @@ export default function Header() {
           {mounted && !isLoggedIn && (
             <Link
               href="/login"
+              prefetch={false}
               className="hidden sm:flex items-center gap-1.5 px-5 py-2 rounded-btn text-sm font-semibold transition-all min-h-[40px] no-underline hover:scale-[1.02] active:scale-[0.98]"
               style={{ background: "#C41E3A", color: "#FFFFFF", boxShadow: "0 2px 0 #8B1429" }}
             >
@@ -359,6 +359,7 @@ export default function Header() {
                   <Link
                     key={link.href}
                     href={link.href}
+                    prefetch={false}
                     onClick={() => setMobileOpen(false)}
                     className="block px-4 py-3.5 rounded-btn text-[1rem] font-medium no-underline transition-colors min-h-[48px] flex items-center"
                     style={{
@@ -375,6 +376,7 @@ export default function Header() {
                 {!isLoggedIn ? (
                   <Link
                     href="/login"
+                    prefetch={false}
                     onClick={() => setMobileOpen(false)}
                     className="flex items-center justify-center gap-2 px-4 py-3.5 rounded-btn text-[1rem] font-semibold no-underline min-h-[48px] transition-colors"
                     style={{ background: "#C41E3A", color: "#FFFFFF", boxShadow: "0 3px 0 #8B1429" }}
