@@ -287,6 +287,25 @@ export interface QuizAttempt {
   completed_at: string;
 }
 
+export async function getAllAttempts(): Promise<QuizAttempt[]> {
+  const user = getCurrentUser();
+  if (!user) return [];
+
+  try {
+    // @ts-ignore - Types will work once Supabase credentials are configured
+    const { data, error } = await supabase
+      .from("quiz_attempts")
+      .select("*")
+      .eq("user_id", user.id)
+      .order("completed_at", { ascending: false });
+
+    if (error || !data) return [];
+    return data;
+  } catch {
+    return [];
+  }
+}
+
 export async function getRecentAttempts(
   limit: number = 10,
 ): Promise<QuizAttempt[]> {
