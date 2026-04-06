@@ -119,18 +119,19 @@ function StatBlock({
 /* ─── Progress Bar ─── */
 function TopicProgressBar({
   topic,
-  correct,
+  mistakes,
   total,
   animate,
 }: {
   topic: Topic;
-  correct: number;
+  mistakes: number;
   total: number;
   animate: boolean;
 }) {
-  const pct = total > 0 ? Math.round((correct / total) * 100) : 0;
-  const mastered = pct >= 80 && total > 0;
   const { lang } = useLanguage();
+  const clean = mistakes === 0;
+  const l = (en: string, ml: string, gu: string, vi: string) =>
+    lang === "en" ? en : lang === "ml" ? ml : lang === "gu" ? gu : vi;
 
   return (
     <div
@@ -141,13 +142,11 @@ function TopicProgressBar({
         fontFamily: FONT,
       }}
     >
-      {/* Top row: icon + name + fraction */}
       <div
         style={{
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          marginBottom: 12,
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
@@ -157,36 +156,22 @@ function TopicProgressBar({
           </span>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-          <span style={{ fontSize: 15, fontWeight: 600, color: NAVY }}>
-            {correct}/{total}
+          {clean ? (
+            <>
+              <CheckCircle2 size={16} style={{ color: "#16A34A" }} />
+              <span style={{ fontSize: 14, fontWeight: 600, color: "#16A34A" }}>
+                {l("No mistakes", "തെറ്റുകളില്ല", "કોઈ ભૂલો નથી", "Không lỗi")}
+              </span>
+            </>
+          ) : (
+            <span style={{ fontSize: 14, fontWeight: 600, color: RED }}>
+              {mistakes} {l("to review", "അവലോകനം ചെയ്യാൻ", "સમીક્ષા કરવા", "cần ôn")}
+            </span>
+          )}
+          <span style={{ fontSize: 13, color: "#9CA3AF", marginLeft: 4 }}>
+            / {total}
           </span>
-          {mastered && <CheckCircle2 size={16} style={{ color: "#16A34A" }} />}
         </div>
-      </div>
-
-      {/* Progress track */}
-      <div
-        style={{
-          background: "#E5E7EB",
-          height: 8,
-          borderRadius: 999,
-          overflow: "hidden",
-        }}
-      >
-        <motion.div
-          initial={{ width: 0 }}
-          animate={{ width: `${pct}%` }}
-          transition={
-            animate
-              ? { duration: 0.6, ease: "easeOut", delay: 0.2 }
-              : { duration: 0 }
-          }
-          style={{
-            height: "100%",
-            background: RED,
-            borderRadius: 999,
-          }}
-        />
       </div>
     </div>
   );
@@ -244,52 +229,42 @@ export default function DashboardPage() {
 
   if (!user) return null;
 
-  /* ── Compute stats ── */
-  const totalQuestionsPracticed = attempts.reduce(
-    (sum, a) => sum + a.total_questions,
-    0
+  /* ── This week's date range (Monday–Sunday) ── */
+  const now = new Date();
+  const dayOfWeek = now.getDay(); // 0=Sun
+  const mondayOffset = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
+  const weekStart = new Date(now.getFullYear(), now.getMonth(), now.getDate() - mondayOffset);
+  weekStart.setHours(0, 0, 0, 0);
+
+  const weekAttempts = attempts.filter(
+    (a) => new Date(a.completed_at) >= weekStart
   );
-  const totalCorrect = attempts.reduce(
-    (sum, a) => sum + a.correct_answers,
-    0
+
+  /* ── Stats from THIS WEEK only ── */
+  const totalQuestionsPracticed = weekAttempts.reduce(
+    (sum, a) => sum + a.total_questions, 0
+  );
+  const totalCorrect = weekAttempts.reduce(
+    (sum, a) => sum + a.correct_answers, 0
   );
   const accuracy =
     totalQuestionsPracticed > 0
       ? Math.round((totalCorrect / totalQuestionsPracticed) * 100)
-      : -1; // -1 = no data
+      : -1;
 
-  /* ── Topic breakdown from mistakes (what they got wrong) and attempts ── */
+  /* ── Topic mistakes (real data from localStorage) ── */
   const officialQuestions = questions.filter(
     (q) => q.topic !== "extra" && officialTopics.includes(q.topic)
   );
   const topicTotals: Record<string, number> = {};
-  officialTopics.forEach((t) => {
-    topicTotals[t] = officialQuestions.filter((q) => q.topic === t).length;
-  });
-
-  // Correct per topic: total - mistakes
-  const topicCorrect: Record<string, number> = {};
+  const topicMistakes: Record<string, number> = {};
   officialTopics.forEach((tp) => {
-    const topicQuestions = officialQuestions.filter((q) => q.topic === tp);
-    const mistakesInTopic = topicQuestions.filter((q) =>
-      mistakeIds.includes(q.id)
-    ).length;
-    // Estimate: if they've practiced, correct = total - current mistakes
-    // Only count if they have attempts
-    topicCorrect[tp] =
-      totalQuestionsPracticed > 0
-        ? Math.max(0, topicTotals[tp] - mistakesInTopic)
-        : 0;
+    const topicQs = officialQuestions.filter((q) => q.topic === tp);
+    topicTotals[tp] = topicQs.length;
+    topicMistakes[tp] = topicQs.filter((q) => mistakeIds.includes(q.id)).length;
   });
 
-  /* ── Topics mastered (80%+) ── */
-  const topicsMastered = officialTopics.filter(
-    (tp) =>
-      topicTotals[tp] > 0 &&
-      topicCorrect[tp] / topicTotals[tp] >= 0.8
-  ).length;
-
-  /* ── Study streak ── */
+  /* ── Study streak (all-time, not weekly) ── */
   const calcStreak = (): { streak: number; practicedToday: boolean } => {
     if (attempts.length === 0) return { streak: 0, practicedToday: false };
 
@@ -305,10 +280,7 @@ export default function DashboardPage() {
 
     let streak = 0;
     const check = new Date(today);
-    // If not practiced today, start from yesterday
-    if (!practicedToday) {
-      check.setDate(check.getDate() - 1);
-    }
+    if (!practicedToday) check.setDate(check.getDate() - 1);
 
     for (let i = 0; i < 365; i++) {
       const key = `${check.getFullYear()}-${check.getMonth()}-${check.getDate()}`;
@@ -576,7 +548,7 @@ export default function DashboardPage() {
       >
         <StatBlock
           value={totalQuestionsPracticed}
-          label={l("QUESTIONS PRACTICED", "പരിശീലിച്ച ചോദ്യങ്ങൾ", "પ્રેક્ટિસ કરેલા પ્રશ્નો", "CÂU HỎI ĐÃ LUYỆN")}
+          label={l("THIS WEEK", "ഈ ആഴ്ച", "આ અઠવાડિયે", "TUẦN NÀY")}
           animate={shouldAnimate}
         />
         <StatBlock
@@ -586,9 +558,8 @@ export default function DashboardPage() {
           animate={shouldAnimate}
         />
         <StatBlock
-          value={topicsMastered}
-          label={l("TOPICS MASTERED", "വിഷയങ്ങൾ പൂർത്തിയാക്കി", "વિષયો પૂર્ણ", "CHỦ ĐỀ THÀNH THẠO")}
-          suffix="/4"
+          value={mistakeCount}
+          label={l("MISTAKES", "തെറ്റുകൾ", "ભૂલો", "LỖI SAI")}
           animate={shouldAnimate}
         />
         <StatBlock
@@ -616,7 +587,7 @@ export default function DashboardPage() {
             margin: "0 0 24px 0",
           }}
         >
-          {l("Your Progress", "നിങ്ങളുടെ പുരോഗതി", "તમારી પ્રગતિ", "Tiến độ của bạn")}
+          {l("Mistakes by Topic", "വിഷയം അനുസരിച്ച് തെറ്റുകൾ", "વિષય પ્રમાણે ભૂલો", "Lỗi sai theo chủ đề")}
         </h2>
 
         <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
@@ -624,7 +595,7 @@ export default function DashboardPage() {
             <TopicProgressBar
               key={tp}
               topic={tp}
-              correct={topicCorrect[tp]}
+              mistakes={topicMistakes[tp]}
               total={topicTotals[tp]}
               animate={shouldAnimate}
             />
