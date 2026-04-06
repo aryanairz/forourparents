@@ -284,7 +284,7 @@ export default function QuizPage() {
         label: topicLabels[topic][lang] ?? topicLabels[topic].en,
         count: officialQuestions.filter((q) => q.topic === topic).length,
       })),
-      ...(hasLocal ? [{ key: "local" as TopicKey, label: "Your State & Officials", count: localCount }] : []),
+      ...(hasLocal ? [{ key: "local" as TopicKey, label: l("Your State & Officials", "നിങ്ങളുടെ സംസ്ഥാനവും ഉദ്യോഗസ്ഥരും", "તમારું રાજ્ય અને અધિકારીઓ", "Tiểu bang & Quan chức"), count: localCount }] : []),
       ...(extraCount > 0 ? [{
         key: "extra" as TopicKey,
         label: topicLabels.extra[lang] ?? topicLabels.extra.en,

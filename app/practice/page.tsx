@@ -162,7 +162,7 @@ export default function PracticePage() {
       })),
       ...(hasLocal ? [{
         key: "local" as TopicKey,
-        label: "Your State & Officials",
+        label: l("Your State & Officials", "നിങ്ങളുടെ സംസ്ഥാനവും ഉദ്യോഗസ്ഥരും", "તમારું રાજ્ય અને અધિકારીઓ", "Tiểu bang & Quan chức"),
         count: localCount,
       }] : []),
       ...(extraCount > 0 ? [{
