@@ -1,6 +1,6 @@
 export type Lang = "en" | "ml" | "gu" | "vi";
 
-export type Topic = "government" | "rights" | "history" | "symbols";
+export type Topic = "government" | "rights" | "history" | "symbols" | "extra";
 
 export interface BilingualText {
   en: string;
@@ -29,6 +29,7 @@ export const topicLabels: Record<Topic, BilingualText> = {
   },
   history: { en: "American History", ml: "അമേരിക്കൻ ചരിത്രം", gu: "અમેરિકન ઇતિહાસ", vi: "Lịch sử Hoa Kỳ" },
   symbols: { en: "Symbols & Holidays", ml: "ചിഹ്നങ്ങളും അവധി ദിനങ്ങളും", gu: "પ્રતીકો અને રજાઓ", vi: "Biểu tượng & Ngày lễ" },
+  extra: { en: "Extra Practice", ml: "അധിക പരിശീലനം", gu: "વધારાની પ્રેક્ટિસ", vi: "Luyện tập thêm" },
 };
 
 export const allTopics: Topic[] = [
@@ -3011,11 +3012,11 @@ export const questions: Question[] = [
     },
   },
 
-  // ── New questions: USCIS 2025 / 2008 coverage gaps ──────────────
+  // ── Extra Practice: supplementary questions beyond the official 128 ──
 
   {
     id: "g056",
-    topic: "government",
+    topic: "extra",
     question: {
       en: "What is an amendment?",
       ml: "ഒരു ഭേദഗതി (amendment) എന്താണ്?",
@@ -3038,7 +3039,7 @@ export const questions: Question[] = [
   },
   {
     id: "r012",
-    topic: "rights",
+    topic: "extra",
     question: {
       en: "What is one right or freedom from the First Amendment?",
       ml: "ഒന്നാം ഭേദഗതിയിൽ നിന്നുള്ള ഒരു അവകാശം അല്ലെങ്കിൽ സ്വാതന്ത്ര്യം എന്താണ്?",
@@ -3061,7 +3062,7 @@ export const questions: Question[] = [
   },
   {
     id: "r013",
-    topic: "rights",
+    topic: "extra",
     question: {
       en: "What is freedom of religion?",
       ml: "മതസ്വാതന്ത്ര്യം എന്താണ്?",
@@ -3084,7 +3085,7 @@ export const questions: Question[] = [
   },
   {
     id: "r014",
-    topic: "rights",
+    topic: "extra",
     question: {
       en: "What do we call the first ten amendments to the Constitution?",
       ml: "ഭരണഘടനയിലെ ആദ്യ പത്ത് ഭേദഗതികളെ എന്ത് വിളിക്കുന്നു?",
@@ -3245,7 +3246,7 @@ export const questions: Question[] = [
   },
   {
     id: "g063",
-    topic: "government",
+    topic: "extra",
     question: {
       en: "In what month do we vote for President?",
       ml: "ഏത് മാസത്തിലാണ് നമ്മൾ പ്രസിഡന്റിന് വേണ്ടി വോട്ട് ചെയ്യുന്നത്?",
@@ -3268,7 +3269,7 @@ export const questions: Question[] = [
   },
   {
     id: "g064",
-    topic: "government",
+    topic: "extra",
     question: {
       en: "If both the President and the Vice President can no longer serve, who becomes President?",
       ml: "പ്രസിഡന്റിനും വൈസ് പ്രസിഡന്റിനും ഇനി സേവിക്കാൻ കഴിയുന്നില്ലെങ്കിൽ, ആര് പ്രസിഡന്റാകും?",
@@ -3291,7 +3292,7 @@ export const questions: Question[] = [
   },
   {
     id: "g065",
-    topic: "government",
+    topic: "extra",
     question: {
       en: "What are the two major political parties in the United States?",
       ml: "അമേരിക്കയിലെ രണ്ട് പ്രധാന രാഷ്ട്രീയ പാർട്ടികൾ ഏതൊക്കെയാണ്?",
@@ -3314,7 +3315,7 @@ export const questions: Question[] = [
   },
   {
     id: "g066",
-    topic: "government",
+    topic: "extra",
     question: {
       en: "What is the political party of the President now?",
       ml: "ഇപ്പോഴത്തെ പ്രസിഡന്റിന്റെ രാഷ്ട്രീയ പാർട്ടി ഏതാണ്?",
@@ -3337,7 +3338,7 @@ export const questions: Question[] = [
   },
   {
     id: "r015",
-    topic: "rights",
+    topic: "extra",
     question: {
       en: "What is one responsibility that is only for United States citizens?",
       ml: "അമേരിക്കൻ പൗരന്മാർക്ക് മാത്രമുള്ള ഒരു ഉത്തരവാദിത്തം എന്താണ്?",
@@ -3360,7 +3361,7 @@ export const questions: Question[] = [
   },
   {
     id: "r016",
-    topic: "rights",
+    topic: "extra",
     question: {
       en: "Name one right only for United States citizens.",
       ml: "അമേരിക്കൻ പൗരന്മാർക്ക് മാത്രമുള്ള ഒരു അവകാശം പറയുക.",
@@ -3383,7 +3384,7 @@ export const questions: Question[] = [
   },
   {
     id: "r017",
-    topic: "rights",
+    topic: "extra",
     question: {
       en: "How old do citizens have to be to vote for President?",
       ml: "പ്രസിഡന്റിന് വേണ്ടി വോട്ട് ചെയ്യാൻ പൗരന്മാർക്ക് എത്ര വയസ്സാകണം?",
@@ -3406,7 +3407,7 @@ export const questions: Question[] = [
   },
   {
     id: "r018",
-    topic: "rights",
+    topic: "extra",
     question: {
       en: "When is the last day you can send in federal income tax forms?",
       ml: "ഫെഡറൽ ആദായ നികുതി ഫോമുകൾ അയയ്ക്കാനുള്ള അവസാന ദിവസം എപ്പോഴാണ്?",
@@ -3429,7 +3430,7 @@ export const questions: Question[] = [
   },
   {
     id: "h047",
-    topic: "history",
+    topic: "extra",
     question: {
       en: "What happened at the Constitutional Convention?",
       ml: "ഭരണഘടനാ കൺവെൻഷനിൽ എന്താണ് സംഭവിച്ചത്?",
@@ -3452,7 +3453,7 @@ export const questions: Question[] = [
   },
   {
     id: "h048",
-    topic: "history",
+    topic: "extra",
     question: {
       en: "Name one problem that led to the Civil War.",
       ml: "ആഭ്യന്തര യുദ്ധത്തിലേക്ക് നയിച്ച ഒരു പ്രശ്നം പറയുക.",
@@ -3475,7 +3476,7 @@ export const questions: Question[] = [
   },
   {
     id: "h049",
-    topic: "history",
+    topic: "extra",
     question: {
       en: "Who was President during World War I?",
       ml: "ഒന്നാം ലോക മഹായുദ്ധ സമയത്ത് പ്രസിഡന്റ് ആരായിരുന്നു?",
@@ -3498,7 +3499,7 @@ export const questions: Question[] = [
   },
   {
     id: "h050",
-    topic: "history",
+    topic: "extra",
     question: {
       en: "Who did the United States fight in World War II?",
       ml: "രണ്ടാം ലോക മഹായുദ്ധത്തിൽ അമേരിക്ക ആരോടാണ് യുദ്ധം ചെയ്തത്?",
@@ -3521,7 +3522,7 @@ export const questions: Question[] = [
   },
   {
     id: "s011",
-    topic: "symbols",
+    topic: "extra",
     question: {
       en: "Name one of the two longest rivers in the United States.",
       ml: "അമേരിക്കയിലെ ഏറ്റവും നീളമുള്ള രണ്ട് നദികളിൽ ഒന്ന് പറയുക.",
@@ -3544,7 +3545,7 @@ export const questions: Question[] = [
   },
   {
     id: "s012",
-    topic: "symbols",
+    topic: "extra",
     question: {
       en: "What ocean is on the West Coast of the United States?",
       ml: "അമേരിക്കയുടെ പടിഞ്ഞാറൻ തീരത്ത് ഏത് സമുദ്രമാണ്?",
@@ -3567,7 +3568,7 @@ export const questions: Question[] = [
   },
   {
     id: "s013",
-    topic: "symbols",
+    topic: "extra",
     question: {
       en: "What ocean is on the East Coast of the United States?",
       ml: "അമേരിക്കയുടെ കിഴക്കൻ തീരത്ത് ഏത് സമുദ്രമാണ്?",
@@ -3590,7 +3591,7 @@ export const questions: Question[] = [
   },
   {
     id: "s014",
-    topic: "symbols",
+    topic: "extra",
     question: {
       en: "Name one U.S. territory.",
       ml: "ഒരു യു.എസ്. പ്രദേശം (territory) പറയുക.",
@@ -3613,7 +3614,7 @@ export const questions: Question[] = [
   },
   {
     id: "s015",
-    topic: "symbols",
+    topic: "extra",
     question: {
       en: "Name one state that borders Canada.",
       ml: "കാനഡയുമായി അതിർത്തി പങ്കിടുന്ന ഒരു സംസ്ഥാനം പറയുക.",
@@ -3636,7 +3637,7 @@ export const questions: Question[] = [
   },
   {
     id: "s016",
-    topic: "symbols",
+    topic: "extra",
     question: {
       en: "Name one state that borders Mexico.",
       ml: "മെക്സിക്കോയുമായി അതിർത്തി പങ്കിടുന്ന ഒരു സംസ്ഥാനം പറയുക.",
@@ -3659,7 +3660,7 @@ export const questions: Question[] = [
   },
   {
     id: "s017",
-    topic: "symbols",
+    topic: "extra",
     question: {
       en: "When do we celebrate Independence Day?",
       ml: "നമ്മൾ സ്വാതന്ത്ര്യ ദിനം എപ്പോഴാണ് ആഘോഷിക്കുന്നത്?",

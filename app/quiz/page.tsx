@@ -12,7 +12,7 @@ import QuestionCard from "@/components/QuestionCard";
 import OptionButton from "@/components/OptionButton";
 import ProgressBar from "@/components/ProgressBar";
 import ReadAloud from "@/components/ReadAloud";
-import { ArrowLeft, RotateCcw, Home, ChevronRight, Flag, Trophy, BookOpen, Landmark, Scale, ScrollText, MapPin, Check } from "lucide-react";
+import { ArrowLeft, RotateCcw, Home, ChevronRight, Flag, Trophy, BookOpen, Landmark, Scale, ScrollText, MapPin, Star, Check } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const fadeUp = {
@@ -132,6 +132,7 @@ const topicIcons: Record<TopicKey, React.ReactNode> = {
   rights: <Scale size={22} className="text-cat-rights" />,
   history: <ScrollText size={22} className="text-cat-history" />,
   symbols: <Flag size={22} className="text-cat-symbols" />,
+  extra: <Star size={22} className="text-amber-500" />,
   local: <MapPin size={22} className="text-primary" />,
 };
 
@@ -141,6 +142,7 @@ const topicColors: Record<TopicKey, string> = {
   rights: "bg-cat-rights",
   history: "bg-cat-history",
   symbols: "bg-cat-symbols",
+  extra: "bg-amber-500",
   local: "bg-primary",
 };
 
@@ -172,7 +174,7 @@ export default function QuizPage() {
   const answered = isMultiSelect ? multiSubmitted : selectedOption !== null;
 
   const filteredPool = useMemo(() => {
-    if (selectedTopic === "all") return questionPool;
+    if (selectedTopic === "all") return questionPool.filter((q) => q.topic !== "extra");
     if (selectedTopic === "local") return questionPool.filter((q) => q.id.startsWith("p_"));
     return questionPool.filter((q) => q.topic === selectedTopic);
   }, [questionPool, selectedTopic]);
@@ -273,14 +275,21 @@ export default function QuizPage() {
   if (!quizStarted) {
     const localCount = questionPool.filter((q) => q.id.startsWith("p_")).length;
     const hasLocal = localCount > 0;
+    const extraCount = questionPool.filter((q) => q.topic === "extra").length;
+    const officialCount = questionPool.filter((q) => q.topic !== "extra").length;
     const topicOptions: { key: TopicKey; label: string; count: number }[] = [
-      { key: "all", label: t("allTopics", lang), count: questionPool.length },
+      { key: "all", label: t("allTopics", lang), count: officialCount },
       ...allTopics.map((topic) => ({
         key: topic as TopicKey,
         label: topicLabels[topic][lang] ?? topicLabels[topic].en,
         count: questionPool.filter((q) => q.topic === topic).length,
       })),
       ...(hasLocal ? [{ key: "local" as TopicKey, label: "Your State & Officials", count: localCount }] : []),
+      ...(extraCount > 0 ? [{
+        key: "extra" as TopicKey,
+        label: topicLabels.extra[lang] ?? topicLabels.extra.en,
+        count: extraCount,
+      }] : []),
     ];
 
     return (

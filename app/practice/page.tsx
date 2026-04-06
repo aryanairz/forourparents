@@ -25,6 +25,7 @@ import {
   ScrollText,
   Flag,
   MapPin,
+  Star,
   ChevronRight,
   Check,
   Eye,
@@ -64,6 +65,7 @@ const topicIcons: Record<TopicKey, React.ReactNode> = {
   rights: <Scale size={22} className="text-cat-rights" />,
   history: <ScrollText size={22} className="text-cat-history" />,
   symbols: <Flag size={22} className="text-cat-symbols" />,
+  extra: <Star size={22} className="text-amber-500" />,
   local: <MapPin size={22} className="text-violet-600" />,
 };
 
@@ -73,6 +75,7 @@ const topicColors: Record<TopicKey, string> = {
   rights: "bg-cat-rights",
   history: "bg-cat-history",
   symbols: "bg-cat-symbols",
+  extra: "bg-amber-500",
   local: "bg-violet-600",
 };
 
@@ -98,7 +101,7 @@ export default function PracticePage() {
   const startPractice = () => {
     const filtered =
       selectedTopic === "all"
-        ? questions
+        ? questions.filter((q) => q.topic !== "extra")
         : selectedTopic === "local"
         ? questions.filter((q) => q.id.startsWith("p_"))
         : questions.filter((q) => q.topic === selectedTopic);
@@ -148,8 +151,10 @@ export default function PracticePage() {
   if (state === "select-topic") {
     const localCount = questions.filter((q) => q.id.startsWith("p_")).length;
     const hasLocal = localCount > 0;
+    const extraCount = questions.filter((q) => q.topic === "extra").length;
+    const officialCount = questions.filter((q) => q.topic !== "extra").length;
     const topicOptions: { key: TopicKey; label: string; count: number }[] = [
-      { key: "all", label: t("allTopics", lang), count: questions.length },
+      { key: "all", label: t("allTopics", lang), count: officialCount },
       ...allTopics.map((topic) => ({
         key: topic as TopicKey,
         label: topicLabels[topic][lang] ?? topicLabels[topic].en,
@@ -159,6 +164,11 @@ export default function PracticePage() {
         key: "local" as TopicKey,
         label: "Your State & Officials",
         count: localCount,
+      }] : []),
+      ...(extraCount > 0 ? [{
+        key: "extra" as TopicKey,
+        label: topicLabels.extra[lang] ?? topicLabels.extra.en,
+        count: extraCount,
       }] : []),
     ];
 
