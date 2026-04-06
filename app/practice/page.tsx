@@ -101,10 +101,10 @@ export default function PracticePage() {
   const startPractice = () => {
     const filtered =
       selectedTopic === "all"
-        ? questions.filter((q) => q.topic !== "extra")
+        ? questions.filter((q) => q.topic !== "extra" && !q.id.startsWith("p_"))
         : selectedTopic === "local"
         ? questions.filter((q) => q.id.startsWith("p_"))
-        : questions.filter((q) => q.topic === selectedTopic);
+        : questions.filter((q) => q.topic === selectedTopic && !q.id.startsWith("p_"));
     setPool(shuffle(filtered));
     setCurrentIdx(0);
     setShowAnswer(false);
@@ -152,13 +152,13 @@ export default function PracticePage() {
     const localCount = questions.filter((q) => q.id.startsWith("p_")).length;
     const hasLocal = localCount > 0;
     const extraCount = questions.filter((q) => q.topic === "extra").length;
-    const officialCount = questions.filter((q) => q.topic !== "extra").length;
+    const officialQuestions = allQuestions.filter((q) => q.topic !== "extra");
     const topicOptions: { key: TopicKey; label: string; count: number }[] = [
-      { key: "all", label: t("allTopics", lang), count: officialCount },
+      { key: "all", label: t("allTopics", lang), count: officialQuestions.length },
       ...allTopics.map((topic) => ({
         key: topic as TopicKey,
         label: topicLabels[topic][lang] ?? topicLabels[topic].en,
-        count: questions.filter((q) => q.topic === topic).length,
+        count: officialQuestions.filter((q) => q.topic === topic).length,
       })),
       ...(hasLocal ? [{
         key: "local" as TopicKey,

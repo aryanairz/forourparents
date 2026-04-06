@@ -174,9 +174,9 @@ export default function QuizPage() {
   const answered = isMultiSelect ? multiSubmitted : selectedOption !== null;
 
   const filteredPool = useMemo(() => {
-    if (selectedTopic === "all") return questionPool.filter((q) => q.topic !== "extra");
+    if (selectedTopic === "all") return questionPool.filter((q) => q.topic !== "extra" && !q.id.startsWith("p_"));
     if (selectedTopic === "local") return questionPool.filter((q) => q.id.startsWith("p_"));
-    return questionPool.filter((q) => q.topic === selectedTopic);
+    return questionPool.filter((q) => q.topic === selectedTopic && !q.id.startsWith("p_"));
   }, [questionPool, selectedTopic]);
 
   const nextQuestion = useCallback(() => {
@@ -276,13 +276,13 @@ export default function QuizPage() {
     const localCount = questionPool.filter((q) => q.id.startsWith("p_")).length;
     const hasLocal = localCount > 0;
     const extraCount = questionPool.filter((q) => q.topic === "extra").length;
-    const officialCount = questionPool.filter((q) => q.topic !== "extra").length;
+    const officialQuestions = allQuestions.filter((q) => q.topic !== "extra");
     const topicOptions: { key: TopicKey; label: string; count: number }[] = [
-      { key: "all", label: t("allTopics", lang), count: officialCount },
+      { key: "all", label: t("allTopics", lang), count: officialQuestions.length },
       ...allTopics.map((topic) => ({
         key: topic as TopicKey,
         label: topicLabels[topic][lang] ?? topicLabels[topic].en,
-        count: questionPool.filter((q) => q.topic === topic).length,
+        count: officialQuestions.filter((q) => q.topic === topic).length,
       })),
       ...(hasLocal ? [{ key: "local" as TopicKey, label: "Your State & Officials", count: localCount }] : []),
       ...(extraCount > 0 ? [{
