@@ -411,10 +411,10 @@ export const translations: Record<TranslationKey, Record<Lang, string>> = {
     vi: "Chữ lớn, điều hướng đơn giản, và audio cho mỗi câu hỏi. Thiết kế cho người 50+ tuổi đủ điều kiện miễn trừ 50/20, 55/15, hoặc 65/20 — không cần thi tiếng Anh.",
   },
   landingTryTitle: {
-    en: "try it out",
+    en: "Try it out",
     ml: "ഒന്ന് ശ്രമിച്ചുനോക്കൂ",
     gu: "અજમાવી જુઓ",
-    vi: "thử ngay",
+    vi: "Thử ngay",
   },
   landingTryDesc: {
     en: "See what the citizenship test looks like.",
@@ -429,10 +429,10 @@ export const translations: Record<TranslationKey, Record<Lang, string>> = {
     vi: "Đây là mẫu thử. Đăng ký để làm tất cả 128 câu hỏi USCIS chính thức bằng ngôn ngữ của bạn.",
   },
   landingCtaTitle: {
-    en: "help your parents become citizens",
+    en: "Help your parents become citizens",
     ml: "നിങ്ങളുടെ മാതാപിതാക്കളെ പൗരന്മാരാക്കൂ",
     gu: "તમારા માતાપિતાને નાગરિક બનવામાં મદદ કરો",
-    vi: "giúp bố mẹ bạn trở thành công dân",
+    vi: "Giúp bố mẹ bạn trở thành công dân",
   },
   landingCtaFree: {
     en: "It's completely free. No ads, no subscriptions.",

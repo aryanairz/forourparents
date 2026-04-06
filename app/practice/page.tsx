@@ -1,6 +1,7 @@
 ﻿"use client";
 
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useLanguage } from "@/lib/LanguageContext";
 import { t } from "@/lib/i18n";
@@ -76,9 +77,14 @@ const topicColors: Record<TopicKey, string> = {
 };
 
 export default function PracticePage() {
+  const router = useRouter();
   const { lang, mounted } = useLanguage();
   const { speak: speakFeedback, stop: stopFeedback } = useFeedbackSpeech();
   const questions = useQuestionPool();
+
+  useEffect(() => {
+    if (!getCurrentUser()) router.replace("/login");
+  }, [router]);
   const l = (en: string, ml: string, gu?: string, vi?: string) =>
     lang === "en" ? en : lang === "ml" ? ml : lang === "gu" ? (gu ?? en) : (vi ?? en);
   const [state, setState] = useState<PracticeState>("select-topic");

@@ -44,6 +44,7 @@ const marqueeItems = [
 
 /* ─── Floating Nav (appears after hero) ─── */
 function FloatingNav() {
+  const { lang } = useLanguage();
   const [visible, setVisible] = useState(false);
   const { scrollY } = useScroll();
 
@@ -106,7 +107,7 @@ function FloatingNav() {
             whiteSpace: "nowrap",
           }}
         >
-          Get Started
+          {t("landingGetStarted", lang)}
         </Link>
       </div>
     </motion.div>
@@ -164,6 +165,9 @@ export default function HomePage() {
     return <AuthenticatedHome />;
   }
 
+  const l = (en: string, ml: string, gu: string, vi: string) =>
+    lang === "en" ? en : lang === "ml" ? ml : lang === "gu" ? gu : vi;
+
   return (
     <div className="landing-page" style={{ background: "#FFFFFF" }}>
 
@@ -202,7 +206,7 @@ export default function HomePage() {
                   fontFamily: "var(--font-dm-sans, system-ui, sans-serif)",
                 }}
               >
-                U.S. Citizenship Test Prep
+                {l("U.S. Citizenship Test Prep", "U.S. പൗരത്വ ടെസ്റ്റ് തയ്യാറെടുപ്പ്", "U.S. નાગરિકતા ટેસ્ટ તૈયારી", "Ôn thi quốc tịch Hoa Kỳ")}
               </p>
 
               {/* Headline */}
@@ -230,8 +234,12 @@ export default function HomePage() {
                   fontFamily: "var(--font-dm-sans, system-ui, sans-serif)",
                 }}
               >
-                Free practice in English, Malayalam, Gujarati, and Vietnamese.
-                Designed for immigrant parents — large text, audio, and zero fluff.
+                {l(
+                  "Free practice in English, Malayalam, Gujarati, and Vietnamese. Designed for immigrant parents \u2014 large text, audio, and zero fluff.",
+                  "ഇംഗ്ലീഷ്, മലയാളം, ഗുജറാത്തി, വിയറ്റ്നാമീസ് ഭാഷകളിൽ സൗജന്യ പരിശീലനം. കുടിയേറ്റ മാതാപിതാക്കൾക്കായി — വലിയ ടെക്സ്റ്റ്, ഓഡിയോ, അനാവശ്യമില്ല.",
+                  "અંગ્રેજી, મલયાલમ, ગુજરાતી અને વિએતનામીસમાં મફત પ્રેક્ટિસ. ઈમિગ્રન્ટ માતાપિતા માટે — મોટું લખાણ, ઑડિયો, કોઈ બિનજરૂરી વસ્તુ નહીં.",
+                  "Luyện tập miễn phí bằng tiếng Anh, Malayalam, Gujarati và tiếng Việt. Thiết kế cho phụ huynh nhập cư — chữ lớn, audio, không rườm rà."
+                )}
               </p>
 
               {/* CTA buttons */}
@@ -374,10 +382,15 @@ export default function HomePage() {
                   fontFamily: "var(--font-dm-sans, system-ui, sans-serif)",
                 }}
               >
-                Official USCIS Questions
+                {l("Official USCIS Questions", "ഔദ്യോഗിക USCIS ചോദ്യങ്ങൾ", "સત્તાવાર USCIS પ્રશ્નો", "Câu hỏi USCIS chính thức")}
               </h3>
               <p style={{ fontSize: 15, color: "#6B7280", lineHeight: 1.6, fontFamily: "var(--font-dm-sans, system-ui, sans-serif)" }}>
-                Every single question from the official USCIS civics test, translated and verified in all 4 languages.
+                {l(
+                  "Every single question from the official USCIS civics test, translated and verified in all 4 languages.",
+                  "ഔദ്യോഗിക USCIS സിവിക്സ് ടെസ്റ്റിലെ എല്ലാ ചോദ്യങ്ങളും, 4 ഭാഷകളിലും വിവർത്തനം ചെയ്ത് പരിശോധിച്ചത്.",
+                  "સત્તાવાર USCIS સિવિક્સ ટેસ્ટના દરેક પ્રશ્ન, 4 ભાષાઓમાં અનુવાદિત અને ચકાસાયેલ.",
+                  "Tất cả câu hỏi từ bài thi công dân USCIS chính thức, được dịch và xác minh bằng cả 4 ngôn ngữ."
+                )}
               </p>
 
               {/* Visual bar chart */}
@@ -398,7 +411,7 @@ export default function HomePage() {
                 ))}
               </div>
               <p style={{ fontSize: 12, color: "#9CA3AF", marginTop: 8, fontFamily: "var(--font-dm-sans, system-ui, sans-serif)" }}>
-                Score improvement over practice sessions
+                {l("Score improvement over practice sessions", "പരിശീലന സെഷനുകളിൽ സ്കോർ മെച്ചപ്പെടൽ", "પ્રેક્ટિસ સત્રોમાં સ્કોર સુધારો", "Điểm cải thiện qua các buổi luyện tập")}
               </p>
             </motion.div>
 
@@ -452,10 +465,15 @@ export default function HomePage() {
                   fontFamily: "var(--font-dm-sans, system-ui, sans-serif)",
                 }}
               >
-                Languages Supported
+                {l("Languages Supported", "പിന്തുണയ്ക്കുന്ന ഭാഷകൾ", "સમર્થિત ભાષાઓ", "Ngôn ngữ hỗ trợ")}
               </h3>
               <p style={{ fontSize: 15, color: "rgba(255,255,255,0.65)", lineHeight: 1.6, fontFamily: "var(--font-dm-sans, system-ui, sans-serif)" }}>
-                Study in the language your parents are most comfortable with. No English required.
+                {l(
+                  "Study in the language your parents are most comfortable with. No English required.",
+                  "നിങ്ങളുടെ മാതാപിതാക്കൾക്ക് ഏറ്റവും സുഖകരമായ ഭാഷയിൽ പഠിക്കുക. ഇംഗ്ലീഷ് ആവശ്യമില്ല.",
+                  "તમારા માતાપિતાને સૌથી આરામદાયક ભાષામાં અભ્યાસ કરો. અંગ્રેજી જરૂરી નથી.",
+                  "Học bằng ngôn ngữ mà bố mẹ bạn thoải mái nhất. Không cần tiếng Anh."
+                )}
               </p>
 
               {/* Language pills */}
@@ -607,7 +625,12 @@ export default function HomePage() {
               fontStyle: "italic",
             }}
           >
-            "My mother is 67 and barely speaks English. She passed the civics test on her first try using this app in Malayalam. I cried when she called me."
+            {l(
+              "\u201CMy mother is 67 and barely speaks English. She passed the civics test on her first try using this app in Malayalam. I cried when she called me.\u201D",
+              "\u201Cഎൻ്റെ അമ്മയ്ക്ക് 67 വയസ്സാണ്, ഇംഗ്ലീഷ് ഒട്ടും അറിയില്ല. മലയാളത്തിൽ ഈ ആപ്പ് ഉപയോഗിച്ച് ആദ്യ ശ്രമത്തിൽ തന്നെ സിവിക്സ് ടെസ്റ്റ് പാസായി. അമ്മ വിളിച്ചപ്പോൾ ഞാൻ കരഞ്ഞുപോയി.\u201D",
+              "\u201Cમારી માતા 67 વર્ષની છે અને ભાગ્યે જ અંગ્રેજી બોલે છે. આ એપ પર ગુજરાતીમાં પ્રથમ પ્રયાસમાં જ સિવિક્સ ટેસ્ટ પાસ કર્યો. જ્યારે તેમણે ફોન કર્યો ત્યારે હું રડી પડ્યો.\u201D",
+              "\u201CMẹ tôi 67 tuổi và hầu như không nói được tiếng Anh. Bà đã đỗ bài thi công dân ngay lần đầu tiên nhờ ứng dụng này bằng tiếng Việt. Tôi đã khóc khi bà gọi điện báo tin.\u201D"
+            )}
           </blockquote>
 
           <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 12 }}>
@@ -633,7 +656,7 @@ export default function HomePage() {
                 Anjali R.
               </p>
               <p style={{ fontSize: 13, color: "#6B7280", fontFamily: "var(--font-dm-sans, system-ui, sans-serif)", margin: 0 }}>
-                Daughter of a new U.S. citizen
+                {l("Daughter of a new U.S. citizen", "ഒരു പുതിയ U.S. പൗരയുടെ മകൾ", "નવા U.S. નાગરિકની દીકરી", "Con gái của một công dân Hoa Kỳ mới")}
               </p>
             </div>
           </div>
@@ -662,7 +685,7 @@ export default function HomePage() {
                 letterSpacing: "-0.02em",
               }}
             >
-              Common questions
+              {l("Common questions", "സാധാരണ ചോദ്യങ്ങൾ", "સામાન્ય પ્રશ્નો", "Câu hỏi thường gặp")}
             </h2>
           </motion.div>
 
@@ -793,12 +816,12 @@ export default function HomePage() {
                     fontFamily: "var(--font-dm-sans, system-ui, sans-serif)",
                   }}
                 >
-                  App
+                  {l("App", "ആപ്പ്", "એપ", "Ứng dụng")}
                 </p>
                 {[
-                  { label: "Practice Test", href: "/login" },
-                  { label: "Flashcard Mode", href: "/login" },
-                  { label: "Eligibility Check", href: "/eligibility" },
+                  { label: l("Practice Test", "പ്രാക്ടീസ് ടെസ്റ്റ്", "પ્રેક્ટિસ ટેસ્ટ", "Bài thi thử"), href: "/login" },
+                  { label: l("Flashcard Mode", "ഫ്ലാഷ്കാർഡ് മോഡ്", "ફ્લૅશકાર્ડ મોડ", "Chế độ thẻ ghi nhớ"), href: "/login" },
+                  { label: l("Eligibility Check", "യോഗ്യതാ പരിശോധന", "લાયકાત ચકાસણી", "Kiểm tra điều kiện"), href: "/eligibility" },
                 ].map((link) => (
                   <div key={link.label} style={{ marginBottom: 8 }}>
                     <Link
@@ -828,7 +851,7 @@ export default function HomePage() {
                     fontFamily: "var(--font-dm-sans, system-ui, sans-serif)",
                   }}
                 >
-                  Languages
+                  {l("Languages", "ഭാഷകൾ", "ભાષાઓ", "Ngôn ngữ")}
                 </p>
                 {["English", "Malayalam", "Gujarati", "Vietnamese"].map((l) => (
                   <div key={l} style={{ marginBottom: 8 }}>
@@ -858,7 +881,7 @@ export default function HomePage() {
                 margin: 0,
               }}
             >
-              © {new Date().getFullYear()} For Our Parents · Built with ❤️ for immigrant families · Not affiliated with USCIS
+              © {new Date().getFullYear()} For Our Parents · {l("Built with ❤️ for immigrant families · Not affiliated with USCIS", "കുടിയേറ്റ കുടുംബങ്ങൾക്കായി ❤️ നിർമ്മിച്ചത് · USCIS-മായി ബന്ധമില്ല", "ઈમિગ્રન્ટ પરિવારો માટે ❤️ થી બનાવેલ · USCIS સાથે સંલગ્ન નથી", "Xây dựng với ❤️ cho gia đình nhập cư · Không liên kết với USCIS")}
             </p>
           </div>
         </div>

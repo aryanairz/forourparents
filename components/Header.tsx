@@ -79,7 +79,8 @@ export default function Header() {
             {mounted && (
               <div className="relative" ref={langRef}>
                 <button
-                  onClick={() => setLangOpen(!langOpen)}
+                  type="button"
+                  onClick={(e) => { e.stopPropagation(); setLangOpen(!langOpen); }}
                   className="flex items-center gap-1.5 px-3 py-1.5 bg-transparent border-none cursor-pointer"
                   style={{
                     fontSize: 13,
@@ -223,13 +224,14 @@ export default function Header() {
         </nav>
 
         {/* ── Right Side ── */}
-        <div className="flex items-center gap-2.5 flex-shrink-0">
+        <div className="flex items-center gap-3 sm:gap-4 flex-shrink-0">
 
           {/* Language Selector */}
           {mounted && (
             <div className="relative" ref={langRef}>
               <button
-                onClick={() => setLangOpen(!langOpen)}
+                type="button"
+                onClick={(e) => { e.stopPropagation(); setLangOpen(!langOpen); }}
                 className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium transition-all min-h-[40px] min-w-[40px]"
                 style={{ border: "1px solid rgba(255,255,255,0.25)", color: "rgba(255,255,255,0.8)", background: "rgba(255,255,255,0.08)" }}
                 aria-label={l("Select language", "ഭാഷ തിരഞ്ഞെടുക്കുക", "ભાષા પસંદ કરો", "Chọn ngôn ngữ")}
@@ -259,6 +261,7 @@ export default function Header() {
                     {(Object.keys(langMeta) as Lang[]).map((code) => (
                       <button
                         key={code}
+                        type="button"
                         role="menuitem"
                         onClick={() => { setLang(code); setLangOpen(false); }}
                         className="w-full px-4 py-3 text-left flex items-center justify-between transition-colors min-h-[48px]"
