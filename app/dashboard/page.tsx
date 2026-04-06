@@ -13,7 +13,7 @@ import {
   type QuizAttempt,
 } from "@/lib/storage";
 import { questions, topicLabels, type Topic } from "@/data/questions";
-import { Landmark, Scale, ScrollText, Flag, Flame, CheckCircle2, ArrowRight } from "lucide-react";
+import { Landmark, Scale, ScrollText, Flag, Flame, CheckCircle2, ArrowRight, BookOpen, Layers, AlertCircle, ClipboardCheck } from "lucide-react";
 import { motion, useReducedMotion } from "framer-motion";
 import type { Lang } from "@/data/questions";
 
@@ -350,7 +350,7 @@ export default function DashboardPage() {
       }}
     >
       {/* ══════════════════════════════════════════════════
-          SECTION 1: GREETING + QUICK ACTION
+          SECTION 1: GREETING
           ══════════════════════════════════════════════════ */}
       <div>
         <h1
@@ -383,30 +383,33 @@ export default function DashboardPage() {
           {l(
             `All Questions · Studying in ${langNames[lang]}`,
             `എല്ലാ ചോദ്യങ്ങളും · ${langNames[lang]}-ൽ പഠിക്കുന്നു`,
-            `બધા પ્રશ્નો · ${langNames[lang]}માં અભ્યાસ`,
+            `બധા પ્રશ્નો · ${langNames[lang]}માં અभ્યાસ`,
             `Tất cả câu hỏi · Học bằng ${langNames[lang]}`
           )}
         </p>
 
-        <div style={{ marginTop: 24 }}>
-          <Link
-            href={continueLink}
-            className="btn-red-3d"
-            style={{
-              height: 56,
-              fontSize: 16,
-              paddingLeft: 32,
-              paddingRight: 32,
-              minWidth: 260,
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 8,
-            }}
-          >
-            {l("Continue Practicing", "പരിശീലനം തുടരുക", "પ્રેક્ટિસ ચાલુ રાખો", "Tiếp tục luyện tập")}
-            <ArrowRight size={18} />
-          </Link>
-        </div>
+        {hasAttempts && (
+          <div style={{ marginTop: 24 }}>
+            <Link
+              href={continueLink}
+              prefetch={false}
+              className="btn-red-3d"
+              style={{
+                height: 56,
+                fontSize: 16,
+                paddingLeft: 32,
+                paddingRight: 32,
+                minWidth: 260,
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 8,
+              }}
+            >
+              {l("Continue Practicing", "പരിശീലനം തുടരുക", "પ્રેક્ટિસ ચાલુ રાખો", "Tiếp tục luyện tập")}
+              <ArrowRight size={18} />
+            </Link>
+          </div>
+        )}
       </div>
 
       {/* ══════════════════════════════════════════════════
@@ -419,7 +422,7 @@ export default function DashboardPage() {
             borderRadius: 16,
             padding: 32,
             textAlign: "center",
-            marginTop: 48,
+            marginTop: 32,
           }}
         >
           <h2
@@ -447,14 +450,15 @@ export default function DashboardPage() {
             }}
           >
             {l(
-              "The civics test has 100 questions. Start with any topic and build your way up.",
-              "സിവിക്സ് ടെസ്റ്റിൽ 100 ചോദ്യങ്ങളുണ്ട്. ഏതെങ്കിലും വിഷയത്തിൽ ആരംഭിക്കൂ.",
-              "સિવિક્સ ટેસ્ટમાં 100 પ્રશ્નો છે. કોઈપણ વિષયથી શરૂ કરો.",
-              "Bài thi công dân có 100 câu hỏi. Bắt đầu với bất kỳ chủ đề nào."
+              "The civics test has 128 questions. Start with any topic and build your way up.",
+              "സിവിക്സ് ടെസ്റ്റിൽ 128 ചോദ്യങ്ങളുണ്ട്. ഏതെങ്കിലും വിഷയത്തിൽ ആരംഭിക്കൂ.",
+              "સિવિક્સ ટેસ્ટમાં 128 પ્રશ્નો છે. કોઈપણ વિષયથી શરૂ કરો.",
+              "Bài thi công dân có 128 câu hỏi. Bắt đầu với bất kỳ chủ đề nào."
             )}
           </p>
           <Link
             href="/practice"
+            prefetch={false}
             className="btn-red-3d"
             style={{
               height: 56,
@@ -476,6 +480,92 @@ export default function DashboardPage() {
           </Link>
         </div>
       )}
+
+      {/* ══════════════════════════════════════════════════
+          SECTION: QUICK ACTIONS (nav cards)
+          ══════════════════════════════════════════════════ */}
+      <div
+        className="grid grid-cols-2 sm:grid-cols-4 gap-3"
+        style={{ marginTop: 32 }}
+      >
+        {[
+          {
+            href: "/quiz",
+            icon: <ClipboardCheck size={22} style={{ color: "#D4772C" }} />,
+            title: l("Practice Test", "പ്രാക്ടീസ് ടെസ്റ്റ്", "પ્રેક્ટિસ ટેસ્ટ", "Bài thi thử"),
+            color: "#D4772C",
+          },
+          {
+            href: "/practice",
+            icon: <Layers size={22} style={{ color: "#B45309" }} />,
+            title: l("Flashcards", "ഫ്ലാഷ്കാർഡ്", "ફ્લૅશકાર્ડ", "Thẻ ghi nhớ"),
+            color: "#B45309",
+          },
+          {
+            href: "/mistakes",
+            icon: <AlertCircle size={22} style={{ color: "#0891B2" }} />,
+            title: l("Review Mistakes", "തെറ്റുകൾ", "ભૂલો", "Lỗi sai"),
+            color: "#0891B2",
+          },
+          {
+            href: "/eligibility",
+            icon: <BookOpen size={22} style={{ color: "#7C3AED" }} />,
+            title: l("Eligibility", "യോഗ്യത", "લાયકાત", "Điều kiện"),
+            color: "#7C3AED",
+          },
+        ].map((item) => (
+          <Link
+            key={item.href}
+            href={item.href}
+            prefetch={false}
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              gap: 10,
+              padding: "20px 12px",
+              background: "#F5F5F5",
+              borderRadius: 16,
+              textDecoration: "none",
+              transition: "background 0.15s, transform 0.1s",
+              fontFamily: FONT,
+            }}
+            onMouseEnter={(e) => {
+              (e.currentTarget as HTMLElement).style.background = "#EEEEEE";
+              (e.currentTarget as HTMLElement).style.transform = "translateY(-2px)";
+            }}
+            onMouseLeave={(e) => {
+              (e.currentTarget as HTMLElement).style.background = "#F5F5F5";
+              (e.currentTarget as HTMLElement).style.transform = "translateY(0)";
+            }}
+          >
+            <div
+              style={{
+                width: 44,
+                height: 44,
+                borderRadius: 12,
+                background: "#FFFFFF",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              {item.icon}
+            </div>
+            <span
+              style={{
+                fontSize: 14,
+                fontWeight: 600,
+                color: NAVY,
+                textAlign: "center",
+                lineHeight: 1.3,
+              }}
+            >
+              {item.title}
+            </span>
+          </Link>
+        ))}
+      </div>
 
       {/* ══════════════════════════════════════════════════
           SECTION 2: STATS ROW

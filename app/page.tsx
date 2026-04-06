@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useLanguage } from "@/lib/LanguageContext";
 import { t } from "@/lib/i18n";
 import { getCurrentUser } from "@/lib/storage";
@@ -150,9 +151,16 @@ export default function HomePage() {
   const { lang, mounted } = useLanguage();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+  const router = useRouter();
+
   useEffect(() => {
-    setIsLoggedIn(!!getCurrentUser());
-  }, []);
+    const user = getCurrentUser();
+    if (user) {
+      router.replace("/dashboard");
+      return;
+    }
+    setIsLoggedIn(false);
+  }, [router]);
 
   if (!mounted) {
     return (

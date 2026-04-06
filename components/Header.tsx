@@ -180,14 +180,14 @@ export default function Header() {
 
   // ── Full Header (all other pages / logged-in users) ──
   const navLinks: { href: string; label: Record<Lang, string> }[] = [
-    { href: "/", label: { en: "Home", ml: "ഹോം", gu: "હોમ", vi: "Trang chủ" } },
+    { href: "/dashboard", label: { en: "Home", ml: "ഹോം", gu: "હોમ", vi: "Trang chủ" } },
     { href: "/quiz", label: { en: "Practice Test", ml: "പ്രാക്ടീസ് ടെസ്റ്റ്", gu: "પ્રેક્ટિસ ટેસ્ટ", vi: "Bài thi thử" } },
     { href: "/eligibility", label: { en: "Do You Qualify?", ml: "യോഗ്യത?", gu: "શું તમે લાયક છો?", vi: "Điều kiện?" } },
     { href: "/help", label: { en: "Help", ml: "സഹായം", gu: "મદદ", vi: "Trợ giúp" } },
   ];
 
   const isActive = (href: string) =>
-    href === "/" ? pathname === "/" : pathname.startsWith(href);
+    href === "/dashboard" ? pathname === "/dashboard" || pathname === "/" : pathname.startsWith(href);
 
   return (
     <header style={{ background: "#1B2A4A", borderBottom: "1px solid #243658" }} className="sticky top-0 z-50">
