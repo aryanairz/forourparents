@@ -4,6 +4,7 @@ const LANG_MAP: Record<string, string> = {
   ml: "ml",
   gu: "gu",
   vi: "vi",
+  tl: "tl",
   en: "en",
 };
 

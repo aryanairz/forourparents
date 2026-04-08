@@ -19,6 +19,7 @@ const LANG_OPTIONS: { code: Lang; label: string }[] = [
   { code: "ml", label: "Malayalam (മലയാളം)" },
   { code: "gu", label: "Gujarati (ગુજરાતી)" },
   { code: "vi", label: "Vietnamese (Tiếng Việt)" },
+  { code: "tl", label: "Tagalog" },
 ];
 
 const RULE_OPTIONS = [
@@ -52,8 +53,8 @@ function ProgressBar({ step, total }: { step: number; total: number }) {
 export default function OnboardingPage() {
   const router = useRouter();
   const { lang, setLang } = useLanguage();
-  const l = (en: string, ml: string, gu?: string, vi?: string) =>
-    lang === "en" ? en : lang === "ml" ? ml : lang === "gu" ? (gu ?? en) : (vi ?? en);
+  const l = (en: string, ml: string, gu?: string, vi?: string, tl?: string) =>
+    lang === "en" ? en : lang === "ml" ? ml : lang === "gu" ? (gu ?? en) : lang === "vi" ? (vi ?? en) : (tl ?? en);
 
   const [step, setStep] = useState(1);
   const [dir, setDir] = useState(1);
@@ -87,36 +88,36 @@ export default function OnboardingPage() {
   function ruleTitle(value: string) {
     switch (value) {
       case "50/20":
-        return l("50/20 Rule", "50/20 നിയമം", "50/20 નિયમ", "Quy tắc 50/20");
+        return l("50/20 Rule", "50/20 നിയമം", "50/20 નિયમ", "Quy tắc 50/20", "Panuntunan 50/20");
       case "55/15":
-        return l("55/15 Rule", "55/15 നിയമം", "55/15 નિયમ", "Quy tắc 55/15");
+        return l("55/15 Rule", "55/15 നിയമം", "55/15 નિયમ", "Quy tắc 55/15", "Panuntunan 55/15");
       case "65/20":
-        return l("65/20 Special Consideration", "65/20 പ്രത്യേക പരിഗണന", "65/20 વિશેષ વિચારણા", "Cân nhắc đặc biệt 65/20");
+        return l("65/20 Special Consideration", "65/20 പ്രത്യേക പരിഗണന", "65/20 વિશેષ વિચારણા", "Cân nhắc đặc biệt 65/20", "65/20 Espesyal na Konsiderasyon");
       default:
-        return l("I'm not sure", "എനിക്ക് ഉറപ്പില്ല", "મને ખાતરી નથી", "Tôi không chắc");
+        return l("I'm not sure", "എനിക്ക് ഉറപ്പില്ല", "મને ખાતરી નથી", "Tôi không chắc", "Hindi ako sigurado");
     }
   }
 
   function ruleDesc(value: string) {
     switch (value) {
       case "50/20":
-        return l("Age 50+ with 20+ years as a Green Card holder", "50+ വയസും 20+ വർഷം ഗ്രീൻ കാർഡ് ഉടമയും", "50+ ઉંમર અને 20+ વર્ષનો ગ્રીન કાર્ડ ધારક", "Từ 50 tuổi trở lên và có thẻ xanh từ 20+ năm");
+        return l("Age 50+ with 20+ years as a Green Card holder", "50+ വയസും 20+ വർഷം ഗ്രീൻ കാർഡ് ഉടമയും", "50+ ઉંમર અને 20+ વર્ષનો ગ્રીન કાર્ડ ધારક", "Từ 50 tuổi trở lên và có thẻ xanh từ 20+ năm", "Edad 50+ na may 20+ taon bilang may hawak ng Green Card");
       case "55/15":
-        return l("Age 55+ with 15+ years as a Green Card holder", "55+ വയസും 15+ വർഷം ഗ്രീൻ കാർഡ് ഉടമയും", "55+ ઉંમર અને 15+ વર્ષનો ગ્રીન કાર્ડ ધારક", "Từ 55 tuổi trở lên và có thẻ xanh từ 15+ năm");
+        return l("Age 55+ with 15+ years as a Green Card holder", "55+ വയസും 15+ വർഷം ഗ്രീൻ കാർഡ് ഉടമയും", "55+ ઉંમર અને 15+ વર્ષનો ગ્રીન કાર્ડ ધારક", "Từ 55 tuổi trở lên và có thẻ xanh từ 15+ năm", "Edad 55+ na may 15+ taon bilang may hawak ng Green Card");
       case "65/20":
-        return l("Age 65+ with 20+ years - simplified question set", "65+ വയസും 20+ വർഷവും - ലളിതമായ ചോദ്യങ്ങൾ", "65+ ઉંમર અને 20+ વર્ષ - સરળ પ્રશ્ન સમૂહ", "Từ 65 tuổi trở lên và có thẻ xanh từ 20+ năm - bộ câu hỏi đơn giản hơn");
+        return l("Age 65+ with 20+ years - simplified question set", "65+ വയസും 20+ വർഷവും - ലളിതമായ ചോദ്യങ്ങൾ", "65+ ઉંમર અને 20+ વર્ષ - સરળ પ્રશ્ન સમૂહ", "Từ 65 tuổi trở lên và có thẻ xanh từ 20+ năm - bộ câu hỏi đơn giản hơn", "Edad 65+ na may 20+ taon - pinasimpleng hanay ng mga tanong");
       default:
-        return l("We'll show you all questions", "എല്ലാ ചോദ്യങ്ങളും ഞങ്ങൾ കാണിക്കും", "અમે તમને બધા પ્રશ્નો બતાવીશું", "Chúng tôi sẽ hiển thị toàn bộ câu hỏi cho bạn");
+        return l("We'll show you all questions", "എല്ലാ ചോദ്യങ്ങളും ഞങ്ങൾ കാണിക്കും", "અમે તમને બધા પ્રશ્નો બતાવીશું", "Chúng tôi sẽ hiển thị toàn bộ câu hỏi cho bạn", "Ipapakita namin sa iyo ang lahat ng tanong");
     }
   }
 
   async function handleCreateAccount(e: FormEvent) {
     e.preventDefault();
     setError("");
-    if (!firstName.trim() || !lastName.trim()) { setError(l("Please enter your first and last name.", "ദയവായി നിങ്ങളുടെ പേരും കുടുംബപ്പേരും നൽകുക.", "કૃપા કરીને તમારું પ્રથમ અને છેલ્લું નામ દાખલ કરો.", "Vui lòng nhập tên và họ của bạn.")); return; }
-    if (!email.trim()) { setError(l("Please enter your email.", "ദയവായി നിങ്ങളുടെ ഇമെയിൽ നൽകുക.", "કૃપા કરીને તમારું ઇમેલ દાખલ કરો.", "Vui lòng nhập email của bạn.")); return; }
-    if (!phone.trim() || phone.replace(/\D/g, "").length < 10) { setError(l("Please enter a valid 10-digit phone number.", "ദയവായി സാധുവായ 10 അക്ക ഫോൺ നമ്പർ നൽകുക.", "કૃપા કરીને માન્ય 10 અંકનો ફોન નંબર દાખલ કરો.", "Vui lòng nhập số điện thoại 10 chữ số hợp lệ.")); return; }
-    if (pin.length !== 4) { setError(l("Please create a 4-digit PIN.", "ദയവായി 4 അക്ക PIN സൃഷ്ടിക്കുക.", "કૃપા કરીને 4 અંકનો PIN બનાવો.", "Vui lòng tạo mã PIN 4 chữ số.")); return; }
+    if (!firstName.trim() || !lastName.trim()) { setError(l("Please enter your first and last name.", "ദയവായി നിങ്ങളുടെ പേരും കുടുംബപ്പേരും നൽകുക.", "કૃપા કરીને તમારું પ્રથમ અને છેલ્લું નામ દાખલ કરો.", "Vui lòng nhập tên và họ của bạn.", "Mangyaring ilagay ang iyong pangalan at apelyido.")); return; }
+    if (!email.trim()) { setError(l("Please enter your email.", "ദയവായി നിങ്ങളുടെ ഇമെയിൽ നൽകുക.", "કૃપા કરીને તમારું ઇમેલ દાખલ કરો.", "Vui lòng nhập email của bạn.", "Mangyaring ilagay ang iyong email.")); return; }
+    if (!phone.trim() || phone.replace(/\D/g, "").length < 10) { setError(l("Please enter a valid 10-digit phone number.", "ദയവായി സാധുവായ 10 അക്ക ഫോൺ നമ്പർ നൽകുക.", "કૃપા કરીને માન્ય 10 અંકનો ફોન નંબર દાખલ કરો.", "Vui lòng nhập số điện thoại 10 chữ số hợp lệ.", "Mangyaring maglagay ng wastong 10-digit na numero ng telepono.")); return; }
+    if (pin.length !== 4) { setError(l("Please create a 4-digit PIN.", "ദയവായി 4 അക്ക PIN സൃഷ്ടിക്കുക.", "કૃપા કરીને 4 અંકનો PIN બનાવો.", "Vui lòng tạo mã PIN 4 chữ số.", "Mangyaring gumawa ng 4-digit na PIN.")); return; }
     setLoading(true);
     const { user, errorMsg } = await signupUser(
       firstName.trim(), lastName.trim(), email.trim(), pin,
@@ -129,7 +130,7 @@ export default function OnboardingPage() {
       setLang(language);
       router.push("/");
     } else {
-      setError(errorMsg || l("Something went wrong. Please try again.", "എന്തോ പിഴച്ചു. ദയവായി വീണ്ടും ശ്രമിക്കുക.", "કૈંક ખોટું થયું. કૃપા કરીને ફરી પ્રયાસ કરો.", "Có lỗi xảy ra. Vui lòng thử lại."));
+      setError(errorMsg || l("Something went wrong. Please try again.", "എന്തോ പിഴച്ചു. ദയവായി വീണ്ടും ശ്രമിക്കുക.", "કૈંક ખોટું થયું. કૃપા કરીને ફરી પ્રયાસ કરો.", "Có lỗi xảy ra. Vui lòng thử lại.", "May nangyaring mali. Mangyaring subukan muli."));
     }
     setLoading(false);
   }
@@ -185,7 +186,7 @@ export default function OnboardingPage() {
               onMouseEnter={(e) => (e.currentTarget.style.color = NAVY)}
               onMouseLeave={(e) => (e.currentTarget.style.color = "#9CA3AF")}
             >
-              <ChevronLeft size={18} /> {l("Back", "പിന്നോട്ട്", "પાછા", "Quay lại")}
+              <ChevronLeft size={18} /> {l("Back", "പിന്നോട്ട്", "પાછા", "Quay lại", "Bumalik")}
             </button>
           )}
 
@@ -196,10 +197,10 @@ export default function OnboardingPage() {
             {step === 1 && (
               <motion.div key="step1" custom={dir} variants={variants} initial="enter" animate="center" exit="exit">
                 <h1 style={{ fontFamily: "var(--font-dm-sans, system-ui, sans-serif)", fontWeight: 700, fontSize: 26, color: NAVY, textAlign: "center", marginBottom: 8 }}>
-                  {l("What language would you like to study in?", "നിങ്ങൾ ഏത് ഭാഷയിലാണ് പഠിക്കാൻ ആഗ്രഹിക്കുന്നത്?", "તમે કઈ ભાષામાં અભ્યાસ કરવા માંગો છો?", "Bạn muốn học bằng ngôn ngữ nào?")}
+                  {l("What language would you like to study in?", "നിങ്ങൾ ഏത് ഭാഷയിലാണ് പഠിക്കാൻ ആഗ്രഹിക്കുന്നത്?", "તમે કઈ ભાષામાં અભ્યાસ કરવા માંગો છો?", "Bạn muốn học bằng ngôn ngữ nào?", "Saang wika mo gustong mag-aral?")}
                 </h1>
                 <p style={{ textAlign: "center", fontSize: 15, color: "#9CA3AF", marginBottom: 28, fontFamily: "var(--font-dm-sans, system-ui, sans-serif)" }}>
-                  {l("You can change this anytime.", "ഇത് എപ്പോൾ വേണമെങ്കിലും മാറ്റാം.", "તમે આ ક્યારે પણ બદલી શકો છો.", "Bạn có thể đổi bất cứ lúc nào.")}
+                  {l("You can change this anytime.", "ഇത് എപ്പോൾ വേണമെങ്കിലും മാറ്റാം.", "તમે આ ક્યારે પણ બદલી શકો છો.", "Bạn có thể đổi bất cứ lúc nào.", "Maaari mo itong palitan anumang oras.")}
                 </p>
                 <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                   {LANG_OPTIONS.map((opt) => (
@@ -234,10 +235,10 @@ export default function OnboardingPage() {
             {step === 2 && (
               <motion.div key="step2" custom={dir} variants={variants} initial="enter" animate="center" exit="exit">
                 <h1 style={{ fontFamily: "var(--font-dm-sans, system-ui, sans-serif)", fontWeight: 700, fontSize: 26, color: NAVY, textAlign: "center", marginBottom: 8 }}>
-                  {l("Which citizenship rule applies to you?", "ഏത് പൗരത്വ നിയമമാണ് നിങ്ങളെ ബാധിക്കുന്നത്?", "તમારા માટે કયો નાગરિકતા નિયમ લાગુ પડે છે?", "Quy tắc quốc tịch nào áp dụng cho bạn?")}
+                  {l("Which citizenship rule applies to you?", "ഏത് പൗരത്വ നിയമമാണ് നിങ്ങളെ ബാധിക്കുന്നത്?", "તમારા માટે કયો નાગરિકતા નિયમ લાગુ પડે છે?", "Quy tắc quốc tịch nào áp dụng cho bạn?", "Aling panuntunan sa pagkamamamayan ang naaangkop sa iyo?")}
                 </h1>
                 <p style={{ textAlign: "center", fontSize: 15, color: "#9CA3AF", marginBottom: 28, fontFamily: "var(--font-dm-sans, system-ui, sans-serif)" }}>
-                  {l("This helps us show you the right set of questions.", "ശരിയായ ചോദ്യങ്ങൾ കാണിക്കാൻ ഇത് സഹായിക്കും.", "આ અમને તમને યોગ્ય પ્રશ્નો બતાવવામાં મદદ કરે છે.", "Điều này giúp chúng tôi hiển thị đúng bộ câu hỏi cho bạn.")}
+                  {l("This helps us show you the right set of questions.", "ശരിയായ ചോദ്യങ്ങൾ കാണിക്കാൻ ഇത് സഹായിക്കും.", "આ અમને તમને યોગ્ય પ્રશ્નો બતાવવામાં મદદ કરે છે.", "Điều này giúp chúng tôi hiển thị đúng bộ câu hỏi cho bạn.", "Makakatulong ito sa amin na ipakita sa iyo ang tamang hanay ng mga tanong.")}
                 </p>
                 <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                   {RULE_OPTIONS.map((opt) => (
@@ -272,14 +273,14 @@ export default function OnboardingPage() {
             {step === 3 && (
               <motion.div key="step3" custom={dir} variants={variants} initial="enter" animate="center" exit="exit">
                 <h1 style={{ fontFamily: "var(--font-dm-sans, system-ui, sans-serif)", fontWeight: 700, fontSize: 26, color: NAVY, textAlign: "center", marginBottom: 8 }}>
-                  {l("Where do you live?", "നിങ്ങൾ എവിടെയാണ് താമസിക്കുന്നത്?", "તમે ક્યાં રહેો છો?", "Bạn sống ở đâu?")}
+                  {l("Where do you live?", "നിങ്ങൾ എവിടെയാണ് താമസിക്കുന്നത്?", "તમે ક્યાં રહેો છો?", "Bạn sống ở đâu?", "Saan ka nakatira?")}
                 </h1>
                 <p style={{ textAlign: "center", fontSize: 15, color: "#9CA3AF", marginBottom: 28, fontFamily: "var(--font-dm-sans, system-ui, sans-serif)" }}>
-                  {l("We'll personalize your practice questions with your local representatives.", "നിങ്ങളുടെ പ്രദേശത്തെ പ്രതിനിധികളെ അടിസ്ഥാനമാക്കി ചോദ്യങ്ങൾ വ്യക്തിഗതമാക്കാം.", "અમે તમારા સ્થાનિક પ્રતિનિધિઓ આધારે પ્રેક્ટિસ પ્રશ્નોને વ્યક્તિગત બનાવશું.", "Chúng tôi sẽ cá nhân hóa câu hỏi luyện tập dựa trên đại diện địa phương của bạn.")}
+                  {l("We'll personalize your practice questions with your local representatives.", "നിങ്ങളുടെ പ്രദേശത്തെ പ്രതിനിധികളെ അടിസ്ഥാനമാക്കി ചോദ്യങ്ങൾ വ്യക്തിഗതമാക്കാം.", "અમે તમારા સ્થાનિક પ્રતિનિધિઓ આધારે પ્રેક્ટિસ પ્રશ્નોને વ્યક્તિગત બનાવશું.", "Chúng tôi sẽ cá nhân hóa câu hỏi luyện tập dựa trên đại diện địa phương của bạn.", "Ipe-personalize namin ang iyong mga tanong batay sa iyong mga lokal na kinatawan.")}
                 </p>
                 <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
                   <div>
-                    <label style={labelStyle}>{l("State", "സംസ്ഥാനം", "રાજ્ય", "Tiểu bang")}</label>
+                    <label style={labelStyle}>{l("State", "സംസ്ഥാനം", "રાજ્ય", "Tiểu bang", "Estado")}</label>
                     <select
                       value={state}
                       onChange={(e) => { setState(e.target.value); setDistrict(""); }}
@@ -287,14 +288,14 @@ export default function OnboardingPage() {
                       onFocus={(e) => (e.currentTarget.style.borderColor = NAVY)}
                       onBlur={(e) => (e.currentTarget.style.borderColor = "#E5E7EB")}
                     >
-                      <option value="">{l("Select your state", "നിങ്ങളുടെ സംസ്ഥാനം തിരഞ്ഞെടുക്കുക", "તમારું રાજ્ય પસંદ કરો", "Chọn tiểu bang của bạn")}</option>
+                      <option value="">{l("Select your state", "നിങ്ങളുടെ സംസ്ഥാനം തിരഞ്ഞെടുക്കുക", "તમારું રાજ્ય પસંદ કરો", "Chọn tiểu bang của bạn", "Piliin ang iyong estado")}</option>
                       {getStateOptions().map((s) => (
                         <option key={s.code} value={s.code}>{s.name}</option>
                       ))}
                     </select>
                   </div>
                   <div>
-                    <label style={labelStyle}>{l("Congressional District", "കോൺഗ്രഷണൽ ജില്ലാ", "કોંગ્રેસનલ જિલ્લો", "Khu vực quốc hội")}</label>
+                    <label style={labelStyle}>{l("Congressional District", "കോൺഗ്രഷണൽ ജില്ലാ", "કોંગ્રેસનલ જિલ્લો", "Khu vực quốc hội", "Distrito ng Kongreso")}</label>
                     <select
                       value={district}
                       onChange={(e) => setDistrict(e.target.value)}
@@ -303,10 +304,10 @@ export default function OnboardingPage() {
                       onFocus={(e) => (e.currentTarget.style.borderColor = NAVY)}
                       onBlur={(e) => (e.currentTarget.style.borderColor = "#E5E7EB")}
                     >
-                      <option value="">{l("Select your district", "നിങ്ങളുടെ ജില്ല തിരഞ്ഞെടുക്കുക", "તમારો જિલ્લો પસંદ કરો", "Chọn khu vực của bạn")}</option>
+                      <option value="">{l("Select your district", "നിങ്ങളുടെ ജില്ല തിരഞ്ഞെടുക്കുക", "તમારો જિલ્લો પસંદ કરો", "Chọn khu vực của bạn", "Piliin ang iyong distrito")}</option>
                       {state && getDistrictOptions(state).map((d) => (
                         <option key={d.value} value={d.value}>
-                          {d.value === 0 ? l("At-Large (statewide)", "അറ്റ്-ലാർജ് (സംസ്ഥാനവ്യാപകം)", "એટ-લાર્જ (સમગ્ર રાજ્ય)", "At-Large (toàn tiểu bang)") : d.label}
+                          {d.value === 0 ? l("At-Large (statewide)", "അറ്റ്-ലാർജ് (സംസ്ഥാനവ്യാപകം)", "એટ-લાર્જ (સમગ્ર રાજ્ય)", "At-Large (toàn tiểu bang)", "At-Large (buong estado)") : d.label}
                         </option>
                       ))}
                     </select>
@@ -317,7 +318,7 @@ export default function OnboardingPage() {
                       onMouseEnter={(e) => (e.currentTarget.style.textDecoration = "underline")}
                       onMouseLeave={(e) => (e.currentTarget.style.textDecoration = "none")}
                     >
-                      {l("Don't know your district? Find it here ->", "നിങ്ങളുടെ ജില്ല അറിയില്ലേ? ഇവിടെ കണ്ടെത്തൂ ->", "તમારો જિલ્લો ખબર નથી? અહીં શોધો ->", "Không biết khu vực của bạn? Tìm tại đây ->")}
+                      {l("Don't know your district? Find it here ->", "നിങ്ങളുടെ ജില്ല അറിയില്ലേ? ഇവിടെ കണ്ടെത്തൂ ->", "તમારો જિલ્લો ખબર નથી? અહીં શોધો ->", "Không biết khu vực của bạn? Tìm tại đây ->", "Hindi mo alam ang iyong distrito? Hanapin dito ->")}
                     </a>
                   </div>
                   <button
@@ -335,7 +336,7 @@ export default function OnboardingPage() {
                     onMouseEnter={(e) => { if (state && district) (e.currentTarget as HTMLElement).style.background = "#0F1D35"; }}
                     onMouseLeave={(e) => { if (state && district) (e.currentTarget as HTMLElement).style.background = NAVY; }}
                   >
-                    {l("Continue", "തുടരുക", "ચાલુ રાખો", "Tiếp tục")}
+                    {l("Continue", "തുടരുക", "ચાલુ રાખો", "Tiếp tục", "Magpatuloy")}
                   </button>
                 </div>
               </motion.div>
@@ -345,16 +346,16 @@ export default function OnboardingPage() {
             {step === 4 && (
               <motion.div key="step4" custom={dir} variants={variants} initial="enter" animate="center" exit="exit">
                 <h1 style={{ fontFamily: "var(--font-dm-sans, system-ui, sans-serif)", fontWeight: 700, fontSize: 26, color: NAVY, textAlign: "center", marginBottom: 32 }}>
-                  {l("Create an account to get started", "തുടങ്ങാൻ ഒരു അക്കൗണ്ട് സൃഷ്ടിക്കൂ", "શરૂ કરવા માટે એકાઉન્ટ બનાવો", "Tạo tài khoản để bắt đầu")}
+                  {l("Create an account to get started", "തുടങ്ങാൻ ഒരു അക്കൗണ്ട് സൃഷ്ടിക്കൂ", "શરૂ કરવા માટે એકાઉન્ટ બનાવો", "Tạo tài khoản để bắt đầu", "Gumawa ng account para makapagsimula")}
                 </h1>
                 <form onSubmit={handleCreateAccount} style={{ display: "flex", flexDirection: "column", gap: 16 }}>
                   <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
                     <div>
-                      <label style={labelStyle}>{l("First Name", "പേര്", "પ્રથમ નામ", "Tên")}</label>
+                      <label style={labelStyle}>{l("First Name", "പേര്", "પ્રથમ નામ", "Tên", "Pangalan")}</label>
                       <input
                         type="text" value={firstName}
                         onChange={(e) => setFirstName(e.target.value)}
-                        placeholder={l("First name", "പേര്", "પ્રથમ નામ", "Tên")}
+                        placeholder={l("First name", "പേര്", "પ્રથમ નામ", "Tên", "Pangalan")}
                         style={inputStyle}
                         onFocus={(e) => (e.currentTarget.style.borderColor = NAVY)}
                         onBlur={(e) => (e.currentTarget.style.borderColor = "#E5E7EB")}
@@ -362,11 +363,11 @@ export default function OnboardingPage() {
                       />
                     </div>
                     <div>
-                      <label style={labelStyle}>{l("Last Name", "കുടുംബപ്പേര്", "અટક", "Họ")}</label>
+                      <label style={labelStyle}>{l("Last Name", "കുടുംബപ്പേര്", "અટક", "Họ", "Apelyido")}</label>
                       <input
                         type="text" value={lastName}
                         onChange={(e) => setLastName(e.target.value)}
-                        placeholder={l("Last name", "കുടുംബപ്പേര്", "અટક", "Họ")}
+                        placeholder={l("Last name", "കുടുംബപ്പേര്", "અટક", "Họ", "Apelyido")}
                         style={inputStyle}
                         onFocus={(e) => (e.currentTarget.style.borderColor = NAVY)}
                         onBlur={(e) => (e.currentTarget.style.borderColor = "#E5E7EB")}
@@ -376,7 +377,7 @@ export default function OnboardingPage() {
                   </div>
 
                   <div>
-                    <label style={labelStyle}>{l("Email Address", "ഇമെയിൽ വിലാസം", "ઇમેલ સરનામું", "Địa chỉ email")}</label>
+                    <label style={labelStyle}>{l("Email Address", "ഇമെയിൽ വിലാസം", "ઇમેલ સરનામું", "Địa chỉ email", "Email Address")}</label>
                     <input
                       type="email" value={email}
                       onChange={(e) => setEmail(e.target.value)}
@@ -389,7 +390,7 @@ export default function OnboardingPage() {
                   </div>
 
                   <div>
-                    <label style={labelStyle}>{l("Phone Number", "ഫോൺ നമ്പർ", "ફોન નંબર", "Số điện thoại")}</label>
+                    <label style={labelStyle}>{l("Phone Number", "ഫോൺ നമ്പർ", "ફોન નંબર", "Số điện thoại", "Numero ng Telepono")}</label>
                     <input
                       type="tel" value={phone}
                       onChange={(e) => setPhone(formatPhone(e.target.value))}
@@ -402,7 +403,7 @@ export default function OnboardingPage() {
                   </div>
 
                   <div>
-                    <label style={labelStyle}>{l("Create a 4-digit PIN", "4 അക്ക PIN സൃഷ്ടിക്കൂ", "4 અંકનો PIN બનાવો", "Tạo mã PIN 4 chữ số")}</label>
+                    <label style={labelStyle}>{l("Create a 4-digit PIN", "4 അക്ക PIN സൃഷ്ടിക്കൂ", "4 અંકનો PIN બનાવો", "Tạo mã PIN 4 chữ số", "Gumawa ng 4-digit na PIN")}</label>
                     <div style={{ position: "relative" }}>
                       <input
                         type={showPin ? "text" : "password"}
@@ -456,12 +457,12 @@ export default function OnboardingPage() {
                       if (!loading && firstName.trim() && lastName.trim() && email.trim() && phone.replace(/\D/g, "").length >= 10 && pin.length === 4) el.style.background = RED;
                     }}
                   >
-                    {loading ? l("Creating account...", "അക്കൗണ്ട് സൃഷ്ടിക്കുന്നു...", "એકાઉન્ટ બનાવાઈ રહ્યું છે...", "Đang tạo tài khoản...") : l("Create Account", "അക്കൗണ്ട് സൃഷ്ടിക്കൂ", "એકાઉન્ટ બનાવો", "Tạo tài khoản")}
+                    {loading ? l("Creating account...", "അക്കൗണ്ട് സൃഷ്ടിക്കുന്നു...", "એકાઉન્ટ બનાવાઈ રહ્યું છે...", "Đang tạo tài khoản...", "Gumagawa ng account...") : l("Create Account", "അക്കൗണ്ട് സൃഷ്ടിക്കൂ", "એકાઉન્ટ બનાવો", "Tạo tài khoản", "Gumawa ng Account")}
                   </button>
 
                   <p style={{ textAlign: "center", fontSize: 15, color: "#6B7280", fontFamily: "var(--font-dm-sans, system-ui, sans-serif)" }}>
-                    {l("Already have an account?", "ഇതിനകം അക്കൗണ്ട് ഉണ്ടോ?", "પહેલેથી એકાઉન્ટ છે?", "Đã có tài khoản?")}{" "}
-                    <Link href="/login" style={{ color: RED, fontWeight: 600, textDecoration: "none" }}>{l("Sign in", "സൈൻ ഇൻ", "સાઇન ઇન", "Đăng nhập")}</Link>
+                    {l("Already have an account?", "ഇതിനകം അക്കൗണ്ട് ഉണ്ടോ?", "પહેલેથી એકાઉન્ટ છે?", "Đã có tài khoản?", "Mayroon nang account?")}{" "}
+                    <Link href="/login" style={{ color: RED, fontWeight: 600, textDecoration: "none" }}>{l("Sign in", "സൈൻ ഇൻ", "સાઇન ઇન", "Đăng nhập", "Mag-sign in")}</Link>
                   </p>
                 </form>
               </motion.div>

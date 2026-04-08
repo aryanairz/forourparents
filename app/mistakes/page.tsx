@@ -46,11 +46,13 @@ function splitBilingual(bt: BilingualText): BilingualText[] {
   const mlParts = bt.ml.split(" / ");
   const guParts = bt.gu.split(" / ");
   const viParts = (bt.vi ?? bt.en).split(" / ");
+  const tlParts = (bt.tl ?? bt.en).split(" / ");
   return enParts.map((en, i) => ({
     en: en.trim(),
     ml: (mlParts[i] ?? en).trim(),
     gu: (guParts[i] ?? en).trim(),
     vi: (viParts[i] ?? en).trim(),
+    tl: (tlParts[i] ?? en).trim(),
   }));
 }
 
@@ -104,8 +106,8 @@ function shuffleOptions(q: Question): {
 export default function MistakesPage() {
   const { lang, mounted } = useLanguage();
   const questions = useQuestionPool();
-  const l = (en: string, ml: string, gu?: string, vi?: string) =>
-    lang === "en" ? en : lang === "ml" ? ml : lang === "gu" ? (gu ?? en) : (vi ?? en);
+  const l = (en: string, ml: string, gu?: string, vi?: string, tl?: string) =>
+    lang === "en" ? en : lang === "ml" ? ml : lang === "gu" ? (gu ?? en) : lang === "vi" ? (vi ?? en) : (tl ?? en);
   const [state, setState] = useState<MistakeState>("list");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [mistakeIds, setMistakeIds] = useState<string[]>([]);
@@ -208,7 +210,7 @@ export default function MistakesPage() {
       <div className="flex flex-col items-center justify-center min-h-[60vh] gap-3">
         <div className="w-10 h-10 border-4 border-primary border-t-transparent rounded-full animate-spin" />
         <p className="text-text-secondary text-[1rem]">
-          {l("Loading...", "ലോഡ് ചെയ്യുന്നു...", "લોડ થઈ રહ્યું છે...", "Đang tải...")}
+          {l("Loading...", "ലോഡ് ചെയ്യുന്നു...", "લોડ થઈ રહ્યું છે...", "Đang tải...", "Naglo-load...")}
         </p>
       </div>
     );
@@ -226,13 +228,14 @@ export default function MistakesPage() {
         </motion.div>
         <motion.h2 variants={fadeUp} className="text-[1.5rem] font-bold text-text-heading font-serif">
           {lang === "en" ? "Track Your Mistakes" : lang === "ml" ? "നിങ്ങളുടെ തെറ്റുകൾ ട്രാക്ക് ചെയ്യുക"
-            : lang === "gu" ? "તમારી ભૂલો ટ્રેક કરો" : "Theo dõi lỗi của bạn"}
+            : lang === "gu" ? "തമારી ભૂલો ટ્રેક કરો" : lang === "vi" ? "Theo dõi lỗi của bạn" : "Subaybayan ang Iyong mga Pagkakamali"}
         </motion.h2>
         <motion.p variants={fadeUp} className="text-[1rem] text-text-secondary leading-relaxed">
           {lang === "en" ? "Create a free account to save and review the questions you got wrong."
             : lang === "ml" ? "നിങ്ങൾ തെറ്റായി ഉത്തരം നൽകിയ ചോദ്യങ്ങൾ സംരക്ഷിക്കാനും അവലോകനം ചെയ്യാനും ഒരു സൌജന്യ അക്കൌണ്ട് സൃഷ്ടിക്കുക."
             : lang === "gu" ? "તમે ખોટા જવાબ આપેલા પ્રશ્નો સેવ અને સમીક્ષા કરવા માટે મફત ખાતું બનાવો."
-            : "Tạo tài khoản miễn phí để lưu và ôn lại các câu hỏi bạn trả lời sai."}
+            : lang === "vi" ? "Tạo tài khoản miễn phí để lưu và ôn lại các câu hỏi bạn trả lời sai."
+            : "Gumawa ng libreng account upang i-save at suriin ang mga tanong na mali ang sagot mo."}
         </motion.p>
         <motion.div variants={fadeUp} className="w-full">
         <Link
@@ -242,11 +245,11 @@ export default function MistakesPage() {
                      transition-all hover:scale-[1.02] active:scale-[0.97] no-underline"
         >
           <LogIn size={20} />
-          {lang === "en" ? "Create Account" : lang === "ml" ? "അക്കൌണ്ട് സൃഷ്ടിക്കുക" : lang === "gu" ? "ખાતું બનાવો" : "Tạo tài khoản"}
+          {lang === "en" ? "Create Account" : lang === "ml" ? "അക്കൌണ്ട് സൃഷ്ടിക്കുക" : lang === "gu" ? "ખાતું બનાવો" : lang === "vi" ? "Tạo tài khoản" : "Gumawa ng Account"}
         </Link>
         </motion.div>
         <Link href="/login" className="text-primary font-semibold text-[1rem] hover:underline no-underline">
-          {lang === "en" ? "Already have an account? Log in" : lang === "ml" ? "ഇതിനകം അക്കൌണ്ട് ഉണ്ടോ? ലോഗിൻ" : lang === "gu" ? "પહેલેથી ખાતું છે? લોગ ઇન" : "Đã có tài khoản? Đăng nhập"}
+          {lang === "en" ? "Already have an account? Log in" : lang === "ml" ? "ഇതിനകം അക്കൌണ്ട് ഉണ്ടോ? ലോഗിൻ" : lang === "gu" ? "પહેલેથી ખાતું છે? લોગ ઇન" : lang === "vi" ? "Đã có tài khoản? Đăng nhập" : "Mayroon nang account? Mag-log in"}
         </Link>
         <Link href="/" className="flex items-center gap-1 text-text-secondary text-[0.9375rem] hover:text-text-body no-underline">
           <Home size={15} /> {t("goHome", lang)}
@@ -370,7 +373,7 @@ export default function MistakesPage() {
                          rounded-btn px-5 py-3 shadow-btn hover:scale-[1.02] active:scale-[0.97] transition-all"
             >
               {currentIdx + 1 >= reviewPool.length
-                ? (lang === "en" ? "✓ Done" : lang === "ml" ? "✓ പൂർത്തിയായി" : "✓ પૂર્ણ")
+                ? (lang === "en" ? "✓ Done" : lang === "ml" ? "✓ പൂർത്തിയായി" : lang === "gu" ? "✓ પૂર્ણ" : lang === "vi" ? "✓ Xong" : "✓ Tapos na")
                 : `${t("next", lang)} →`}
             </button>
           </motion.div>
@@ -421,7 +424,7 @@ export default function MistakesPage() {
           <motion.div variants={fadeUp} className="bg-primary-light rounded-card p-4 border-l-4 border-primary text-left space-y-1">
             <p className="text-[1.0625rem] font-bold text-primary">
               {mistakeQuestions.length}{" "}
-              {lang === "en" ? "questions to review" : lang === "ml" ? "ചോദ്യങ്ങൾ പരിശോധിക്കാൻ" : lang === "gu" ? "પ્રશ્નો સમીક્ષા કરવા" : "câu hỏi cần ôn lại"}
+              {lang === "en" ? "questions to review" : lang === "ml" ? "ചോദ്യങ്ങൾ പരിശോധിക്കാൻ" : lang === "gu" ? "પ્રશ્નો સમીક્ષા કરવા" : lang === "vi" ? "câu hỏi cần ôn lại" : "mga tanong na susuriin"}
             </p>
             <p className="text-[0.9375rem] text-text-secondary">
               {t("mistakesEncourage", lang)}
@@ -462,7 +465,7 @@ export default function MistakesPage() {
                     <div className="border-t border-border px-4 pb-4 pt-3 space-y-3 animate-slideDown">
                       <div className="bg-success-light rounded-card p-3 border border-success-border">
                         <p className="text-[0.75rem] font-semibold text-success uppercase tracking-wide mb-1">
-                          {lang === "en" ? "Correct Answer" : lang === "ml" ? "ശരിയായ ഉത്തരം" : lang === "gu" ? "સાચો જવાബ" : "Câu trả lời đúng"}
+                          {lang === "en" ? "Correct Answer" : lang === "ml" ? "ശരിയായ ഉത്തരം" : lang === "gu" ? "સાચો જવાબ" : lang === "vi" ? "Câu trả lời đúng" : "Tamang Sagot"}
                         </p>
                         <p className="text-[1rem] font-semibold text-success">
                           {correctAnswer[lang] ?? correctAnswer.en}
@@ -485,7 +488,7 @@ export default function MistakesPage() {
                                    flex items-center justify-center gap-2"
                       >
                         <Play size={16} />
-                        {lang === "en" ? "Practice this question" : lang === "ml" ? "ഈ ചോദ്യം പ്രാക്ടീസ് ചെയ്യുക" : lang === "gu" ? "આ પ્રશ્ન પ્રેક્ટિસ કરો" : "Luyện câu hỏi này"}
+                        {lang === "en" ? "Practice this question" : lang === "ml" ? "ഈ ചോദ്യം പ്രാക്ടീസ് ചെയ്യുക" : lang === "gu" ? "આ પ્રશ્ન પ્રેક્ટિસ કરો" : lang === "vi" ? "Luyện câu hỏi này" : "Praktis ang tanong na ito"}
                       </button>
                     </div>
                   )}

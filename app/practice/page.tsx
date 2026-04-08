@@ -88,8 +88,8 @@ export default function PracticePage() {
   useEffect(() => {
     if (!getCurrentUser()) router.replace("/login");
   }, [router]);
-  const l = (en: string, ml: string, gu?: string, vi?: string) =>
-    lang === "en" ? en : lang === "ml" ? ml : lang === "gu" ? (gu ?? en) : (vi ?? en);
+  const l = (en: string, ml: string, gu?: string, vi?: string, tl?: string) =>
+    lang === "en" ? en : lang === "ml" ? ml : lang === "gu" ? (gu ?? en) : lang === "vi" ? (vi ?? en) : (tl ?? en);
   const [state, setState] = useState<PracticeState>("select-topic");
   const [selectedTopic, setSelectedTopic] = useState<TopicKey>("all");
   const [pool, setPool] = useState<Question[]>([]);
@@ -141,7 +141,7 @@ export default function PracticePage() {
       <div className="flex flex-col items-center justify-center min-h-[60vh] gap-3">
         <div className="w-10 h-10 border-4 border-primary border-t-transparent rounded-full animate-spin" />
         <p className="text-text-secondary text-[1rem]">
-          {l("Loading your questions...", "നിങ്ങളുടെ ചോദ്യങ്ങൾ ലോഡ് ചെയ്യുന്നു...", "તમારા પ્રશ્નો લોડ થઈ રહ્યા છે...", "Đang tải câu hỏi của bạn...")}
+          {l("Loading your questions...", "നിങ്ങളുടെ ചോദ്യങ്ങൾ ലോഡ് ചെയ്യുന്നു...", "તમારા પ્રશ્નો લોડ થઈ રહ્યા છે...", "Đang tải câu hỏi của bạn...", "Nilo-load ang iyong mga tanong...")}
         </p>
       </div>
     );
@@ -162,7 +162,7 @@ export default function PracticePage() {
       })),
       ...(hasLocal ? [{
         key: "local" as TopicKey,
-        label: l("Your State & Officials", "നിങ്ങളുടെ സംസ്ഥാനവും ഉദ്യോഗസ്ഥരും", "તમારું રાજ્ય અને અધિકારીઓ", "Tiểu bang & Quan chức"),
+        label: l("Your State & Officials", "നിങ്ങളുടെ സംസ്ഥാനവും ഉദ്യോഗസ്ഥരും", "તમારું રાજ્ય અને અધિકારીઓ", "Tiểu bang & Quan chức", "Iyong Estado at mga Opisyal"),
         count: localCount,
       }] : []),
       ...(extraCount > 0 ? [{
@@ -355,7 +355,7 @@ export default function PracticePage() {
             setShowAnswer(true);
             const answerText = currentQ.options[currentQ.correctIndex][lang] ?? currentQ.options[currentQ.correctIndex].en;
             const explanation = currentQ.explanation[lang] ?? currentQ.explanation.en;
-            const prefix = lang === "en" ? "The answer is: " : lang === "ml" ? "ഉത്തരം: " : lang === "gu" ? "જવાબ: " : "Câu trả lời là: ";
+            const prefix = lang === "en" ? "The answer is: " : lang === "ml" ? "ഉത്തരം: " : lang === "gu" ? "જવાબ: " : lang === "vi" ? "Câu trả lời là: " : "Ang sagot ay: ";
             speakFeedback(prefix + answerText + ". " + explanation, lang);
           }}
           className="w-full min-h-[56px] bg-white border-2 border-border hover:border-primary hover:bg-primary-light
@@ -375,7 +375,7 @@ export default function PracticePage() {
           {/* Answer */}
           <div className="bg-success-light rounded-card p-5 border border-success-border">
             <p className="text-[0.8125rem] font-semibold text-success uppercase tracking-wide mb-1.5">
-              {lang === "en" ? "✓ Answer" : lang === "ml" ? "✓ ഉത്തരം" : lang === "gu" ? "✓ જવાબ" : "✓ Câu trả lời"}
+              {lang === "en" ? "✓ Answer" : lang === "ml" ? "✓ ഉത്തരം" : lang === "gu" ? "✓ જવાબ" : lang === "vi" ? "✓ Câu trả lời" : "✓ Sagot"}
             </p>
             <p className="text-[1.25rem] font-bold text-text-body break-words">
               {currentQ.options[currentQ.correctIndex][lang] ?? currentQ.options[currentQ.correctIndex].en}

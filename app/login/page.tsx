@@ -13,16 +13,16 @@ const NAVY = "#1B2A4A";
 const RED = "#C41E3A";
 
 /** Static quiz card mockup shown in the left panel */
-function QuizMockup({ lang }: { lang: "en" | "ml" | "gu" | "vi" }) {
+function QuizMockup({ lang }: { lang: "en" | "ml" | "gu" | "vi" | "tl" }) {
   const [selected, setSelected] = useState<number | null>(null);
   const correct = 0;
-  const l = (en: string, ml: string, gu?: string, vi?: string) =>
-    lang === "en" ? en : lang === "ml" ? ml : lang === "gu" ? (gu ?? en) : (vi ?? en);
+  const l = (en: string, ml: string, gu?: string, vi?: string, tl?: string) =>
+    lang === "en" ? en : lang === "ml" ? ml : lang === "gu" ? (gu ?? en) : lang === "vi" ? (vi ?? en) : (tl ?? en);
   const options = [
-    l("The U.S. Constitution", "യു.എസ്. ഭരണഘടന", "યુ.એસ. બંધારણ", "Hiến pháp Hoa Kỳ"),
-    l("The Declaration of Independence", "സ്വാതന്ത്ര്യ പ്രഖ്യാപനം", "સ્વતંત્રતાની ઘોષણા", "Tuyên ngôn Độc lập"),
-    l("The Bill of Rights", "ബിൽ ഓഫ് റൈറ്റ്സ്", "બિલ ઑફ રાઇટ્સ", "Tuyên ngôn Nhân quyền"),
-    l("The Federalist Papers", "ഫെഡറലിസ്റ്റ് പേപ്പേഴ്സ്", "ફેડરાલિસ્ટ પેપર્સ", "Các bài viết Federalist"),
+    l("The U.S. Constitution", "യു.എസ്. ഭരണഘടന", "યુ.એસ. બંધારણ", "Hiến pháp Hoa Kỳ", "Ang Konstitusyon ng U.S."),
+    l("The Declaration of Independence", "സ്വാതന്ത്ര്യ പ്രഖ്യാപനം", "સ્વતંત્રતાની ઘોષણા", "Tuyên ngôn Độc lập", "Ang Deklarasyon ng Kalayaan"),
+    l("The Bill of Rights", "ബിൽ ഓഫ് റൈറ്റ്സ്", "બિલ ઑફ રાઇટ્સ", "Tuyên ngôn Nhân quyền", "Ang Bill of Rights"),
+    l("The Federalist Papers", "ഫെഡറലിസ്റ്റ് പേപ്പേഴ്സ്", "ફેડરાલિસ્ટ પેપર્સ", "Các bài viết Federalist", "Ang Federalist Papers"),
   ];
 
   return (
@@ -36,13 +36,13 @@ function QuizMockup({ lang }: { lang: "en" | "ml" | "gu" | "vi" }) {
       }}
     >
       <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "#9CA3AF", marginBottom: 4 }}>
-        {l("QUESTION 2 / 10", "ചോദ്യം 2 / 10", "પ્રશ્ન 2 / 10", "CÂU 2 / 10")}
+        {l("QUESTION 2 / 10", "ചോദ്യം 2 / 10", "પ્રશ્ન 2 / 10", "CÂU 2 / 10", "TANONG 2 / 10")}
       </div>
       <div style={{ height: 3, background: "#E5E7EB", borderRadius: 999, marginBottom: 16, overflow: "hidden" }}>
         <div style={{ width: "20%", height: "100%", background: RED, borderRadius: 999 }} />
       </div>
       <p style={{ fontSize: 15, fontWeight: 600, color: NAVY, marginBottom: 16, lineHeight: 1.4 }}>
-        {l("What is the supreme law of the land?", "രാജ്യത്തിന്റെ പരമോന്നത നിയമം എന്താണ്?", "જમીનની સર્વોચ્ચ કાનૂન શું છે?", "Luật tối cao của quốc gia là gì?")}
+        {l("What is the supreme law of the land?", "രാജ്യത്തിന്റെ പരമോന്നത നിയമം എന്താണ്?", "જમીનની સર્વોચ્ચ કાનૂન શું છે?", "Luật tối cao của quốc gia là gì?", "Ano ang pinakamataas na batas ng bansa?")}
       </p>
       <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
         {options.map((opt, i) => {
@@ -76,8 +76,8 @@ function QuizMockup({ lang }: { lang: "en" | "ml" | "gu" | "vi" }) {
 export default function LoginPage() {
   const router = useRouter();
   const { lang } = useLanguage();
-  const l = (en: string, ml: string, gu?: string, vi?: string) =>
-    lang === "en" ? en : lang === "ml" ? ml : lang === "gu" ? (gu ?? en) : (vi ?? en);
+  const l = (en: string, ml: string, gu?: string, vi?: string, tl?: string) =>
+    lang === "en" ? en : lang === "ml" ? ml : lang === "gu" ? (gu ?? en) : lang === "vi" ? (vi ?? en) : (tl ?? en);
   const [email, setEmail] = useState("");
   const [pin, setPin] = useState("");
   const [showPin, setShowPin] = useState(false);
@@ -95,14 +95,14 @@ export default function LoginPage() {
   async function handleLogin(e: FormEvent) {
     e.preventDefault();
     setError("");
-    if (!email.trim()) { setError(l("Please enter your email.", "ദയവായി നിങ്ങളുടെ ഇമെയിൽ നൽകുക.", "કૃપા કરીને તમારું ઇમેલ દાખલ કરો.", "Vui lòng nhập email của bạn.")); return; }
-    if (pin.length !== 4) { setError(l("Please enter your 4-digit PIN.", "ദയവായി നിങ്ങളുടെ 4 അക്ക PIN നൽകുക.", "કૃપા કરીને તમારો 4 અંકનો PIN દાખલ કરો.", "Vui lòng nhập mã PIN 4 chữ số của bạn.")); return; }
+    if (!email.trim()) { setError(l("Please enter your email.", "ദയവായി നിങ്ങളുടെ ഇമെയിൽ നൽകുക.", "કૃપા કરીને તમારું ઇમેલ દાખલ કરો.", "Vui lòng nhập email của bạn.", "Mangyaring ilagay ang iyong email.")); return; }
+    if (pin.length !== 4) { setError(l("Please enter your 4-digit PIN.", "ദയവായി നിങ്ങളുടെ 4 അക്ക PIN നൽകുക.", "કૃપા કરીને તમારો 4 અંકનો PIN દાખલ કરો.", "Vui lòng nhập mã PIN 4 chữ số của bạn.", "Mangyaring ilagay ang iyong 4 na digit na PIN.")); return; }
     setLoading(true);
     const user = await loginUserByNamePin(email.trim(), pin);
     if (user) {
       router.push("/");
     } else {
-      setError(l("No account found with that email and PIN. Please check and try again.", "ആ ഇമെയിലും PIN-ഉം ഉപയോഗിച്ച് അക്കൗണ്ട് കണ്ടെത്താനായില്ല. ദയവായി പരിശോധിച്ച് വീണ്ടും ശ്രമിക്കുക.", "આ ઇમેલ અને PIN સાથે કોઈ એકાઉન્ટ મળ્યું નથી. કૃપા કરીને ચકાસી ફરી પ્રયાસ કરો.", "Không tìm thấy tài khoản với email và PIN đó. Vui lòng kiểm tra và thử lại."));
+      setError(l("No account found with that email and PIN. Please check and try again.", "ആ ഇമെയിലും PIN-ഉം ഉപയോഗിച്ച് അക്കൗണ്ട് കണ്ടെത്താനായില്ല. ദയവായി പരിശോധിച്ച് വീണ്ടും ശ്രമിക്കുക.", "આ ઇમેલ અને PIN સાથે કોઈ એકાઉન્ટ મળ્યું નથી. કૃપા કરીને ચકાસી ફરી પ્રયાસ કરો.", "Không tìm thấy tài khoản với email và PIN đó. Vui lòng kiểm tra và thử lại.", "Walang account na nahanap sa email at PIN na iyon. Mangyaring suriin at subukang muli."));
       setPin("");
     }
     setLoading(false);
@@ -153,18 +153,18 @@ export default function LoginPage() {
           </Link>
 
           <h1 style={{ fontSize: 32, fontWeight: 700, color: NAVY, marginBottom: 40, lineHeight: 1.2 }}>
-            {l("Sign in to continue", "തുടരാൻ സൈൻ ഇൻ ചെയ്യുക", "આગળ વધવા માટે સાઇન ઇન કરો", "Đăng nhập để tiếp tục")}
+            {l("Sign in to continue", "തുടരാൻ സൈൻ ഇൻ ചെയ്യുക", "આગળ વધવા માટે સાઇન ઇન કરો", "Đăng nhập để tiếp tục", "Mag-sign in upang magpatuloy")}
           </h1>
 
           <form onSubmit={handleLogin} style={{ display: "flex", flexDirection: "column", gap: 16 }}>
             <div>
               <label style={{ display: "block", fontSize: 15, fontWeight: 600, color: NAVY, marginBottom: 8 }}>
-                {l("Email Address", "ഇമെയിൽ വിലാസം", "ઇમેલ સરનામું", "Địa chỉ email")}
+                {l("Email Address", "ഇമെയിൽ വിലാസം", "ઇમેલ સરનામું", "Địa chỉ email", "Email Address")}
               </label>
               <input
                 type="email" value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder={l("Enter your email", "നിങ്ങളുടെ ഇമെയിൽ നൽകുക", "તમારું ઇમેલ દાખલ કરો", "Nhập email của bạn")}
+                placeholder={l("Enter your email", "നിങ്ങളുടെ ഇമെയിൽ നൽകുക", "તમારું ઇમેલ દાખલ કરો", "Nhập email của bạn", "Ilagay ang iyong email")}
                 style={inputStyle}
                 onFocus={(e) => (e.currentTarget.style.borderColor = NAVY)}
                 onBlur={(e) => (e.currentTarget.style.borderColor = "#E5E7EB")}
@@ -175,7 +175,7 @@ export default function LoginPage() {
 
             <div>
               <label style={{ display: "block", fontSize: 15, fontWeight: 600, color: NAVY, marginBottom: 8 }}>
-                {l("4-digit PIN", "4 അക്ക PIN", "4 અંકનો PIN", "PIN 4 chữ số")}
+                {l("4-digit PIN", "4 അക്ക PIN", "4 અંકનો PIN", "PIN 4 chữ số", "4 na digit na PIN")}
               </label>
               <div style={{ position: "relative" }}>
                 <input
@@ -183,7 +183,7 @@ export default function LoginPage() {
                   inputMode="numeric" maxLength={4}
                   value={pin}
                   onChange={(e) => setPin(e.target.value.replace(/\D/g, "").slice(0, 4))}
-                  placeholder={l("Enter your PIN", "നിങ്ങളുടെ PIN നൽകുക", "તમારો PIN દાખલ કરો", "Nhập PIN của bạn")}
+                  placeholder={l("Enter your PIN", "നിങ്ങളുടെ PIN നൽകുക", "તમારો PIN દાખલ કરો", "Nhập PIN của bạn", "Ilagay ang iyong PIN")}
                   style={{ ...inputStyle, paddingRight: 52 }}
                   onFocus={(e) => (e.currentTarget.style.borderColor = NAVY)}
                   onBlur={(e) => (e.currentTarget.style.borderColor = "#E5E7EB")}
@@ -224,7 +224,7 @@ export default function LoginPage() {
               onMouseEnter={(e) => { if (!loading) (e.currentTarget as HTMLElement).style.background = "#A31830"; }}
               onMouseLeave={(e) => { if (!loading) (e.currentTarget as HTMLElement).style.background = RED; }}
             >
-              {loading ? l("Signing in...", "സൈൻ ഇൻ ചെയ്യുന്നു...", "સાઇન ઇન થઈ રહ્યું છે...", "Đang đăng nhập...") : l("Sign In", "സൈൻ ഇൻ", "સાઇન ઇન", "Đăng nhập")}
+              {loading ? l("Signing in...", "സൈൻ ഇൻ ചെയ്യുന്നു...", "સાઇન ઇન થઈ રહ્યું છે...", "Đang đăng nhập...", "Nagsa-sign in...") : l("Sign In", "സൈൻ ഇൻ", "સાઇન ઇન", "Đăng nhập", "Mag-sign in")}
             </button>
           </form>
 
@@ -235,14 +235,14 @@ export default function LoginPage() {
               onMouseEnter={(e) => (e.currentTarget.style.textDecoration = "underline")}
               onMouseLeave={(e) => (e.currentTarget.style.textDecoration = "none")}
             >
-              {l("Forgot your PIN?", "PIN മറന്നോ?", "તમારો PIN ભૂલી ગયા?", "Quên PIN của bạn?")}
+              {l("Forgot your PIN?", "PIN മറന്നോ?", "તમારો PIN ભૂલી ગયા?", "Quên PIN của bạn?", "Nakalimutan ang iyong PIN?")}
             </Link>
           </div>
 
           <p style={{ marginTop: 16, textAlign: "center", fontSize: 15, color: "#6B7280" }}>
-            {l("Don't have an account?", "അക്കൗണ്ട് ഇല്ലേ?", "એકાઉન્ટ નથી?", "Chưa có tài khoản?")}{" "}
+            {l("Don't have an account?", "അക്കൗണ്ട് ഇല്ലേ?", "એકાઉન્ટ નથી?", "Chưa có tài khoản?", "Wala pang account?")}{" "}
             <Link href="/onboarding" style={{ color: RED, fontWeight: 600, textDecoration: "none" }}>
-              {l("Sign up", "സൈൻ അപ്പ്", "સાઇન અપ", "Đăng ký")}
+              {l("Sign up", "സൈൻ അപ്പ്", "સાઇન અપ", "Đăng ký", "Mag-sign up")}
             </Link>
           </p>
         </motion.div>

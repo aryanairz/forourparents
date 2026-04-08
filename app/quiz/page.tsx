@@ -153,8 +153,8 @@ export default function QuizPage() {
   const recentIdsRef = useRef<string[]>([]);
   const { speak: speakFeedback, stop: stopFeedback } = useFeedbackSpeech();
   const questionPool = useQuestionPool();
-  const l = (en: string, ml: string, gu?: string, vi?: string) =>
-    lang === "en" ? en : lang === "ml" ? ml : lang === "gu" ? (gu ?? en) : (vi ?? en);
+  const l = (en: string, ml: string, gu?: string, vi?: string, tl?: string) =>
+    lang === "en" ? en : lang === "ml" ? ml : lang === "gu" ? (gu ?? en) : lang === "vi" ? (vi ?? en) : (tl ?? en);
 
   const [selectedTopic, setSelectedTopic] = useState<TopicKey>("all");
   const [quizStarted, setQuizStarted] = useState(false);
@@ -223,8 +223,8 @@ export default function QuizPage() {
         addMistake(currentQ.id);
       }
       const prefix = isCorrect
-        ? (lang === "en" ? "Correct! " : lang === "ml" ? "ശരി! " : lang === "gu" ? "સાચું! " : "Đúng! ")
-        : (lang === "en" ? "Incorrect. " : lang === "ml" ? "തെറ്റ്. " : lang === "gu" ? "ખોટું. " : "Sai. ");
+        ? (lang === "en" ? "Correct! " : lang === "ml" ? "\u0D36\u0D30\u0D3F! " : lang === "gu" ? "\u0AB8\u0ABE\u0A9A\u0AC1\u0A82! " : lang === "vi" ? "\u0110\u00FAng! " : "Tama! ")
+        : (lang === "en" ? "Incorrect. " : lang === "ml" ? "\u0D24\u0D46\u0D31\u0D4D\u0D31\u0D4D. " : lang === "gu" ? "\u0A96\u0ACB\u0A9F\u0AC1\u0A82. " : lang === "vi" ? "Sai. " : "Mali. ");
       speakFeedback(prefix + (currentQ.explanation[lang] ?? currentQ.explanation.en), lang);
     },
     [answered, currentQ, displayCorrectIndex, isMultiSelect, multiSubmitted, lang, speakFeedback],
@@ -246,8 +246,8 @@ export default function QuizPage() {
       addMistake(currentQ.id);
     }
     const prefix = isCorrect
-      ? (lang === "en" ? "Correct! " : lang === "ml" ? "ശരി! " : lang === "gu" ? "સાચું! " : "Đúng! ")
-      : (lang === "en" ? "Incorrect. " : lang === "ml" ? "തെറ്റ്. " : lang === "gu" ? "ખોટું. " : "Sai. ");
+      ? (lang === "en" ? "Correct! " : lang === "ml" ? "\u0D36\u0D30\u0D3F! " : lang === "gu" ? "\u0AB8\u0ABE\u0A9A\u0AC1\u0A82! " : lang === "vi" ? "\u0110\u00FAng! " : "Tama! ")
+      : (lang === "en" ? "Incorrect. " : lang === "ml" ? "\u0D24\u0D46\u0D31\u0D4D\u0D31\u0D4D. " : lang === "gu" ? "\u0A96\u0ACB\u0A9F\u0AC1\u0A82. " : lang === "vi" ? "Sai. " : "Mali. ");
     speakFeedback(prefix + (currentQ.explanation[lang] ?? currentQ.explanation.en), lang);
   }, [currentQ, displayCorrectIndices, selectedOptions, lang, speakFeedback]);
 
@@ -284,7 +284,7 @@ export default function QuizPage() {
         label: topicLabels[topic][lang] ?? topicLabels[topic].en,
         count: officialQuestions.filter((q) => q.topic === topic).length,
       })),
-      ...(hasLocal ? [{ key: "local" as TopicKey, label: l("Your State & Officials", "നിങ്ങളുടെ സംസ്ഥാനവും ഉദ്യോഗസ്ഥരും", "તમારું રાજ્ય અને અધિકારીઓ", "Tiểu bang & Quan chức"), count: localCount }] : []),
+      ...(hasLocal ? [{ key: "local" as TopicKey, label: l("Your State & Officials", "\u0D28\u0D3F\u0D19\u0D4D\u0D19\u0D33\u0D41\u0D1F\u0D46 \u0D38\u0D02\u0D38\u0D4D\u0D25\u0D3E\u0D28\u0D35\u0D41\u0D02 \u0D09\u0D26\u0D4D\u0D2F\u0D4B\u0D17\u0D38\u0D4D\u0D25\u0D30\u0D41\u0D02", "\u0AA4\u0AAE\u0ABE\u0AB0\u0AC1\u0A82 \u0AB0\u0ABE\u0A9C\u0ACD\u0AAF \u0A85\u0AA8\u0AC7 \u0A85\u0AA7\u0ABF\u0A95\u0ABE\u0AB0\u0AC0\u0A93", "Ti\u1EC3u bang & Quan ch\u1EE9c", "Iyong Estado at mga Opisyal"), count: localCount }] : []),
       ...(extraCount > 0 ? [{
         key: "extra" as TopicKey,
         label: topicLabels.extra[lang] ?? topicLabels.extra.en,
@@ -314,7 +314,7 @@ export default function QuizPage() {
 
         <motion.div variants={fadeUp} className="bg-callout border border-amber-200 rounded-card p-4 text-center">
           <p className="text-[1rem] text-text-body font-medium">
-            {l("Pick a topic to focus on, or quiz all topics.", "ഒരു വിഷയം തിരഞ്ഞെടുക്കുക, അല്ലെങ്കിൽ എല്ലാ വിഷയങ്ങളും.", "એક વિષય પસંદ કરો, અથવા બધા વિષયો.", "Chọn một chủ đề hoặc luyện tất cả.")}
+            {l("Pick a topic to focus on, or quiz all topics.", "\u0D12\u0D30\u0D41 \u0D35\u0D3F\u0D37\u0D2F\u0D02 \u0D24\u0D3F\u0D30\u0D1E\u0D4D\u0D1E\u0D46\u0D1F\u0D41\u0D15\u0D4D\u0D15\u0D41\u0D15, \u0D05\u0D32\u0D4D\u0D32\u0D46\u0D19\u0D4D\u0D15\u0D3F\u0D7D \u0D0E\u0D32\u0D4D\u0D32\u0D3E \u0D35\u0D3F\u0D37\u0D2F\u0D19\u0D4D\u0D19\u0D33\u0D41\u0D02.", "\u0A8F\u0A95 \u0AB5\u0ABF\u0AB7\u0AAF \u0AAA\u0AB8\u0A82\u0AA6 \u0A95\u0AB0\u0ACB, \u0A85\u0AA5\u0AB5\u0ABE \u0AAC\u0AA7\u0ABE \u0AB5\u0ABF\u0AB7\u0AAF\u0ACB.", "Ch\u1ECDn m\u1ED9t ch\u1EE7 \u0111\u1EC1 ho\u1EB7c luy\u1EC7n t\u1EA5t c\u1EA3.", "Pumili ng paksang pagtutuunan, o subukin lahat ng paksa.")}
           </p>
         </motion.div>
 
@@ -377,7 +377,7 @@ export default function QuizPage() {
       <div className="flex flex-col items-center justify-center min-h-[60vh] gap-3">
         <div className="w-10 h-10 border-4 border-primary border-t-transparent rounded-full animate-spin" />
         <p className="text-text-secondary text-[1rem]">
-          {l("Loading your questions...", "നിങ്ങളുടെ ചോദ്യങ്ങൾ ലോഡ് ചെയ്യുന്നു...", "તમારા પ્રশ્નો લોڈ થئی ਰਹੇ ਹਨ...", "Đang tải câu hỏi của bạn...")}
+          {l("Loading your questions...", "\u0D28\u0D3F\u0D19\u0D4D\u0D19\u0D33\u0D41\u0D1F\u0D46 \u0D1A\u0D4B\u0D26\u0D4D\u0D2F\u0D19\u0D4D\u0D19\u0D7E \u0D32\u0D4B\u0D21\u0D4D \u0D1A\u0D46\u0D2F\u0D4D\u0D2F\u0D41\u0D28\u0D4D\u0D28\u0D41...", "\u0AA4\u0AAE\u0ABE\u0AB0\u0ABE \u0AAA\u0ACD\u0AB0\u0AB6\u0ACD\u0AA8\u0ACB \u0AB2\u0ACB\u0AA1 \u0AA5\u0A88 \u0AB0\u0AB9\u0ACD\u0AAF\u0ABE \u0A9B\u0AC7...", "\u0110ang t\u1EA3i c\u00E2u h\u1ECFi c\u1EE7a b\u1EA1n...", "Nilo-load ang iyong mga tanong...")}
         </p>
       </div>
     );
@@ -478,7 +478,7 @@ export default function QuizPage() {
       {/* Multi-select instruction */}
       {isMultiSelect && !answered && (
         <div className="text-center text-[0.875rem] text-text-secondary font-medium bg-amber-50 border border-amber-200 rounded-card py-2 px-3">
-          {lang === "en" ? `Select ${requiredCount} answer${requiredCount > 1 ? "s" : ""}` : lang === "ml" ? `${requiredCount} ഉത്തരങ്ങൾ തിരഞ്ഞെടുക്കുക` : lang === "gu" ? `${requiredCount} જવાબો પસંદ કરો` : `Chọn ${requiredCount} câu trả lời`}
+          {lang === "en" ? `Select ${requiredCount} answer${requiredCount > 1 ? "s" : ""}` : lang === "ml" ? `${requiredCount} \u0D09\u0D24\u0D4D\u0D24\u0D30\u0D19\u0D4D\u0D19\u0D7E \u0D24\u0D3F\u0D30\u0D1E\u0D4D\u0D1E\u0D46\u0D1F\u0D41\u0D15\u0D4D\u0D15\u0D41\u0D15` : lang === "gu" ? `${requiredCount} \u0A9C\u0AB5\u0ABE\u0AAC\u0ACB \u0AAA\u0AB8\u0A82\u0AA6 \u0A95\u0AB0\u0ACB` : lang === "vi" ? `Ch\u1ECDn ${requiredCount} c\u00E2u tr\u1EA3 l\u1EDDi` : `Pumili ng ${requiredCount} sagot`}
         </div>
       )}
 
@@ -532,7 +532,7 @@ export default function QuizPage() {
           }`}
           disabled={selectedOptions.size !== requiredCount}
         >
-          {lang === "en" ? "Submit Answer" : lang === "ml" ? "ഉത്തരം സമർപ്പിക്കുക" : lang === "gu" ? "જવાબ સબમિટ કરો" : "Gửi câu trả lời"}
+          {lang === "en" ? "Submit Answer" : lang === "ml" ? "\u0D09\u0D24\u0D4D\u0D24\u0D30\u0D02 \u0D38\u0D2E\u0D7C\u0D2A\u0D4D\u0D2A\u0D3F\u0D15\u0D4D\u0D15\u0D41\u0D15" : lang === "gu" ? "\u0A9C\u0AB5\u0ABE\u0AAC \u0AB8\u0AAC\u0AAE\u0ABF\u0A9F \u0A95\u0AB0\u0ACB" : lang === "vi" ? "G\u1EEDi c\u00E2u tr\u1EA3 l\u1EDDi" : "Isumite ang Sagot"}
           {selectedOptions.size > 0 && ` (${selectedOptions.size}/${requiredCount})`}
         </motion.button>
       )}
@@ -559,8 +559,8 @@ export default function QuizPage() {
             {(isMultiSelect
               ? (() => { const cs = new Set(displayCorrectIndices!); return selectedOptions.size === cs.size && Array.from(selectedOptions).every(i => cs.has(i)); })()
               : selectedOption === displayCorrectIndex)
-              ? `✓ ${t("correct", lang)}`
-              : `✗ ${t("incorrect", lang)}`}
+              ? `\u2713 ${t("correct", lang)}`
+              : `\u2717 ${t("incorrect", lang)}`}
           </div>
 
           <div className="bg-accent-light rounded-card p-4 border border-blue-200">
@@ -592,7 +592,7 @@ export default function QuizPage() {
                      hover:bg-gray-50 flex items-center justify-center gap-2"
         >
           <Flag size={16} />
-          {lang === "en" ? "Finish Quiz" : lang === "ml" ? "ക്വിസ് അവസാനിപ്പിക്കുക" : lang === "gu" ? "ક્વિઝ પૂરી કરો" : "Hoàn thành bài thi"}
+          {lang === "en" ? "Finish Quiz" : lang === "ml" ? "\u0D15\u0D4D\u0D35\u0D3F\u0D38\u0D4D \u0D05\u0D35\u0D38\u0D3E\u0D28\u0D3F\u0D2A\u0D4D\u0D2A\u0D3F\u0D15\u0D4D\u0D15\u0D41\u0D15" : lang === "gu" ? "\u0A95\u0ACD\u0AB5\u0ABF\u0A9D \u0AAA\u0AC2\u0AB0\u0AC0 \u0A95\u0AB0\u0ACB" : lang === "vi" ? "Ho\u00E0n th\u00E0nh b\u00E0i thi" : "Tapusin ang Pagsusulit"}
         </button>
       )}
     </motion.div>

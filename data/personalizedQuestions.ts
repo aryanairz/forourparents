@@ -28,6 +28,7 @@ export function getPersonalizedQuestions(
       ml: `${state.name}-ന്റെ ഗവർണർ ആരാണ്?`,
       gu: `${state.name}ના ગવર્નર કોણ છે?`,
       vi: `Thống đốc của ${state.name} là ai?`,
+      tl: `Sino ang Gobernador ng ${state.name}?`,
     },
     options: buildGovernorOptions(state.governor, stateCode),
     correctIndex: 0,
@@ -36,6 +37,7 @@ export function getPersonalizedQuestions(
       ml: `${state.governor} ആണ് ${state.name}-ന്റെ ഇപ്പോഴത്തെ ഗവർണർ.`,
       gu: `${state.governor} ${state.name}ના વર્તમાન ગવર્નર છે.`,
       vi: `${state.governor} là Thống đốc hiện tại của ${state.name}.`,
+      tl: `Si ${state.governor} ang kasalukuyang Gobernador ng ${state.name}.`,
     },
   });
 
@@ -54,6 +56,7 @@ export function getPersonalizedQuestions(
         ml: `നിങ്ങളുടെ സംസ്ഥാനത്തെ അമേരിക്കൻ സെനറ്റർമാരിൽ ഒരാൾ ആരാണ്? (${state.name})`,
         gu: `તમારા રાજ્યના યુ.એસ. સેનેટરોમાંથી એક કોણ છે? (${state.name})`,
         vi: `Ai là một trong các Thượng nghị sĩ Hoa Kỳ của tiểu bang bạn? (${state.name})`,
+        tl: `Sino ang isa sa mga U.S. Senator ng iyong estado? (${state.name})`,
       },
       options: buildSenatorOptions(correctSenator, otherSenator),
       correctIndex: 0,
@@ -62,6 +65,7 @@ export function getPersonalizedQuestions(
         ml: `${state.senators[0]}-ഉം ${state.senators[1]}-ഉം ${state.name}-ൽ നിന്നുള്ള യു.എസ്. സെനറ്റർമാരാണ്.`,
         gu: `${state.senators[0]} અને ${state.senators[1]} ${state.name}ના યુ.એસ. સેનેટર છે.`,
         vi: `${state.senators[0]} và ${state.senators[1]} là các Thượng nghị sĩ Hoa Kỳ từ ${state.name}.`,
+        tl: `Sina ${state.senators[0]} at ${state.senators[1]} ang mga U.S. Senator mula sa ${state.name}.`,
       },
     });
   }
@@ -78,6 +82,7 @@ export function getPersonalizedQuestions(
         ml: `നിങ്ങളുടെ അമേരിക്കൻ പ്രതിനിധി ആരാണ്? (${state.name}, ${districtLabel})`,
         gu: `તમારા યુ.એસ. પ્રતિનિધિ કોણ છે? (${state.name}, ${districtLabel})`,
         vi: `Dân biểu Hoa Kỳ của bạn là ai? (${state.name}, ${districtLabel})`,
+        tl: `Sino ang iyong U.S. Representative? (${state.name}, ${districtLabel})`,
       },
       options: buildRepOptions(rep, stateCode, district),
       correctIndex: 0,
@@ -86,6 +91,7 @@ export function getPersonalizedQuestions(
         ml: `${rep} ആണ് ${state.name} ${districtLabel}-ന്റെ യു.എസ്. പ്രതിനിധി.`,
         gu: `${rep} ${state.name} ${districtLabel}ના યુ.એસ. પ્રતિનિધિ છે.`,
         vi: `${rep} là Dân biểu Hoa Kỳ đại diện cho ${state.name} ${districtLabel}.`,
+        tl: `Si ${rep} ang U.S. Representative para sa ${state.name} ${districtLabel}.`,
       },
     });
   }
@@ -99,6 +105,7 @@ export function getPersonalizedQuestions(
       ml: `${state.name}-ന്റെ തലസ്ഥാനം ഏതാണ്?`,
       gu: `${state.name}ની રાજધાની શું છે?`,
       vi: `Thủ phủ của ${state.name} là gì?`,
+      tl: `Ano ang kabisera ng ${state.name}?`,
     },
     options: buildCapitalOptions(state.capital, stateCode),
     correctIndex: 0,
@@ -107,6 +114,7 @@ export function getPersonalizedQuestions(
       ml: `${state.capital} ആണ് ${state.name}-ന്റെ തലസ്ഥാനം.`,
       gu: `${state.capital} ${state.name}ની રાજધાની છે.`,
       vi: `${state.capital} là thủ phủ của ${state.name}.`,
+      tl: `Ang ${state.capital} ay ang kabisera ng ${state.name}.`,
     },
   });
 
@@ -154,12 +162,12 @@ function pickWrongAnswers(correct: string, pool: string[], count: number): Bilin
     (name) => name.toLowerCase() !== correct.toLowerCase()
   );
   const shuffled = filtered.sort(() => Math.random() - 0.5);
-  return shuffled.slice(0, count).map((name) => ({ en: name, ml: name, gu: name, vi: name }));
+  return shuffled.slice(0, count).map((name) => ({ en: name, ml: name, gu: name, vi: name, tl: name }));
 }
 
 function buildGovernorOptions(correct: string, _stateCode: string): BilingualText[] {
   const wrongs = pickWrongAnswers(correct, otherGovernors, 3);
-  return [{ en: correct, ml: correct, gu: correct, vi: correct }, ...wrongs];
+  return [{ en: correct, ml: correct, gu: correct, vi: correct, tl: correct }, ...wrongs];
 }
 
 function buildSenatorOptions(correct: string, otherStateSenator: string): BilingualText[] {
@@ -169,12 +177,12 @@ function buildSenatorOptions(correct: string, otherStateSenator: string): Biling
     (s) => s.toLowerCase() !== otherStateSenator.toLowerCase()
   );
   const wrongs = pickWrongAnswers(correct, pool, 3);
-  return [{ en: correct, ml: correct, gu: correct, vi: correct }, ...wrongs];
+  return [{ en: correct, ml: correct, gu: correct, vi: correct, tl: correct }, ...wrongs];
 }
 
 function buildRepOptions(correct: string, _stateCode: string, _district: number): BilingualText[] {
   const wrongs = pickWrongAnswers(correct, otherReps, 3);
-  return [{ en: correct, ml: correct, gu: correct, vi: correct }, ...wrongs];
+  return [{ en: correct, ml: correct, gu: correct, vi: correct, tl: correct }, ...wrongs];
 }
 
 function buildCapitalOptions(correct: string, stateCode: string): BilingualText[] {
@@ -183,5 +191,5 @@ function buildCapitalOptions(correct: string, stateCode: string): BilingualText[
     ...otherCapitals.default,
   ];
   const wrongs = pickWrongAnswers(correct, pool, 3);
-  return [{ en: correct, ml: correct, gu: correct, vi: correct }, ...wrongs];
+  return [{ en: correct, ml: correct, gu: correct, vi: correct, tl: correct }, ...wrongs];
 }

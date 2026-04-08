@@ -10,7 +10,7 @@ export function getStoredLanguage(): Lang {
   if (typeof window === "undefined") return "en";
   try {
     const stored = localStorage.getItem(LANG_KEY);
-    if (stored === "en" || stored === "ml" || stored === "gu" || stored === "vi") return stored;
+    if (stored === "en" || stored === "ml" || stored === "gu" || stored === "vi" || stored === "tl") return stored;
   } catch {
     // localStorage unavailable
   }

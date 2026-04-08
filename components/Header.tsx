@@ -16,6 +16,7 @@ const langMeta: Record<Lang, { short: string; native: string }> = {
   ml: { short: "ML", native: "മലയാളം" },
   gu: { short: "GU", native: "ગુજરાતી" },
   vi: { short: "VI", native: "Tiếng Việt" },
+  tl: { short: "TL", native: "Tagalog" },
 };
 
 export default function Header() {
@@ -52,8 +53,8 @@ export default function Header() {
     window.location.href = "/";
   };
 
-  const l = (en: string, ml: string, gu?: string, vi?: string) =>
-    lang === "en" ? en : lang === "ml" ? ml : lang === "gu" ? (gu ?? en) : (vi ?? en);
+  const l = (en: string, ml: string, gu?: string, vi?: string, tl?: string) =>
+    lang === "en" ? en : lang === "ml" ? ml : lang === "gu" ? (gu ?? en) : lang === "vi" ? (vi ?? en) : (tl ?? en);
 
   // ── Auth pages: no header ──
   if (isAuthPage) return null;
@@ -90,7 +91,7 @@ export default function Header() {
                     textTransform: "uppercase" as const,
                     fontFamily: "var(--font-dm-sans, system-ui, sans-serif)",
                   }}
-                  aria-label={l("Select site language", "സൈറ്റിന്റെ ഭാഷ തിരഞ്ഞെടുക്കുക", "સાઇટની ભાષા પસંદ કરો", "Chọn ngôn ngữ trang web")}
+                  aria-label={l("Select site language", "സൈറ്റിന്റെ ഭാഷ തിരഞ്ഞെടുക്കുക", "સાઇટની ભાષા પસંદ કરો", "Chọn ngôn ngữ trang web", "Pumili ng wika")}
                   aria-expanded={langOpen}
                 >
                   {langMeta[lang].short}
@@ -180,10 +181,10 @@ export default function Header() {
 
   // ── Full Header (all other pages / logged-in users) ──
   const navLinks: { href: string; label: Record<Lang, string> }[] = [
-    { href: "/dashboard", label: { en: "Home", ml: "ഹോം", gu: "હોમ", vi: "Trang chủ" } },
-    { href: "/quiz", label: { en: "Practice Test", ml: "പ്രാക്ടീസ് ടെസ്റ്റ്", gu: "પ્રેક્ટિસ ટેસ્ટ", vi: "Bài thi thử" } },
-    { href: "/eligibility", label: { en: "Do You Qualify?", ml: "യോഗ്യത?", gu: "શું તમે લાયક છો?", vi: "Điều kiện?" } },
-    { href: "/help", label: { en: "Help", ml: "സഹായം", gu: "મદદ", vi: "Trợ giúp" } },
+    { href: "/dashboard", label: { en: "Home", ml: "ഹോം", gu: "હોમ", vi: "Trang chủ", tl: "Home" } },
+    { href: "/quiz", label: { en: "Practice Test", ml: "പ്രാക്ടീസ് ടെസ്റ്റ്", gu: "પ્રેક્ટિસ ટેસ્ટ", vi: "Bài thi thử", tl: "Pagsusulit" } },
+    { href: "/eligibility", label: { en: "Do You Qualify?", ml: "യോഗ്യത?", gu: "શું તમે લાયક છો?", vi: "Điều kiện?", tl: "Kwalipikado Ka?" } },
+    { href: "/help", label: { en: "Help", ml: "സഹായം", gu: "મદદ", vi: "Trợ giúp", tl: "Tulong" } },
   ];
 
   const isActive = (href: string) =>
@@ -233,7 +234,7 @@ export default function Header() {
                 onClick={(e) => { e.stopPropagation(); setLangOpen(!langOpen); }}
                 className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium transition-all min-h-[40px] min-w-[40px]"
                 style={{ border: "1px solid rgba(255,255,255,0.25)", color: "rgba(255,255,255,0.8)", background: "rgba(255,255,255,0.08)" }}
-                aria-label={l("Select language", "ഭാഷ തിരഞ്ഞെടുക്കുക", "ભાષા પસંદ કરો", "Chọn ngôn ngữ")}
+                aria-label={l("Select language", "ഭാഷ തിരഞ്ഞെടുക്കുക", "ભાષા પસંદ કરો", "Chọn ngôn ngữ", "Pumili ng wika")}
                 aria-expanded={langOpen}
               >
                 <Globe size={16} style={{ color: "#C41E3A" }} className="flex-shrink-0" />
@@ -313,8 +314,8 @@ export default function Header() {
             className="md:hidden p-2 rounded-btn min-h-[40px] min-w-[40px] flex items-center justify-center transition-colors"
             style={{ color: "rgba(255,255,255,0.8)" }}
             aria-label={mobileOpen
-              ? l("Close menu", "മെനു അടയ്ക്കുക", "મેનુ બંધ કરો", "Đóng menu")
-              : l("Open menu", "മെനു തുറക്കുക", "મેનુ ખોલો", "Mở menu")}
+              ? l("Close menu", "മെനു അടയ്ക്കുക", "મેનુ બંધ કરો", "Đóng menu", "Isara ang menu")
+              : l("Open menu", "മെനു തുറക്കുക", "મેનુ ખોલો", "Mở menu", "Buksan ang menu")}
             aria-expanded={mobileOpen}
           >
             {mobileOpen ? <X size={22} /> : <Menu size={22} />}
@@ -343,13 +344,13 @@ export default function Header() {
             >
               <div className="flex items-center justify-between px-5 h-16" style={{ borderBottom: "1px solid rgba(255,255,255,0.1)" }}>
                 <span className="font-bold text-[1rem]" style={{ color: "#FFFFFF", fontFamily: "var(--font-dm-sans, system-ui, sans-serif)" }}>
-                  {l("Menu", "മെനു", "મેનુ", "Menu")}
+                  {l("Menu", "മെനു", "મેનુ", "Menu", "Menu")}
                 </span>
                 <button
                   onClick={() => setMobileOpen(false)}
                   className="p-2 rounded-btn min-h-[40px] min-w-[40px] flex items-center justify-center"
                   style={{ color: "rgba(255,255,255,0.7)" }}
-                  aria-label={l("Close menu", "മെനു അടയ്ക്കുക", "મેનુ બંધ કરો", "Đóng menu")}
+                  aria-label={l("Close menu", "മെനു അടയ്ക്കുക", "મેનુ બંધ કરો", "Đóng menu", "Isara ang menu")}
                 >
                   <X size={20} />
                 </button>

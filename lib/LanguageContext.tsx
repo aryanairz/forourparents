@@ -33,7 +33,7 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
   };
 
   const toggleLang = () => {
-    const order: Lang[] = ["en", "ml", "gu", "vi"];
+    const order: Lang[] = ["en", "ml", "gu", "vi", "tl"];
     const idx = order.indexOf(lang);
     const next = order[(idx + 1) % order.length];
     setLang(next);

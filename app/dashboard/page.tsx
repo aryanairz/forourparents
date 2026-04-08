@@ -27,6 +27,7 @@ const langNames: Record<Lang, string> = {
   ml: "Malayalam",
   gu: "Gujarati",
   vi: "Vietnamese",
+  tl: "Tagalog",
 };
 
 const topicIconMap: Record<string, React.ReactNode> = {
@@ -130,8 +131,8 @@ function TopicProgressBar({
 }) {
   const { lang } = useLanguage();
   const clean = mistakes === 0;
-  const l = (en: string, ml: string, gu: string, vi: string) =>
-    lang === "en" ? en : lang === "ml" ? ml : lang === "gu" ? gu : vi;
+  const l = (en: string, ml: string, gu?: string, vi?: string, tl?: string) =>
+    lang === "en" ? en : lang === "ml" ? ml : lang === "gu" ? (gu ?? en) : lang === "vi" ? (vi ?? en) : (tl ?? en);
 
   return (
     <div
@@ -160,12 +161,12 @@ function TopicProgressBar({
             <>
               <CheckCircle2 size={16} style={{ color: "#16A34A" }} />
               <span style={{ fontSize: 14, fontWeight: 600, color: "#16A34A" }}>
-                {l("No mistakes", "തെറ്റുകളില്ല", "કોઈ ભૂલો નથી", "Không lỗi")}
+                {l("No mistakes", "തെറ്റുകളില്ല", "કોઈ ભૂલો નથી", "Không lỗi", "Walang pagkakamali")}
               </span>
             </>
           ) : (
             <span style={{ fontSize: 14, fontWeight: 600, color: RED }}>
-              {mistakes} {l("to review", "അവലോകനം ചെയ്യാൻ", "સમીક્ષા કરવા", "cần ôn")}
+              {mistakes} {l("to review", "അവലോകനം ചെയ്യാൻ", "સમીક્ષા કરવા", "cần ôn", "upang suriin")}
             </span>
           )}
           <span style={{ fontSize: 13, color: "#9CA3AF", marginLeft: 4 }}>
@@ -192,8 +193,8 @@ export default function DashboardPage() {
   const [mistakeIds, setMistakeIds] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const l = (en: string, ml: string, gu: string, vi: string) =>
-    lang === "en" ? en : lang === "ml" ? ml : lang === "gu" ? gu : vi;
+  const l = (en: string, ml: string, gu?: string, vi?: string, tl?: string) =>
+    lang === "en" ? en : lang === "ml" ? ml : lang === "gu" ? (gu ?? en) : lang === "vi" ? (vi ?? en) : (tl ?? en);
 
   useEffect(() => {
     const currentUser = getCurrentUser();
@@ -339,7 +340,8 @@ export default function DashboardPage() {
             `Welcome back, ${firstName}`,
             `തിരികെ സ്വാഗതം, ${firstName}`,
             `પાછા આવો, ${firstName}`,
-            `Chào mừng trở lại, ${firstName}`
+            `Chào mừng trở lại, ${firstName}`,
+            `Maligayang pagbabalik, ${firstName}`
           )}
         </h1>
         <p
@@ -356,7 +358,8 @@ export default function DashboardPage() {
             `All Questions · Studying in ${langNames[lang]}`,
             `എല്ലാ ചോദ്യങ്ങളും · ${langNames[lang]}-ൽ പഠിക്കുന്നു`,
             `બധા પ્રશ્નો · ${langNames[lang]}માં અभ્યાસ`,
-            `Tất cả câu hỏi · Học bằng ${langNames[lang]}`
+            `Tất cả câu hỏi · Học bằng ${langNames[lang]}`,
+            `Lahat ng Tanong · Nag-aaral sa ${langNames[lang]}`
           )}
         </p>
 
@@ -377,7 +380,7 @@ export default function DashboardPage() {
                 gap: 8,
               }}
             >
-              {l("Continue Practicing", "പരിശീലനം തുടരുക", "પ્રેક્ટિસ ચાલુ રાખો", "Tiếp tục luyện tập")}
+              {l("Continue Practicing", "പരിശീലനം തുടരുക", "પ્રેક્ટિસ ચાલુ રાખો", "Tiếp tục luyện tập", "Magpatuloy sa Pagsasanay")}
               <ArrowRight size={18} />
             </Link>
           </div>
@@ -410,7 +413,8 @@ export default function DashboardPage() {
               "You haven't started practicing yet!",
               "നിങ്ങൾ ഇതുവരെ പരിശീലനം ആരംഭിച്ചിട്ടില്ല!",
               "તમે હજુ પ્રેક્ટિસ શરૂ કરી નથી!",
-              "Bạn chưa bắt đầu luyện tập!"
+              "Bạn chưa bắt đầu luyện tập!",
+              "Hindi ka pa nagsisimulang magsanay!"
             )}
           </h2>
           <p
@@ -425,7 +429,8 @@ export default function DashboardPage() {
               "The civics test has 128 questions. Start with any topic and build your way up.",
               "സിവിക്സ് ടെസ്റ്റിൽ 128 ചോദ്യങ്ങളുണ്ട്. ഏതെങ്കിലും വിഷയത്തിൽ ആരംഭിക്കൂ.",
               "સિવિક્સ ટેસ્ટમાં 128 પ્રશ્નો છે. કોઈપણ વિષયથી શરૂ કરો.",
-              "Bài thi công dân có 128 câu hỏi. Bắt đầu với bất kỳ chủ đề nào."
+              "Bài thi công dân có 128 câu hỏi. Bắt đầu với bất kỳ chủ đề nào.",
+              "Ang pagsusulit sa civics ay may 128 tanong. Magsimula sa anumang paksa."
             )}
           </p>
           <Link
@@ -446,7 +451,8 @@ export default function DashboardPage() {
               "Start Your First Practice",
               "ആദ്യ പരിശീലനം ആരംഭിക്കുക",
               "તમારી પ્રથમ પ્રેક્ટિસ શરૂ કરો",
-              "Bắt đầu bài luyện tập đầu tiên"
+              "Bắt đầu bài luyện tập đầu tiên",
+              "Simulan ang Iyong Unang Pagsasanay"
             )}
             <ArrowRight size={18} />
           </Link>
@@ -464,25 +470,25 @@ export default function DashboardPage() {
           {
             href: "/quiz",
             icon: <ClipboardCheck size={22} style={{ color: "#D4772C" }} />,
-            title: l("Practice Test", "പ്രാക്ടീസ് ടെസ്റ്റ്", "પ્રેક્ટિસ ટેસ્ટ", "Bài thi thử"),
+            title: l("Practice Test", "പ്രാക്ടീസ് ടെസ്റ്റ്", "પ્રેક્ટિસ ટેસ્ટ", "Bài thi thử", "Pagsusulit"),
             color: "#D4772C",
           },
           {
             href: "/practice",
             icon: <Layers size={22} style={{ color: "#B45309" }} />,
-            title: l("Flashcards", "ഫ്ലാഷ്കാർഡ്", "ફ્લૅશકાર્ડ", "Thẻ ghi nhớ"),
+            title: l("Flashcards", "ഫ്ലാഷ്കാർഡ്", "ફ્લૅશકાર્ડ", "Thẻ ghi nhớ", "Mga Flashcard"),
             color: "#B45309",
           },
           {
             href: "/mistakes",
             icon: <AlertCircle size={22} style={{ color: "#0891B2" }} />,
-            title: l("Review Mistakes", "തെറ്റുകൾ", "ભૂલો", "Lỗi sai"),
+            title: l("Review Mistakes", "തെറ്റുകൾ", "ભૂલો", "Lỗi sai", "Suriin ang mga Pagkakamali"),
             color: "#0891B2",
           },
           {
             href: "/eligibility",
             icon: <BookOpen size={22} style={{ color: "#7C3AED" }} />,
-            title: l("Eligibility", "യോഗ്യത", "લાયકાત", "Điều kiện"),
+            title: l("Eligibility", "യോഗ്യത", "લાયકાત", "Điều kiện", "Kwalipikasyon"),
             color: "#7C3AED",
           },
         ].map((item) => (
@@ -548,23 +554,23 @@ export default function DashboardPage() {
       >
         <StatBlock
           value={totalQuestionsPracticed}
-          label={l("THIS WEEK", "ഈ ആഴ്ച", "આ અઠવાડિયે", "TUẦN NÀY")}
+          label={l("THIS WEEK", "ഈ ആഴ്ച", "આ અઠવાડિયે", "TUẦN NÀY", "LINGGONG ITO")}
           animate={shouldAnimate}
         />
         <StatBlock
           value={accuracy}
-          label={l("ACCURACY", "കൃത്യത", "ચોકસાઈ", "ĐỘ CHÍNH XÁC")}
+          label={l("ACCURACY", "കൃത്യത", "ચોકસાઈ", "ĐỘ CHÍNH XÁC", "KATUMPAKAN")}
           suffix="%"
           animate={shouldAnimate}
         />
         <StatBlock
           value={mistakeCount}
-          label={l("MISTAKES", "തെറ്റുകൾ", "ભૂલો", "LỖI SAI")}
+          label={l("MISTAKES", "തെറ്റുകൾ", "ભૂલો", "LỖI SAI", "MGA PAGKAKAMALI")}
           animate={shouldAnimate}
         />
         <StatBlock
           value={streak}
-          label={l("DAY STREAK", "ദിവസ സ്ട്രീക്ക്", "દિવસ સ્ટ્રીક", "CHUỖI NGÀY")}
+          label={l("DAY STREAK", "ദിവസ സ്ട്രീക്ക്", "દિવસ સ્ટ્રીક", "CHUỖI NGÀY", "SUNOD-SUNOD NA ARAW")}
           icon={
             practicedToday && streak > 0 ? (
               <Flame size={16} style={{ color: RED }} />
@@ -587,7 +593,7 @@ export default function DashboardPage() {
             margin: "0 0 24px 0",
           }}
         >
-          {l("Mistakes by Topic", "വിഷയം അനുസരിച്ച് തെറ്റുകൾ", "વિષય પ્રમાણે ભૂલો", "Lỗi sai theo chủ đề")}
+          {l("Mistakes by Topic", "വിഷയം അനുസരിച്ച് തെറ്റുകൾ", "વિષય પ્રમાણે ભૂલો", "Lỗi sai theo chủ đề", "Mga Pagkakamali ayon sa Paksa")}
         </h2>
 
         <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
@@ -634,7 +640,8 @@ export default function DashboardPage() {
                   `You have ${mistakeCount} question${mistakeCount !== 1 ? "s" : ""} to review`,
                   `${mistakeCount} ചോദ്യങ്ങൾ അവലോകനം ചെയ്യാനുണ്ട്`,
                   `${mistakeCount} પ્રશ્નો સમીક્ષા કરવાના છે`,
-                  `Bạn có ${mistakeCount} câu hỏi cần ôn lại`
+                  `Bạn có ${mistakeCount} câu hỏi cần ôn lại`,
+                  `Mayroon kang ${mistakeCount} tanong${mistakeCount !== 1 ? "" : ""} na dapat suriin`
                 )}
               </p>
               <p
@@ -649,7 +656,8 @@ export default function DashboardPage() {
                   "Mistakes help you learn. Review them to improve your score.",
                   "തെറ്റുകൾ പഠിക്കാൻ സഹായിക്കും. സ്കോർ മെച്ചപ്പെടുത്താൻ അവ അവലോകനം ചെയ്യുക.",
                   "ભૂલો શીખવામાં મદદ કરે છે. તમારો સ્કોર સુધારવા સમીક્ષા કરો.",
-                  "Sai lầm giúp bạn học. Ôn lại để cải thiện điểm số."
+                  "Sai lầm giúp bạn học. Ôn lại để cải thiện điểm số.",
+                  "Ang mga pagkakamali ay tumutulong sa pag-aaral. Suriin ang mga ito para mapabuti ang iyong marka."
                 )}
               </p>
             </div>
@@ -679,7 +687,7 @@ export default function DashboardPage() {
                 (e.currentTarget as HTMLElement).style.background = "#FFFFFF";
               }}
             >
-              {l("Review Mistakes", "തെറ്റുകൾ അവലോകനം", "ભૂલો સમીક્ષા", "Ôn lỗi sai")}
+              {l("Review Mistakes", "തെറ്റുകൾ അവലോകനം", "ભૂલો સમીક્ષા", "Ôn lỗi sai", "Suriin ang mga Pagkakamali")}
               <ArrowRight size={16} />
             </Link>
           </div>
@@ -708,7 +716,8 @@ export default function DashboardPage() {
                 "No mistakes to review — you're doing great!",
                 "അവലോകനം ചെയ്യാൻ തെറ്റുകളില്ല — നിങ്ങൾ മികച്ച രീതിയിൽ പ്രവർത്തിക്കുന്നു!",
                 "સમીક્ષા કરવા ભૂલો નથી — તમે ખૂબ સારું કરી રહ્યા છો!",
-                "Không có lỗi sai cần ôn — bạn đang làm rất tốt!"
+                "Không có lỗi sai cần ôn — bạn đang làm rất tốt!",
+                "Walang pagkakamaling dapat suriin — magaling ka!"
               )}
             </p>
           </div>

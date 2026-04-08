@@ -48,8 +48,8 @@ export default function ReadAloud({ text, options, lang }: ReadAloudProps) {
   const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
   const resumeTimer = useRef<ReturnType<typeof setInterval> | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  const l = (en: string, ml: string, gu?: string, vi?: string) =>
-    lang === "en" ? en : lang === "ml" ? ml : lang === "gu" ? (gu ?? en) : (vi ?? en);
+  const l = (en: string, ml: string, gu?: string, vi?: string, tl?: string) =>
+    lang === "en" ? en : lang === "ml" ? ml : lang === "gu" ? (gu ?? en) : lang === "vi" ? (vi ?? en) : (tl ?? en);
 
   // Load Web Speech voices — iOS fires voiceschanged asynchronously
   useEffect(() => {
@@ -174,7 +174,7 @@ export default function ReadAloud({ text, options, lang }: ReadAloudProps) {
     const fullText = buildText(text, options, lang);
     // Malayalam & Gujarati always use Google TTS — iOS has no built-in voice for these
     // English uses native Web Speech API (faster, no API call needed)
-    if (lang === "ml" || lang === "gu" || lang === "vi") {
+    if (lang === "ml" || lang === "gu" || lang === "vi" || lang === "tl") {
       speakWithGoogleTTS(fullText);
     } else {
       if (typeof window !== "undefined" && window.speechSynthesis) {
@@ -190,8 +190,8 @@ export default function ReadAloud({ text, options, lang }: ReadAloudProps) {
       onClick={speaking ? stopAll : speak}
       disabled={loading}
       aria-label={speaking
-        ? l("Stop reading", "വായന നിർത്തുക", "વાંચવું બંધ કરો", "Dừng đọc")
-        : l("Read question aloud", "ചോദ്യം ശബ്ദമായി വായിക്കുക", "પ્રશ્ન ઉંચે અવાજે વાંચો", "Đọc to câu hỏi")}
+        ? l("Stop reading", "വായന നിർത്തുക", "વાંચવું બંધ કરો", "Dừng đọc", "Itigil ang pagbasa")
+        : l("Read question aloud", "ചോദ്യം ശബ്ദമായി വായിക്കുക", "પ્રશ્ન ઉંચે અવાજે વાંચો", "Đọc to câu hỏi", "Basahin nang malakas ang tanong")}
       className={`min-h-[48px] px-5 py-3 rounded-btn border-2 text-[1rem] font-semibold
                   transition-all active:scale-[0.97] w-full flex items-center justify-center gap-2.5
                   ${loading
@@ -204,7 +204,7 @@ export default function ReadAloud({ text, options, lang }: ReadAloudProps) {
       {loading ? (
         <>
           <span className="w-4 h-4 border-2 border-text-secondary border-t-transparent rounded-full animate-spin" />
-          {l("Loading audio...", "ഓഡിയോ ലോഡ് ചെയ്യുന്നു...", "ઓડિયો લોડ થઈ રહ્યું છે...", "Đang tải âm thanh...")}
+          {l("Loading audio...", "ഓഡിയോ ലോഡ് ചെയ്യുന്നു...", "ઓડિયો લોડ થઈ રહ્યું છે...", "Đang tải âm thanh...", "Naglo-load ng audio...")}
         </>
       ) : speaking ? (
         <>
@@ -213,7 +213,7 @@ export default function ReadAloud({ text, options, lang }: ReadAloudProps) {
             <span className="w-1 h-5 bg-primary rounded-full animate-pulse [animation-delay:75ms]" />
             <span className="w-1 h-3 bg-primary rounded-full animate-pulse [animation-delay:150ms]" />
           </span>
-          {l("Stop", "നിർത്തുക", "બંધ કરો", "Dừng")}
+          {l("Stop", "നിർത്തുക", "બંધ કરો", "Dừng", "Itigil")}
         </>
       ) : (
         <>
