@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
@@ -13,11 +13,12 @@ import {
   type QuizAttempt,
 } from "@/lib/storage";
 import { questions, topicLabels, type Topic } from "@/data/questions";
-import { Landmark, Scale, ScrollText, Flag, Flame, CheckCircle2, ArrowRight, BookOpen, Layers, AlertCircle, ClipboardCheck } from "lucide-react";
+import { Landmark, Scale, ScrollText, Flag, Flame, CheckCircle2, ArrowRight, BookOpen, Layers, AlertCircle, ClipboardCheck, MapPin } from "lucide-react";
+import { getPersonalizedQuestions } from "@/data/personalizedQuestions";
 import { motion, useReducedMotion } from "framer-motion";
 import type { Lang } from "@/data/questions";
 
-/* ─── Constants ─── */
+/* â”€â”€â”€ Constants â”€â”€â”€ */
 const NAVY = "#1B2A4A";
 const RED = "#C41E3A";
 const FONT = "var(--font-dm-sans, system-ui, sans-serif)";
@@ -39,7 +40,7 @@ const topicIconMap: Record<string, React.ReactNode> = {
 
 const officialTopics: Topic[] = ["government", "rights", "history", "symbols"];
 
-/* ─── Animated counter hook ─── */
+/* â”€â”€â”€ Animated counter hook â”€â”€â”€ */
 function useCountUp(target: number, duration: number, shouldAnimate: boolean) {
   const [value, setValue] = useState(0);
   const rafRef = useRef<number>();
@@ -69,7 +70,7 @@ function useCountUp(target: number, duration: number, shouldAnimate: boolean) {
   return value;
 }
 
-/* ─── Stat Block ─── */
+/* â”€â”€â”€ Stat Block â”€â”€â”€ */
 function StatBlock({
   value,
   label,
@@ -95,7 +96,7 @@ function StatBlock({
     >
       <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
         <span style={{ fontSize: 36, fontWeight: 700, color: NAVY, lineHeight: 1 }}>
-          {value === -1 ? "—" : display}
+          {value === -1 ? "â€”" : display}
           {suffix && value !== -1 && <span>{suffix}</span>}
         </span>
         {icon}
@@ -117,7 +118,7 @@ function StatBlock({
   );
 }
 
-/* ─── Progress Bar ─── */
+/* â”€â”€â”€ Progress Bar â”€â”€â”€ */
 function TopicProgressBar({
   topic,
   mistakes,
@@ -148,39 +149,34 @@ function TopicProgressBar({
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
+          gap: 8,
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 10, flex: 1, minWidth: 0 }}>
           {topicIconMap[topic]}
           <span style={{ fontSize: 16, fontWeight: 600, color: NAVY }}>
             {topicLabels[topic]?.[lang] ?? topicLabels[topic]?.en}
           </span>
         </div>
-        <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 6, flexShrink: 0 }}>
           {clean ? (
             <>
-              <CheckCircle2 size={16} style={{ color: "#16A34A" }} />
-              <span style={{ fontSize: 14, fontWeight: 600, color: "#16A34A" }}>
-                {l("No mistakes", "തെറ്റുകളില്ല", "કોઈ ભૂલો નથી", "Không lỗi", "Walang pagkakamali")}
+              <CheckCircle2 size={16} style={{ color: "#16A34A", flexShrink: 0 }} />
+              <span style={{ fontSize: 14, fontWeight: 600, color: "#16A34A", whiteSpace: "nowrap" }}>
+                {l("No mistakes", "തെറ്റുകളില്ല", "કોઈ ભૂלો નथी", "Không lỗi", "Walang pagkakamali")}
               </span>
             </>
           ) : (
-            <span style={{ fontSize: 14, fontWeight: 600, color: RED }}>
-              {mistakes} {l("to review", "അവലോകനം ചെയ്യാൻ", "સમીક્ષા કરવા", "cần ôn", "upang suriin")}
+            <span style={{ fontSize: 14, fontWeight: 600, color: RED, whiteSpace: "nowrap" }}>
+              {mistakes} {l("to review", "അവലോകനം ചെയ്യാൻ", "સमीक्षा करवा", "cần ôn", "upang suriin")}
             </span>
           )}
-          <span style={{ fontSize: 13, color: "#9CA3AF", marginLeft: 4 }}>
+          <span style={{ fontSize: 13, color: "#9CA3AF", whiteSpace: "nowrap" }}>
             / {total}
           </span>
         </div>
       </div>
-    </div>
-  );
-}
-
-/* ═══════════════════════════════════════════════════════
-   MAIN DASHBOARD COMPONENT
-   ═══════════════════════════════════════════════════════ */
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 
 export default function DashboardPage() {
   const { lang } = useLanguage();
@@ -230,7 +226,7 @@ export default function DashboardPage() {
 
   if (!user) return null;
 
-  /* ── This week's date range (Monday–Sunday) ── */
+  /* â”€â”€ This week's date range (Mondayâ€“Sunday) â”€â”€ */
   const now = new Date();
   const dayOfWeek = now.getDay(); // 0=Sun
   const mondayOffset = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
@@ -241,7 +237,7 @@ export default function DashboardPage() {
     (a) => new Date(a.completed_at) >= weekStart
   );
 
-  /* ── Stats from THIS WEEK only ── */
+  /* â”€â”€ Stats from THIS WEEK only â”€â”€ */
   const totalQuestionsPracticed = weekAttempts.reduce(
     (sum, a) => sum + a.total_questions, 0
   );
@@ -253,7 +249,7 @@ export default function DashboardPage() {
       ? Math.round((totalCorrect / totalQuestionsPracticed) * 100)
       : -1;
 
-  /* ── Topic mistakes (real data from localStorage) ── */
+  /* â”€â”€ Topic mistakes (real data from localStorage) â”€â”€ */
   const officialQuestions = questions.filter(
     (q) => q.topic !== "extra" && officialTopics.includes(q.topic)
   );
@@ -265,7 +261,11 @@ export default function DashboardPage() {
     topicMistakes[tp] = topicQs.filter((q) => mistakeIds.includes(q.id)).length;
   });
 
-  /* ── Study streak (all-time, not weekly) ── */
+  // Personalized questions (Your State & Officials)
+  const personalizedQs = user.state ? getPersonalizedQuestions(user.state, user.district) : [];
+  const hasPersonalized = personalizedQs.length > 0;
+
+  /* â”€â”€ Study streak (all-time, not weekly) â”€â”€ */
   const calcStreak = (): { streak: number; practicedToday: boolean } => {
     if (attempts.length === 0) return { streak: 0, practicedToday: false };
 
@@ -298,16 +298,16 @@ export default function DashboardPage() {
 
   const { streak, practicedToday } = calcStreak();
 
-  /* ── Last study mode ── */
+  /* â”€â”€ Last study mode â”€â”€ */
   const lastMode = attempts.length > 0 ? attempts[0].mode : null;
   const continueLink =
     lastMode === "quiz" ? "/quiz" : lastMode === "practice" ? "/practice" : "/practice";
 
-  /* ── Mistake count ── */
+  /* â”€â”€ Mistake count â”€â”€ */
   const mistakeCount = mistakeIds.length;
   const hasAttempts = attempts.length > 0;
 
-  /* ── First name ── */
+  /* â”€â”€ First name â”€â”€ */
   const firstName = user.firstName || user.name?.split(" ")[0] || "";
 
   return (
@@ -322,9 +322,9 @@ export default function DashboardPage() {
         fontFamily: FONT,
       }}
     >
-      {/* ══════════════════════════════════════════════════
+      {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
           SECTION 1: GREETING
-          ══════════════════════════════════════════════════ */}
+          â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
       <div>
         <h1
           style={{
@@ -338,9 +338,9 @@ export default function DashboardPage() {
         >
           {l(
             `Welcome back, ${firstName}`,
-            `തിരികെ സ്വാഗതം, ${firstName}`,
-            `પાછા આવો, ${firstName}`,
-            `Chào mừng trở lại, ${firstName}`,
+            `à´¤à´¿à´°à´¿à´•àµ† à´¸àµà´µà´¾à´—à´¤à´‚, ${firstName}`,
+            `àªªàª¾àª›àª¾ àª†àªµà«‹, ${firstName}`,
+            `ChÃ o má»«ng trá»Ÿ láº¡i, ${firstName}`,
             `Maligayang pagbabalik, ${firstName}`
           )}
         </h1>
@@ -355,11 +355,11 @@ export default function DashboardPage() {
           }}
         >
           {l(
-            `All Questions · Studying in ${langNames[lang]}`,
-            `എല്ലാ ചോദ്യങ്ങളും · ${langNames[lang]}-ൽ പഠിക്കുന്നു`,
-            `બധા પ્રશ્નો · ${langNames[lang]}માં અभ્યાસ`,
-            `Tất cả câu hỏi · Học bằng ${langNames[lang]}`,
-            `Lahat ng Tanong · Nag-aaral sa ${langNames[lang]}`
+            `All Questions Â· Studying in ${langNames[lang]}`,
+            `à´Žà´²àµà´²à´¾ à´šàµ‹à´¦àµà´¯à´™àµà´™à´³àµà´‚ Â· ${langNames[lang]}-àµ½ à´ªà´ à´¿à´•àµà´•àµà´¨àµà´¨àµ`,
+            `àª¬à´§àª¾ àªªà«àª°àª¶à«àª¨à«‹ Â· ${langNames[lang]}àª®àª¾àª‚ àª…à¤­à«àª¯àª¾àª¸`,
+            `Táº¥t cáº£ cÃ¢u há»i Â· Há»c báº±ng ${langNames[lang]}`,
+            `Lahat ng Tanong Â· Nag-aaral sa ${langNames[lang]}`
           )}
         </p>
 
@@ -380,16 +380,16 @@ export default function DashboardPage() {
                 gap: 8,
               }}
             >
-              {l("Continue Practicing", "പരിശീലനം തുടരുക", "પ્રેક્ટિસ ચાલુ રાખો", "Tiếp tục luyện tập", "Magpatuloy sa Pagsasanay")}
+              {l("Continue Practicing", "à´ªà´°à´¿à´¶àµ€à´²à´¨à´‚ à´¤àµà´Ÿà´°àµà´•", "àªªà«àª°à«‡àª•à«àªŸàª¿àª¸ àªšàª¾àª²à« àª°àª¾àª–à«‹", "Tiáº¿p tá»¥c luyá»‡n táº­p", "Magpatuloy sa Pagsasanay")}
               <ArrowRight size={18} />
             </Link>
           </div>
         )}
       </div>
 
-      {/* ══════════════════════════════════════════════════
+      {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
           EMPTY STATE NUDGE (only for brand new users)
-          ══════════════════════════════════════════════════ */}
+          â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
       {!hasAttempts && (
         <div
           style={{
@@ -411,9 +411,9 @@ export default function DashboardPage() {
           >
             {l(
               "You haven't started practicing yet!",
-              "നിങ്ങൾ ഇതുവരെ പരിശീലനം ആരംഭിച്ചിട്ടില്ല!",
-              "તમે હજુ પ્રેક્ટિસ શરૂ કરી નથી!",
-              "Bạn chưa bắt đầu luyện tập!",
+              "à´¨à´¿à´™àµà´™àµ¾ à´‡à´¤àµà´µà´°àµ† à´ªà´°à´¿à´¶àµ€à´²à´¨à´‚ à´†à´°à´‚à´­à´¿à´šàµà´šà´¿à´Ÿàµà´Ÿà´¿à´²àµà´²!",
+              "àª¤àª®à«‡ àª¹àªœà« àªªà«àª°à«‡àª•à«àªŸàª¿àª¸ àª¶àª°à«‚ àª•àª°à«€ àª¨àª¥à«€!",
+              "Báº¡n chÆ°a báº¯t Ä‘áº§u luyá»‡n táº­p!",
               "Hindi ka pa nagsisimulang magsanay!"
             )}
           </h2>
@@ -427,9 +427,9 @@ export default function DashboardPage() {
           >
             {l(
               "The civics test has 128 questions. Start with any topic and build your way up.",
-              "സിവിക്സ് ടെസ്റ്റിൽ 128 ചോദ്യങ്ങളുണ്ട്. ഏതെങ്കിലും വിഷയത്തിൽ ആരംഭിക്കൂ.",
-              "સિવિક્સ ટેસ્ટમાં 128 પ્રશ્નો છે. કોઈપણ વિષયથી શરૂ કરો.",
-              "Bài thi công dân có 128 câu hỏi. Bắt đầu với bất kỳ chủ đề nào.",
+              "à´¸à´¿à´µà´¿à´•àµà´¸àµ à´Ÿàµ†à´¸àµà´±àµà´±à´¿àµ½ 128 à´šàµ‹à´¦àµà´¯à´™àµà´™à´³àµà´£àµà´Ÿàµ. à´à´¤àµ†à´™àµà´•à´¿à´²àµà´‚ à´µà´¿à´·à´¯à´¤àµà´¤à´¿àµ½ à´†à´°à´‚à´­à´¿à´•àµà´•àµ‚.",
+              "àª¸àª¿àªµàª¿àª•à«àª¸ àªŸà«‡àª¸à«àªŸàª®àª¾àª‚ 128 àªªà«àª°àª¶à«àª¨à«‹ àª›à«‡. àª•à«‹àªˆàªªàª£ àªµàª¿àª·àª¯àª¥à«€ àª¶àª°à«‚ àª•àª°à«‹.",
+              "BÃ i thi cÃ´ng dÃ¢n cÃ³ 128 cÃ¢u há»i. Báº¯t Ä‘áº§u vá»›i báº¥t ká»³ chá»§ Ä‘á» nÃ o.",
               "Ang pagsusulit sa civics ay may 128 tanong. Magsimula sa anumang paksa."
             )}
           </p>
@@ -449,9 +449,9 @@ export default function DashboardPage() {
           >
             {l(
               "Start Your First Practice",
-              "ആദ്യ പരിശീലനം ആരംഭിക്കുക",
-              "તમારી પ્રથમ પ્રેક્ટિસ શરૂ કરો",
-              "Bắt đầu bài luyện tập đầu tiên",
+              "à´†à´¦àµà´¯ à´ªà´°à´¿à´¶àµ€à´²à´¨à´‚ à´†à´°à´‚à´­à´¿à´•àµà´•àµà´•",
+              "àª¤àª®àª¾àª°à«€ àªªà«àª°àª¥àª® àªªà«àª°à«‡àª•à«àªŸàª¿àª¸ àª¶àª°à«‚ àª•àª°à«‹",
+              "Báº¯t Ä‘áº§u bÃ i luyá»‡n táº­p Ä‘áº§u tiÃªn",
               "Simulan ang Iyong Unang Pagsasanay"
             )}
             <ArrowRight size={18} />
@@ -459,9 +459,9 @@ export default function DashboardPage() {
         </div>
       )}
 
-      {/* ══════════════════════════════════════════════════
+      {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
           SECTION: QUICK ACTIONS (nav cards)
-          ══════════════════════════════════════════════════ */}
+          â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
       <div
         className="grid grid-cols-2 sm:grid-cols-4 gap-3"
         style={{ marginTop: 32 }}
@@ -470,25 +470,25 @@ export default function DashboardPage() {
           {
             href: "/quiz",
             icon: <ClipboardCheck size={22} style={{ color: "#D4772C" }} />,
-            title: l("Practice Test", "പ്രാക്ടീസ് ടെസ്റ്റ്", "પ્રેક્ટિસ ટેસ્ટ", "Bài thi thử", "Pagsusulit"),
+            title: l("Practice Test", "à´ªàµà´°à´¾à´•àµà´Ÿàµ€à´¸àµ à´Ÿàµ†à´¸àµà´±àµà´±àµ", "àªªà«àª°à«‡àª•à«àªŸàª¿àª¸ àªŸà«‡àª¸à«àªŸ", "BÃ i thi thá»­", "Pagsusulit"),
             color: "#D4772C",
           },
           {
             href: "/practice",
             icon: <Layers size={22} style={{ color: "#B45309" }} />,
-            title: l("Flashcards", "ഫ്ലാഷ്കാർഡ്", "ફ્લૅશકાર્ડ", "Thẻ ghi nhớ", "Mga Flashcard"),
+            title: l("Flashcards", "à´«àµà´²à´¾à´·àµà´•à´¾àµ¼à´¡àµ", "àª«à«àª²à«…àª¶àª•àª¾àª°à«àª¡", "Tháº» ghi nhá»›", "Mga Flashcard"),
             color: "#B45309",
           },
           {
             href: "/mistakes",
             icon: <AlertCircle size={22} style={{ color: "#0891B2" }} />,
-            title: l("Review Mistakes", "തെറ്റുകൾ", "ભૂલો", "Lỗi sai", "Suriin ang mga Pagkakamali"),
+            title: l("Review Mistakes", "à´¤àµ†à´±àµà´±àµà´•àµ¾", "àª­à«‚àª²à«‹", "Lá»—i sai", "Suriin ang mga Pagkakamali"),
             color: "#0891B2",
           },
           {
             href: "/eligibility",
             icon: <BookOpen size={22} style={{ color: "#7C3AED" }} />,
-            title: l("Eligibility", "യോഗ്യത", "લાયકાત", "Điều kiện", "Kwalipikasyon"),
+            title: l("Eligibility", "à´¯àµ‹à´—àµà´¯à´¤", "àª²àª¾àª¯àª•àª¾àª¤", "Äiá»u kiá»‡n", "Kwalipikasyon"),
             color: "#7C3AED",
           },
         ].map((item) => (
@@ -545,32 +545,32 @@ export default function DashboardPage() {
         ))}
       </div>
 
-      {/* ══════════════════════════════════════════════════
+      {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
           SECTION 2: STATS ROW
-          ══════════════════════════════════════════════════ */}
+          â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
       <div
         className="grid grid-cols-2 sm:grid-cols-4 gap-4"
         style={{ marginTop: 48 }}
       >
         <StatBlock
           value={totalQuestionsPracticed}
-          label={l("THIS WEEK", "ഈ ആഴ്ച", "આ અઠવાડિયે", "TUẦN NÀY", "LINGGONG ITO")}
+          label={l("THIS WEEK", "à´ˆ à´†à´´àµà´š", "àª† àª…àª àªµàª¾àª¡àª¿àª¯à«‡", "TUáº¦N NÃ€Y", "LINGGONG ITO")}
           animate={shouldAnimate}
         />
         <StatBlock
           value={accuracy}
-          label={l("ACCURACY", "കൃത്യത", "ચોકસાઈ", "ĐỘ CHÍNH XÁC", "KATUMPAKAN")}
+          label={l("ACCURACY", "à´•àµƒà´¤àµà´¯à´¤", "àªšà«‹àª•àª¸àª¾àªˆ", "Äá»˜ CHÃNH XÃC", "KATUMPAKAN")}
           suffix="%"
           animate={shouldAnimate}
         />
         <StatBlock
           value={mistakeCount}
-          label={l("MISTAKES", "തെറ്റുകൾ", "ભૂલો", "LỖI SAI", "MGA PAGKAKAMALI")}
+          label={l("MISTAKES", "à´¤àµ†à´±àµà´±àµà´•àµ¾", "àª­à«‚àª²à«‹", "Lá»–I SAI", "MGA PAGKAKAMALI")}
           animate={shouldAnimate}
         />
         <StatBlock
           value={streak}
-          label={l("DAY STREAK", "ദിവസ സ്ട്രീക്ക്", "દિવસ સ્ટ્રીક", "CHUỖI NGÀY", "SUNOD-SUNOD NA ARAW")}
+          label={l("DAY STREAK", "à´¦à´¿à´µà´¸ à´¸àµà´Ÿàµà´°àµ€à´•àµà´•àµ", "àª¦àª¿àªµàª¸ àª¸à«àªŸà«àª°à«€àª•", "CHUá»–I NGÃ€Y", "SUNOD-SUNOD NA ARAW")}
           icon={
             practicedToday && streak > 0 ? (
               <Flame size={16} style={{ color: RED }} />
@@ -580,9 +580,9 @@ export default function DashboardPage() {
         />
       </div>
 
-      {/* ══════════════════════════════════════════════════
+      {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
           SECTION 3: TOPIC PROGRESS
-          ══════════════════════════════════════════════════ */}
+          â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
       <div style={{ marginTop: 48 }}>
         <h2
           style={{
@@ -593,7 +593,7 @@ export default function DashboardPage() {
             margin: "0 0 24px 0",
           }}
         >
-          {l("Mistakes by Topic", "വിഷയം അനുസരിച്ച് തെറ്റുകൾ", "વિષય પ્રમાણે ભૂલો", "Lỗi sai theo chủ đề", "Mga Pagkakamali ayon sa Paksa")}
+          {l("Mistakes by Topic", "à´µà´¿à´·à´¯à´‚ à´…à´¨àµà´¸à´°à´¿à´šàµà´šàµ à´¤àµ†à´±àµà´±àµà´•àµ¾", "àªµàª¿àª·àª¯ àªªà«àª°àª®àª¾àª£à«‡ àª­à«‚àª²à«‹", "Lá»—i sai theo chá»§ Ä‘á»", "Mga Pagkakamali ayon sa Paksa")}
         </h2>
 
         <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
@@ -606,12 +606,52 @@ export default function DashboardPage() {
               animate={shouldAnimate}
             />
           ))}
+          {hasPersonalized && (() => {
+            const localMistakes = personalizedQs.filter((q) => mistakeIds.includes(q.id)).length;
+            const clean = localMistakes === 0;
+            const ll = (en: string, ml: string, gu?: string, vi?: string, tl?: string) =>
+              lang === "en" ? en : lang === "ml" ? ml : lang === "gu" ? (gu ?? en) : lang === "vi" ? (vi ?? en) : (tl ?? en);
+            return (
+              <div
+                style={{
+                  background: "#F5F5F5",
+                  borderRadius: 16,
+                  padding: "20px 24px",
+                  fontFamily: FONT,
+                }}
+              >
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8 }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 10, flex: 1, minWidth: 0 }}>
+                    <MapPin size={20} style={{ color: "#7C3AED" }} />
+                    <span style={{ fontSize: 16, fontWeight: 600, color: NAVY }}>
+                      {ll("Your State & Officials", "à´¨à´¿à´™àµà´™à´³àµà´Ÿàµ† à´¸à´‚à´¸àµà´¥à´¾à´¨à´‚", "àª¤àª®àª¾àª°à«àª‚ àª°à¤¾à¤œà«àª¯", "Tiá»ƒu bang cá»§a báº¡n", "Iyong Estado")}
+                    </span>
+                  </div>
+                  <div style={{ display: "flex", alignItems: "center", gap: 6, flexShrink: 0 }}>
+                    {clean ? (
+                      <>
+                        <CheckCircle2 size={16} style={{ color: "#16A34A", flexShrink: 0 }} />
+                        <span style={{ fontSize: 14, fontWeight: 600, color: "#16A34A", whiteSpace: "nowrap" }}>
+                          {ll("No mistakes", "à´¤àµ†à´±àµà´±àµà´•à´³à´¿à´²àµà´²", "àª•à«‹àªˆ àª­à«‚à¦²à«‹ àª¨àª¥à«€", "KhÃ´ng lá»—i", "Walang pagkakamali")}
+                        </span>
+                      </>
+                    ) : (
+                      <span style={{ fontSize: 14, fontWeight: 600, color: RED, whiteSpace: "nowrap" }}>
+                        {localMistakes} {ll("to review", "à´…à´µà´²àµ‹à´•à´¨à´‚ à´šàµ†à´¯àµà´¯à´¾àµ»", "àª¸à¤®à¥€à¦•à«à¦·à¤¾", "cáº§n Ã´n", "upang suriin")}
+                      </span>
+                    )}
+                    <span style={{ fontSize: 13, color: "#9CA3AF", whiteSpace: "nowrap" }}>/ {personalizedQs.length}</span>
+                  </div>
+                </div>
+              </div>
+            );
+          })()}
         </div>
       </div>
 
-      {/* ══════════════════════════════════════════════════
+      {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
           SECTION 4: MISTAKES TO REVIEW
-          ══════════════════════════════════════════════════ */}
+          â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
       <div style={{ marginTop: 48 }}>
         {mistakeCount > 0 ? (
           <div
@@ -638,9 +678,9 @@ export default function DashboardPage() {
               >
                 {l(
                   `You have ${mistakeCount} question${mistakeCount !== 1 ? "s" : ""} to review`,
-                  `${mistakeCount} ചോദ്യങ്ങൾ അവലോകനം ചെയ്യാനുണ്ട്`,
-                  `${mistakeCount} પ્રશ્નો સમીક્ષા કરવાના છે`,
-                  `Bạn có ${mistakeCount} câu hỏi cần ôn lại`,
+                  `${mistakeCount} à´šàµ‹à´¦àµà´¯à´™àµà´™àµ¾ à´…à´µà´²àµ‹à´•à´¨à´‚ à´šàµ†à´¯àµà´¯à´¾à´¨àµà´£àµà´Ÿàµ`,
+                  `${mistakeCount} àªªà«àª°àª¶à«àª¨à«‹ àª¸àª®à«€àª•à«àª·àª¾ àª•àª°àªµàª¾àª¨àª¾ àª›à«‡`,
+                  `Báº¡n cÃ³ ${mistakeCount} cÃ¢u há»i cáº§n Ã´n láº¡i`,
                   `Mayroon kang ${mistakeCount} tanong${mistakeCount !== 1 ? "" : ""} na dapat suriin`
                 )}
               </p>
@@ -654,9 +694,9 @@ export default function DashboardPage() {
               >
                 {l(
                   "Mistakes help you learn. Review them to improve your score.",
-                  "തെറ്റുകൾ പഠിക്കാൻ സഹായിക്കും. സ്കോർ മെച്ചപ്പെടുത്താൻ അവ അവലോകനം ചെയ്യുക.",
-                  "ભૂલો શીખવામાં મદદ કરે છે. તમારો સ્કોર સુધારવા સમીક્ષા કરો.",
-                  "Sai lầm giúp bạn học. Ôn lại để cải thiện điểm số.",
+                  "à´¤àµ†à´±àµà´±àµà´•àµ¾ à´ªà´ à´¿à´•àµà´•à´¾àµ» à´¸à´¹à´¾à´¯à´¿à´•àµà´•àµà´‚. à´¸àµà´•àµ‹àµ¼ à´®àµ†à´šàµà´šà´ªàµà´ªàµ†à´Ÿàµà´¤àµà´¤à´¾àµ» à´…à´µ à´…à´µà´²àµ‹à´•à´¨à´‚ à´šàµ†à´¯àµà´¯àµà´•.",
+                  "àª­à«‚àª²à«‹ àª¶à«€àª–àªµàª¾àª®àª¾àª‚ àª®àª¦àª¦ àª•àª°à«‡ àª›à«‡. àª¤àª®àª¾àª°à«‹ àª¸à«àª•à«‹àª° àª¸à«àª§àª¾àª°àªµàª¾ àª¸àª®à«€àª•à«àª·àª¾ àª•àª°à«‹.",
+                  "Sai láº§m giÃºp báº¡n há»c. Ã”n láº¡i Ä‘á»ƒ cáº£i thiá»‡n Ä‘iá»ƒm sá»‘.",
                   "Ang mga pagkakamali ay tumutulong sa pag-aaral. Suriin ang mga ito para mapabuti ang iyong marka."
                 )}
               </p>
@@ -687,7 +727,7 @@ export default function DashboardPage() {
                 (e.currentTarget as HTMLElement).style.background = "#FFFFFF";
               }}
             >
-              {l("Review Mistakes", "തെറ്റുകൾ അവലോകനം", "ભૂલો સમીક્ષા", "Ôn lỗi sai", "Suriin ang mga Pagkakamali")}
+              {l("Review Mistakes", "à´¤àµ†à´±àµà´±àµà´•àµ¾ à´…à´µà´²àµ‹à´•à´¨à´‚", "àª­à«‚àª²à«‹ àª¸àª®à«€àª•à«àª·àª¾", "Ã”n lá»—i sai", "Suriin ang mga Pagkakamali")}
               <ArrowRight size={16} />
             </Link>
           </div>
@@ -713,11 +753,11 @@ export default function DashboardPage() {
               }}
             >
               {l(
-                "No mistakes to review — you're doing great!",
-                "അവലോകനം ചെയ്യാൻ തെറ്റുകളില്ല — നിങ്ങൾ മികച്ച രീതിയിൽ പ്രവർത്തിക്കുന്നു!",
-                "સમીક્ષા કરવા ભૂલો નથી — તમે ખૂબ સારું કરી રહ્યા છો!",
-                "Không có lỗi sai cần ôn — bạn đang làm rất tốt!",
-                "Walang pagkakamaling dapat suriin — magaling ka!"
+                "No mistakes to review â€” you're doing great!",
+                "à´…à´µà´²àµ‹à´•à´¨à´‚ à´šàµ†à´¯àµà´¯à´¾àµ» à´¤àµ†à´±àµà´±àµà´•à´³à´¿à´²àµà´² â€” à´¨à´¿à´™àµà´™àµ¾ à´®à´¿à´•à´šàµà´š à´°àµ€à´¤à´¿à´¯à´¿àµ½ à´ªàµà´°à´µàµ¼à´¤àµà´¤à´¿à´•àµà´•àµà´¨àµà´¨àµ!",
+                "àª¸àª®à«€àª•à«àª·àª¾ àª•àª°àªµàª¾ àª­à«‚àª²à«‹ àª¨àª¥à«€ â€” àª¤àª®à«‡ àª–à«‚àª¬ àª¸àª¾àª°à«àª‚ àª•àª°à«€ àª°àª¹à«àª¯àª¾ àª›à«‹!",
+                "KhÃ´ng cÃ³ lá»—i sai cáº§n Ã´n â€” báº¡n Ä‘ang lÃ m ráº¥t tá»‘t!",
+                "Walang pagkakamaling dapat suriin â€” magaling ka!"
               )}
             </p>
           </div>
@@ -733,7 +773,7 @@ export default function DashboardPage() {
                        text-gray-700 border border-gray-200 shadow-sm
                        font-semibold text-base active:scale-95 transition-all no-underline"
           >
-            ← {t("home", lang)}
+            â† {t("home", lang)}
           </Link>
           <button
             onClick={handleLogout}
@@ -745,7 +785,7 @@ export default function DashboardPage() {
         </div>
 
         <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl p-6 text-center border-2 border-blue-200">
-          <div className="text-4xl mb-2">📊🙏</div>
+          <div className="text-4xl mb-2">ðŸ“ŠðŸ™</div>
           <h1 className="text-q-heading font-bold text-primary mb-1">
             {t("dashboard", lang)}
           </h1>
@@ -782,16 +822,16 @@ export default function DashboardPage() {
               {lang === "en"
                 ? "questions need review"
                 : lang === "ml"
-                ? "ചോദ്യങ്ങൾ പരിശോധിക്കേണ്ടതുണ്ട്"
+                ? "à´šàµ‹à´¦àµà´¯à´™àµà´™àµ¾ à´ªà´°à´¿à´¶àµ‹à´§à´¿à´•àµà´•àµ‡à´£àµà´Ÿà´¤àµà´£àµà´Ÿàµ"
                 : lang === "gu"
-                ? "પ્રશ્નોની સમીક્ષા જરૂરી છે"
-                : "câu hỏi cần ôn lại"}
+                ? "àªªà«àª°àª¶à«àª¨à«‹àª¨à«€ àª¸àª®à«€àª•à«àª·àª¾ àªœàª°à«‚àª°à«€ àª›à«‡"
+                : "cÃ¢u há»i cáº§n Ã´n láº¡i"}
             </p>
 
             {weakestTopic && mistakesByTopic[weakestTopic[0] as Topic] > 0 && (
               <div className="bg-white/50 rounded-lg p-3 text-sm">
                 <p className="text-orange-800 font-medium">
-                  {lang === "en" ? "Focus on:" : lang === "ml" ? "ശ്രദ്ധിക്കേണ്ട വിഷയം:" : lang === "gu" ? "ધ્યાન આપો:" : "Tập trung vào:"}
+                  {lang === "en" ? "Focus on:" : lang === "ml" ? "à´¶àµà´°à´¦àµà´§à´¿à´•àµà´•àµ‡à´£àµà´Ÿ à´µà´¿à´·à´¯à´‚:" : lang === "gu" ? "àª§à«àª¯àª¾àª¨ àª†àªªà«‹:" : "Táº­p trung vÃ o:"}
                 </p>
                 <p className="text-orange-900 font-bold mt-1">
                   {topicLabels[weakestTopic[0] as Topic][lang] ?? topicLabels[weakestTopic[0] as Topic].en} (
