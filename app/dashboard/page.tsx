@@ -40,7 +40,7 @@ const topicIconMap: Record<string, React.ReactNode> = {
 };
 
 const officialTopics: Topic[] = ["government", "rights", "history", "symbols"];
-const allDisplayTopics: Topic[] = ["government", "rights", "history", "symbols", "extra"];
+const allDisplayTopics: Topic[] = ["government", "rights", "history", "symbols"];
 
 /* â”€â”€â”€ Animated counter hook â”€â”€â”€ */
 function useCountUp(target: number, duration: number, shouldAnimate: boolean) {
@@ -258,7 +258,7 @@ export default function DashboardPage() {
   /* â”€â”€ Topic mistakes (real data from localStorage) â”€â”€ */
   const topicTotals: Record<string, number> = {};
   const topicMistakes: Record<string, number> = {};
-  allDisplayTopics.forEach((tp) => {
+  [...allDisplayTopics, "extra" as Topic].forEach((tp) => {
     const topicQs = questions.filter((q) => q.topic === tp);
     topicTotals[tp] = topicQs.length;
     topicMistakes[tp] = topicQs.filter((q) => mistakeIds.includes(q.id)).length;
@@ -649,6 +649,13 @@ export default function DashboardPage() {
               </div>
             );
           })()}
+          <TopicProgressBar
+            key="extra"
+            topic={"extra" as Topic}
+            mistakes={topicMistakes["extra"]}
+            total={topicTotals["extra"]}
+            animate={shouldAnimate}
+          />
         </div>
       </div>
 
