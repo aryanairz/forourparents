@@ -13,7 +13,7 @@ import {
   type QuizAttempt,
 } from "@/lib/storage";
 import { questions, topicLabels, type Topic } from "@/data/questions";
-import { Landmark, Scale, ScrollText, Flag, Flame, CheckCircle2, ArrowRight, BookOpen, Layers, AlertCircle, ClipboardCheck, MapPin } from "lucide-react";
+import { Landmark, Scale, ScrollText, Flag, Flame, CheckCircle2, ArrowRight, BookOpen, Layers, AlertCircle, ClipboardCheck, MapPin, Star } from "lucide-react";
 import { getPersonalizedQuestions } from "@/data/personalizedQuestions";
 import { motion, useReducedMotion } from "framer-motion";
 import type { Lang } from "@/data/questions";
@@ -36,9 +36,11 @@ const topicIconMap: Record<string, React.ReactNode> = {
   rights: <Scale size={20} style={{ color: "#0891B2" }} />,
   history: <ScrollText size={20} style={{ color: "#B45309" }} />,
   symbols: <Flag size={20} style={{ color: "#BE123C" }} />,
+  extra: <Star size={20} style={{ color: "#D97706" }} />,
 };
 
 const officialTopics: Topic[] = ["government", "rights", "history", "symbols"];
+const allDisplayTopics: Topic[] = ["government", "rights", "history", "symbols", "extra"];
 
 /* â”€â”€â”€ Animated counter hook â”€â”€â”€ */
 function useCountUp(target: number, duration: number, shouldAnimate: boolean) {
@@ -176,7 +178,11 @@ function TopicProgressBar({
           </span>
         </div>
       </div>
-   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════ */
 
 export default function DashboardPage() {
   const { lang } = useLanguage();
@@ -250,13 +256,10 @@ export default function DashboardPage() {
       : -1;
 
   /* â”€â”€ Topic mistakes (real data from localStorage) â”€â”€ */
-  const officialQuestions = questions.filter(
-    (q) => q.topic !== "extra" && officialTopics.includes(q.topic)
-  );
   const topicTotals: Record<string, number> = {};
   const topicMistakes: Record<string, number> = {};
-  officialTopics.forEach((tp) => {
-    const topicQs = officialQuestions.filter((q) => q.topic === tp);
+  allDisplayTopics.forEach((tp) => {
+    const topicQs = questions.filter((q) => q.topic === tp);
     topicTotals[tp] = topicQs.length;
     topicMistakes[tp] = topicQs.filter((q) => mistakeIds.includes(q.id)).length;
   });
@@ -597,7 +600,7 @@ export default function DashboardPage() {
         </h2>
 
         <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-          {officialTopics.map((tp) => (
+          {allDisplayTopics.map((tp) => (
             <TopicProgressBar
               key={tp}
               topic={tp}
