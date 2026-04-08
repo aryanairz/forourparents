@@ -112,7 +112,7 @@ export default function LoginPage() {
     <div
       className="login-page"
       style={{
-        minHeight: "100vh", display: "flex",
+        minHeight: "100vh", display: "flex", overflow: "hidden",
         fontFamily: "var(--font-dm-sans, system-ui, sans-serif)",
       }}
     >
@@ -137,8 +137,10 @@ export default function LoginPage() {
           flex: 1, background: "#FFFFFF",
           display: "flex", flexDirection: "column",
           alignItems: "center", justifyContent: "center",
-          padding: "60px 48px",
+          padding: "48px 24px",
+          minWidth: 0,
         }}
+        className="w-full"
       >
         <motion.div
           initial={{ opacity: 0, y: 20 }}

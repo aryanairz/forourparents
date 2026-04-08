@@ -72,16 +72,17 @@ function FloatingNav() {
         style={{
           display: "flex",
           alignItems: "center",
-          gap: 24,
+          gap: 16,
           background: NAVY,
           borderRadius: 999,
-          padding: "10px 20px",
+          padding: "10px 14px",
           boxShadow: "0 8px 32px rgba(0,0,0,0.25)",
         }}
       >
         <Link href="/" style={{ display: "flex", alignItems: "center", gap: 8, textDecoration: "none" }}>
-          <Image src="/logo.png" alt="For Our Parents" width={26} height={26} style={{ borderRadius: 6 }} />
+          <Image src="/logo.png" alt="For Our Parents" width={26} height={26} style={{ borderRadius: 6, flexShrink: 0 }} />
           <span
+            className="hidden sm:inline"
             style={{
               color: "#FFFFFF",
               fontWeight: 700,
