@@ -48,8 +48,8 @@ export default function ReadAloud({ text, options, lang }: ReadAloudProps) {
   const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
   const resumeTimer = useRef<ReturnType<typeof setInterval> | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  const l = (en: string, ml: string, gu?: string, vi?: string, tl?: string) =>
-    lang === "en" ? en : lang === "ml" ? ml : lang === "gu" ? (gu ?? en) : lang === "vi" ? (vi ?? en) : (tl ?? en);
+  const l = (en: string, ml: string, gu?: string, vi?: string, tl?: string, es?: string) =>
+    lang === "en" ? en : lang === "ml" ? ml : lang === "gu" ? (gu ?? en) : lang === "vi" ? (vi ?? en) : lang === "tl" ? (tl ?? en) : (es ?? en);
 
   // Load Web Speech voices — iOS fires voiceschanged asynchronously
   useEffect(() => {
@@ -174,7 +174,7 @@ export default function ReadAloud({ text, options, lang }: ReadAloudProps) {
     const fullText = buildText(text, options, lang);
     // Malayalam & Gujarati always use Google TTS — iOS has no built-in voice for these
     // English uses native Web Speech API (faster, no API call needed)
-    if (lang === "ml" || lang === "gu" || lang === "vi" || lang === "tl") {
+    if (lang === "ml" || lang === "gu" || lang === "vi" || lang === "tl" || lang === "es") {
       speakWithGoogleTTS(fullText);
     } else {
       if (typeof window !== "undefined" && window.speechSynthesis) {

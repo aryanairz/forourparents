@@ -106,8 +106,8 @@ function shuffleOptions(q: Question): {
 export default function MistakesPage() {
   const { lang, mounted } = useLanguage();
   const questions = useQuestionPool();
-  const l = (en: string, ml: string, gu?: string, vi?: string, tl?: string) =>
-    lang === "en" ? en : lang === "ml" ? ml : lang === "gu" ? (gu ?? en) : lang === "vi" ? (vi ?? en) : (tl ?? en);
+  const l = (en: string, ml: string, gu?: string, vi?: string, tl?: string, es?: string) =>
+    lang === "en" ? en : lang === "ml" ? ml : lang === "gu" ? (gu ?? en) : lang === "vi" ? (vi ?? en) : lang === "tl" ? (tl ?? en) : (es ?? en);
   const [state, setState] = useState<MistakeState>("list");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [mistakeIds, setMistakeIds] = useState<string[]>([]);

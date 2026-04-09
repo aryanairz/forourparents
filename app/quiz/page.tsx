@@ -153,8 +153,8 @@ export default function QuizPage() {
   const recentIdsRef = useRef<string[]>([]);
   const { speak: speakFeedback, stop: stopFeedback } = useFeedbackSpeech();
   const questionPool = useQuestionPool();
-  const l = (en: string, ml: string, gu?: string, vi?: string, tl?: string) =>
-    lang === "en" ? en : lang === "ml" ? ml : lang === "gu" ? (gu ?? en) : lang === "vi" ? (vi ?? en) : (tl ?? en);
+  const l = (en: string, ml: string, gu?: string, vi?: string, tl?: string, es?: string) =>
+    lang === "en" ? en : lang === "ml" ? ml : lang === "gu" ? (gu ?? en) : lang === "vi" ? (vi ?? en) : lang === "tl" ? (tl ?? en) : (es ?? en);
 
   const [selectedTopic, setSelectedTopic] = useState<TopicKey>("all");
   const [quizStarted, setQuizStarted] = useState(false);

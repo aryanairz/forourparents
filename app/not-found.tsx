@@ -4,8 +4,9 @@ import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { Home, BookOpen } from "lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
+import type { Lang } from "@/data/questions";
 
-type MultiText = { en: string; ml: string; gu: string; vi: string; tl: string };
+type MultiText = { en: string; ml: string; gu: string; vi: string; tl: string; es?: string };
 
 const excuses: MultiText[] = [
   {
@@ -69,8 +70,8 @@ const facts: MultiText[] = [
   },
 ];
 
-function getText(lang: "en" | "ml" | "gu" | "vi" | "tl", item: MultiText) {
-  return item[lang];
+function getText(lang: Lang, item: MultiText) {
+  return item[lang] ?? item.en;
 }
 
 export default function NotFound() {
@@ -82,8 +83,8 @@ export default function NotFound() {
   const excuseList = useMemo(() => excuses, []);
   const factList = useMemo(() => facts, []);
 
-  const l = (en: string, ml: string, gu?: string, vi?: string, tl?: string) =>
-    lang === "en" ? en : lang === "ml" ? ml : lang === "gu" ? (gu ?? en) : lang === "vi" ? (vi ?? en) : (tl ?? en);
+  const l = (en: string, ml: string, gu?: string, vi?: string, tl?: string, es?: string) =>
+    lang === "en" ? en : lang === "ml" ? ml : lang === "gu" ? (gu ?? en) : lang === "vi" ? (vi ?? en) : lang === "tl" ? (tl ?? en) : (es ?? en);
 
   useEffect(() => {
     const t = setInterval(() => {

@@ -17,11 +17,13 @@ const langMeta: Record<Lang, { short: string; native: string }> = {
   gu: { short: "GU", native: "ગુજરાતી" },
   vi: { short: "VI", native: "Tiếng Việt" },
   tl: { short: "TL", native: "Tagalog" },
+  es: { short: "ES", native: "Español" },
 };
 
 export default function Header() {
   const { lang, setLang, mounted } = useLanguage();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [preferredLang, setPreferredLang] = useState<Lang | null>(null);
   const [langOpen, setLangOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const pathname = usePathname();
@@ -34,6 +36,9 @@ export default function Header() {
   useEffect(() => {
     const user = getCurrentUser();
     setIsLoggedIn(!!user);
+    if (user?.preferredLang && user.preferredLang !== "en") {
+      setPreferredLang(user.preferredLang);
+    }
   }, [pathname]);
 
   useEffect(() => {
@@ -53,8 +58,8 @@ export default function Header() {
     window.location.href = "/";
   };
 
-  const l = (en: string, ml: string, gu?: string, vi?: string, tl?: string) =>
-    lang === "en" ? en : lang === "ml" ? ml : lang === "gu" ? (gu ?? en) : lang === "vi" ? (vi ?? en) : (tl ?? en);
+  const l = (en: string, ml: string, gu?: string, vi?: string, tl?: string, es?: string) =>
+    lang === "en" ? en : lang === "ml" ? ml : lang === "gu" ? (gu ?? en) : lang === "vi" ? (vi ?? en) : lang === "tl" ? (tl ?? en) : (es ?? en);
 
   // ── Auth pages: no header ──
   if (isAuthPage) return null;
@@ -181,10 +186,10 @@ export default function Header() {
 
   // ── Full Header (all other pages / logged-in users) ──
   const navLinks: { href: string; label: Record<Lang, string> }[] = [
-    { href: "/dashboard", label: { en: "Home", ml: "ഹോം", gu: "હોમ", vi: "Trang chủ", tl: "Home" } },
-    { href: "/quiz", label: { en: "Practice Test", ml: "പ്രാക്ടീസ് ടെസ്റ്റ്", gu: "પ્રેક્ટિસ ટેસ્ટ", vi: "Bài thi thử", tl: "Pagsusulit" } },
-    { href: "/eligibility", label: { en: "Do You Qualify?", ml: "യോഗ്യത?", gu: "શું તમે લાયક છો?", vi: "Điều kiện?", tl: "Kwalipikado Ka?" } },
-    { href: "/help", label: { en: "Help", ml: "സഹായം", gu: "મદદ", vi: "Trợ giúp", tl: "Tulong" } },
+    { href: "/dashboard", label: { en: "Home", ml: "ഹോം", gu: "હોમ", vi: "Trang chủ", tl: "Home", es: "Inicio" } },
+    { href: "/quiz", label: { en: "Practice Test", ml: "പ്രാക്ടീസ് ടെസ്റ്റ്", gu: "પ્રેક્ટિસ ટેસ્ટ", vi: "Bài thi thử", tl: "Pagsusulit", es: "Examen de Práctica" } },
+    { href: "/eligibility", label: { en: "Do You Qualify?", ml: "യോഗ്യത?", gu: "શું તમે લાયક છો?", vi: "Điều kiện?", tl: "Kwalipikado Ka?", es: "¿Calificas?" } },
+    { href: "/help", label: { en: "Help", ml: "സഹായം", gu: "મદદ", vi: "Trợ giúp", tl: "Tulong", es: "Ayuda" } },
   ];
 
   const isActive = (href: string) =>
@@ -226,63 +231,28 @@ export default function Header() {
         {/* ── Right Side ── */}
         <div className="flex items-center gap-3 sm:gap-4 flex-shrink-0">
 
-          {/* Language Selector */}
+          {/* Language Toggle — switches between English and preferred language */}
           {mounted && (
-            <div className="relative" ref={langRef}>
-              <button
-                type="button"
-                onClick={(e) => { e.stopPropagation(); setLangOpen(!langOpen); }}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium transition-all min-h-[40px] min-w-[40px]"
-                style={{ border: "1px solid rgba(255,255,255,0.25)", color: "rgba(255,255,255,0.8)", background: "rgba(255,255,255,0.08)" }}
-                aria-label={l("Select language", "ഭാഷ തിരഞ്ഞെടുക്കുക", "ભાષા પસંદ કરો", "Chọn ngôn ngữ", "Pumili ng wika")}
-                aria-expanded={langOpen}
-              >
-                <Globe size={16} style={{ color: "#C41E3A" }} className="flex-shrink-0" />
-                <span className="hidden sm:inline">{langMeta[lang].native}</span>
-                <span className="sm:hidden">{langMeta[lang].short}</span>
-                <ChevronDown
-                  size={13}
-                  className={`hidden sm:block transition-transform duration-200 ${langOpen ? "rotate-180" : ""}`}
-                  style={{ color: "rgba(255,255,255,0.5)" }}
-                />
-              </button>
-
-              <AnimatePresence>
-                {langOpen && (
-                  <motion.div
-                    initial={{ opacity: 0, y: -8, scale: 0.96 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: -8, scale: 0.96 }}
-                    transition={{ duration: 0.15, ease: "easeOut" }}
-                    className="absolute right-0 top-full mt-2 bg-white rounded-2xl overflow-hidden z-50"
-                    style={{ width: 200, boxShadow: "0 8px 24px rgba(0,0,0,0.2)", border: "1px solid #E5E7EB" }}
-                    role="menu"
-                  >
-                    {(Object.keys(langMeta) as Lang[]).map((code) => (
-                      <button
-                        key={code}
-                        type="button"
-                        role="menuitem"
-                        onClick={() => { setLang(code); setLangOpen(false); }}
-                        className="w-full px-4 py-3 text-left flex items-center justify-between transition-colors min-h-[48px]"
-                        style={{
-                          fontSize: 15,
-                          fontWeight: lang === code ? 700 : 500,
-                          color: lang === code ? "#C41E3A" : "#374151",
-                          backgroundColor: lang === code ? "#FFF0F3" : "transparent",
-                          fontFamily: "var(--font-dm-sans, system-ui, sans-serif)",
-                        }}
-                        onMouseEnter={(e) => { if (lang !== code) (e.currentTarget as HTMLElement).style.backgroundColor = "#F9FAFB"; }}
-                        onMouseLeave={(e) => { if (lang !== code) (e.currentTarget as HTMLElement).style.backgroundColor = "transparent"; }}
-                      >
-                        <span>{langMeta[code].native}</span>
-                        {lang === code && <Check size={16} style={{ color: "#C41E3A" }} />}
-                      </button>
-                    ))}
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
+            <button
+              type="button"
+              onClick={() => {
+                if (preferredLang && preferredLang !== "en") {
+                  setLang(lang === "en" ? preferredLang : "en");
+                } else {
+                  // No preferred lang set (or it's English) — cycle through all
+                  const order: Lang[] = Object.keys(langMeta) as Lang[];
+                  const idx = order.indexOf(lang);
+                  setLang(order[(idx + 1) % order.length]);
+                }
+              }}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium transition-all min-h-[40px] min-w-[40px]"
+              style={{ border: "1px solid rgba(255,255,255,0.25)", color: "rgba(255,255,255,0.8)", background: "rgba(255,255,255,0.08)" }}
+              aria-label={l("Switch language", "ഭാഷ മാറ്റുക", "ભાષા બદલો", "Đổi ngôn ngữ", "Palitan ang wika")}
+            >
+              <Globe size={16} style={{ color: "#C41E3A" }} className="flex-shrink-0" />
+              <span className="hidden sm:inline">{langMeta[lang].native}</span>
+              <span className="sm:hidden">{langMeta[lang].short}</span>
+            </button>
           )}
 
           {/* Login / Logout — desktop */}

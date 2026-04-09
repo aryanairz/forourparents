@@ -16,6 +16,7 @@ const RED = "#C41E3A";
 
 const LANG_OPTIONS: { code: Lang; label: string }[] = [
   { code: "en", label: "English" },
+  { code: "es", label: "Español (Spanish)" },
   { code: "ml", label: "Malayalam (മലയാളം)" },
   { code: "gu", label: "Gujarati (ગુજરાતી)" },
   { code: "vi", label: "Vietnamese (Tiếng Việt)" },
@@ -53,8 +54,8 @@ function ProgressBar({ step, total }: { step: number; total: number }) {
 export default function OnboardingPage() {
   const router = useRouter();
   const { lang, setLang } = useLanguage();
-  const l = (en: string, ml: string, gu?: string, vi?: string, tl?: string) =>
-    lang === "en" ? en : lang === "ml" ? ml : lang === "gu" ? (gu ?? en) : lang === "vi" ? (vi ?? en) : (tl ?? en);
+  const l = (en: string, ml: string, gu?: string, vi?: string, tl?: string, es?: string) =>
+    lang === "en" ? en : lang === "ml" ? ml : lang === "gu" ? (gu ?? en) : lang === "vi" ? (vi ?? en) : lang === "tl" ? (tl ?? en) : (es ?? en);
 
   const [step, setStep] = useState(1);
   const [dir, setDir] = useState(1);
@@ -122,7 +123,8 @@ export default function OnboardingPage() {
     const { user, errorMsg } = await signupUser(
       firstName.trim(), lastName.trim(), email.trim(), pin,
       phone.trim(), state || undefined,
-      district !== "" ? Number(district) : undefined
+      district !== "" ? Number(district) : undefined,
+      language
     );
     if (user) {
       setCurrentUser(user);

@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { Lang } from "@/data/questions";
-import { getStoredLanguage, setStoredLanguage } from "@/lib/storage";
+import { getStoredLanguage, setStoredLanguage, getCurrentUser, updateUserLanguage } from "@/lib/storage";
 
 interface LanguageContextValue {
   lang: Lang;
@@ -30,10 +30,15 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
   const setLang = (next: Lang) => {
     setLangState(next);
     setStoredLanguage(next);
+    // If user is logged in, persist to Supabase
+    const user = getCurrentUser();
+    if (user) {
+      updateUserLanguage(next);
+    }
   };
 
   const toggleLang = () => {
-    const order: Lang[] = ["en", "ml", "gu", "vi", "tl"];
+    const order: Lang[] = ["en", "ml", "gu", "vi", "tl", "es"];
     const idx = order.indexOf(lang);
     const next = order[(idx + 1) % order.length];
     setLang(next);

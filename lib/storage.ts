@@ -10,7 +10,7 @@ export function getStoredLanguage(): Lang {
   if (typeof window === "undefined") return "en";
   try {
     const stored = localStorage.getItem(LANG_KEY);
-    if (stored === "en" || stored === "ml" || stored === "gu" || stored === "vi" || stored === "tl") return stored;
+    if (stored === "en" || stored === "ml" || stored === "gu" || stored === "vi" || stored === "tl" || stored === "es") return stored;
   } catch {
     // localStorage unavailable
   }
@@ -37,6 +37,7 @@ export interface User {
   phone?: string;
   state?: string;
   district?: number;
+  preferredLang?: Lang;
 }
 
 export function getCurrentUser(): User | null {
@@ -108,12 +109,13 @@ export async function signupUser(
   phone: string,
   state?: string,
   district?: number,
+  lang?: Lang,
 ): Promise<{ user: User | null; errorMsg?: string }> {
   try {
     const res = await fetch("/api/signup", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ firstName, lastName, email, pin, phone, state, district }),
+      body: JSON.stringify({ firstName, lastName, email, pin, phone, state, district, lang: lang || "en" }),
     });
 
     const json = await res.json();
@@ -156,10 +158,10 @@ export async function loginUserByNamePin(
     // @ts-ignore - Types will work once Supabase credentials are configured
     const { data, error } = await supabase
       .from("users")
-      .select("id, name, first_name, last_name, email, phone, state, district")
+      .select("id, name, first_name, last_name, email, phone, state, district, preferred_lang")
       .eq("email", email.trim().toLowerCase())
       .eq("pin", pin)
-      .single<{ id: string; name: string; first_name?: string; last_name?: string; email?: string; phone?: string; state?: string; district?: number }>();
+      .single<{ id: string; name: string; first_name?: string; last_name?: string; email?: string; phone?: string; state?: string; district?: number; preferred_lang?: string }>();
 
     if (error || !data) return null;
 
@@ -172,8 +174,14 @@ export async function loginUserByNamePin(
       phone: data.phone,
       state: data.state || undefined,
       district: data.district ?? undefined,
+      preferredLang: (data.preferred_lang as Lang) || undefined,
     };
     setCurrentUser(user);
+
+    // Apply the user's saved language preference
+    if (data.preferred_lang) {
+      setStoredLanguage(data.preferred_lang as Lang);
+    }
 
     await supabase
       .from("users")
@@ -325,5 +333,28 @@ export async function getRecentAttempts(
     return data;
   } catch {
     return [];
+  }
+}
+
+// ── Language Preference (Supabase) ──────────────────
+
+export async function updateUserLanguage(lang: Lang): Promise<void> {
+  const user = getCurrentUser();
+  if (!user) return;
+
+  // Update locally
+  setStoredLanguage(lang);
+  user.preferredLang = lang;
+  setCurrentUser(user);
+
+  // Update in Supabase
+  try {
+    await supabase
+      .from("users")
+      // @ts-expect-error - Types will work once Supabase credentials are configured
+      .update({ preferred_lang: lang })
+      .eq("id", user.id);
+  } catch {
+    // Ignore — local state is already updated
   }
 }

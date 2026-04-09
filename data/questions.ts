@@ -1,4 +1,4 @@
-export type Lang = "en" | "ml" | "gu" | "vi" | "tl";
+export type Lang = "en" | "ml" | "gu" | "vi" | "tl" | "es";
 
 export type Topic = "government" | "rights" | "history" | "symbols" | "extra";
 
@@ -8,6 +8,7 @@ export interface BilingualText {
   gu: string;
   vi?: string;
   tl?: string;
+  es?: string;
 }
 
 export interface Question {
@@ -658,6 +659,7 @@ export const questions: Question[] = [
         ml: "വോട്ട് ചെയ്യാനും ഭൂമി സ്വന്തമാക്കാനും ആയുധം വഹിക്കാനും മാത്രമുള്ള അവകാശം",
         gu: "ફક્ત મતદાન, જમીનની માલિકી અને શસ્ત્ર રાખવાનો અધિકાર",
         vi: "Chỉ quyền bỏ phiếu, sở hữu đất và mang vũ khí",
+        tl: "Tanging ang karapatang bumoto, magmay-ari ng lupa, at magdala ng armas",
       },
     ],
     correctIndex: 0,
@@ -666,6 +668,7 @@ export const questions: Question[] = [
       ml: "അമേരിക്കയിൽ താമസിക്കുന്ന എല്ലാവർക്കും ആവിഷ്കാര സ്വാതന്ത്ര്യം, സംസാര സ്വാതന്ത്ര്യം, സമ്മേളന സ്വാതന്ത്ര്യം, മത സ്വാതന്ത്ര്യം, ഗവൺമെന്റിനോട് ഹർജി നൽകാനുള്ള അവകാശം, ആയുധം വഹിക്കാനുള്ള അവകാശം എന്നിവ ഉണ്ട്.",
       gu: "યુનાઈટેડ સ્ટેટ્સમાં રહેતી દરેક વ્યક્તિને અભિવ્યક્તિ, વાણી, સભા, ધર્મની સ્વતંત્રતા, સરકારને અરજી કરવાનો અધિકાર અને શસ્ત્ર રાખવાનો અધિકાર છે.",
       vi: "Mọi người sống ở Hoa Kỳ có quyền tự do biểu đạt, ngôn luận, hội họp, tôn giáo, quyền thỉnh nguyện chính phủ và mang vũ khí.",
+      tl: "Lahat ng naninirahan sa Estados Unidos ay may kalayaan sa pagpapahayag, pananalita, pagpupulong, relihiyon, karapatang magpetisyon sa pamahalaan, at magdala ng armas.",
     },
   },
   {
@@ -1171,6 +1174,7 @@ export const questions: Question[] = [
       ml: '"ദി സ്റ്റാർ-സ്പാംഗിൾഡ് ബാനർ" ആണ് ദേശീയ ഗാനം.',
       gu: 'રાષ્ટ્રગીત "ધ સ્ટાર-સ્પેન્ગલ્ડ બેનર" છે.',
       vi: 'Quốc ca là "The Star-Spangled Banner."',
+      tl: 'Ang pambansang awit ay "The Star-Spangled Banner."',
     },
   },
   {

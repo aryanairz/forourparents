@@ -7,7 +7,7 @@ import { useLanguage } from "@/lib/LanguageContext";
 const NAVY = "#1B2A4A";
 const RED = "#C41E3A";
 
-type MultiText = { en: string; ml: string; gu: string; vi: string; tl: string };
+type MultiText = { en: string; ml: string; gu: string; vi: string; tl: string; es?: string };
 
 interface FAQItem {
   q: MultiText;
@@ -140,7 +140,7 @@ export default function FAQAccordion() {
                   transition: "color 0.2s ease",
                 }}
               >
-                {item.q[lang]}
+                {item.q[lang] ?? item.q.en}
               </span>
               <motion.span
                 animate={{ rotate: isOpen ? 45 : 0 }}
@@ -182,7 +182,7 @@ export default function FAQAccordion() {
                       margin: 0,
                     }}
                   >
-                    {item.a[lang]}
+                    {item.a[lang] ?? item.a.en}
                   </p>
                 </motion.div>
               )}

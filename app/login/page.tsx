@@ -8,16 +8,17 @@ import { Eye, EyeOff } from "lucide-react";
 import { motion } from "framer-motion";
 import { loginUserByNamePin } from "@/lib/storage";
 import { useLanguage } from "@/lib/LanguageContext";
+import type { Lang } from "@/data/questions";
 
 const NAVY = "#1B2A4A";
 const RED = "#C41E3A";
 
 /** Static quiz card mockup shown in the left panel */
-function QuizMockup({ lang }: { lang: "en" | "ml" | "gu" | "vi" | "tl" }) {
+function QuizMockup({ lang }: { lang: Lang }) {
   const [selected, setSelected] = useState<number | null>(null);
   const correct = 0;
-  const l = (en: string, ml: string, gu?: string, vi?: string, tl?: string) =>
-    lang === "en" ? en : lang === "ml" ? ml : lang === "gu" ? (gu ?? en) : lang === "vi" ? (vi ?? en) : (tl ?? en);
+  const l = (en: string, ml: string, gu?: string, vi?: string, tl?: string, es?: string) =>
+    lang === "en" ? en : lang === "ml" ? ml : lang === "gu" ? (gu ?? en) : lang === "vi" ? (vi ?? en) : lang === "tl" ? (tl ?? en) : (es ?? en);
   const options = [
     l("The U.S. Constitution", "യു.എസ്. ഭരണഘടന", "યુ.એસ. બંધારણ", "Hiến pháp Hoa Kỳ", "Ang Konstitusyon ng U.S."),
     l("The Declaration of Independence", "സ്വാതന്ത്ര്യ പ്രഖ്യാപനം", "સ્વતંત્રતાની ઘોષણા", "Tuyên ngôn Độc lập", "Ang Deklarasyon ng Kalayaan"),
@@ -76,8 +77,8 @@ function QuizMockup({ lang }: { lang: "en" | "ml" | "gu" | "vi" | "tl" }) {
 export default function LoginPage() {
   const router = useRouter();
   const { lang } = useLanguage();
-  const l = (en: string, ml: string, gu?: string, vi?: string, tl?: string) =>
-    lang === "en" ? en : lang === "ml" ? ml : lang === "gu" ? (gu ?? en) : lang === "vi" ? (vi ?? en) : (tl ?? en);
+  const l = (en: string, ml: string, gu?: string, vi?: string, tl?: string, es?: string) =>
+    lang === "en" ? en : lang === "ml" ? ml : lang === "gu" ? (gu ?? en) : lang === "vi" ? (vi ?? en) : lang === "tl" ? (tl ?? en) : (es ?? en);
   const [email, setEmail] = useState("");
   const [pin, setPin] = useState("");
   const [showPin, setShowPin] = useState(false);

@@ -13,7 +13,7 @@ import {
   type QuizAttempt,
 } from "@/lib/storage";
 import { questions, topicLabels, type Topic } from "@/data/questions";
-import { Landmark, Scale, ScrollText, Flag, Flame, CheckCircle2, ArrowRight, BookOpen, Layers, AlertCircle, ClipboardCheck, MapPin, Star } from "lucide-react";
+import { Landmark, Scale, ScrollText, Flag, Flame, CheckCircle2, ArrowRight, BookOpen, Layers, AlertCircle, ClipboardCheck, MapPin, Star, Globe, Check } from "lucide-react";
 import { getPersonalizedQuestions } from "@/data/personalizedQuestions";
 import { motion, useReducedMotion } from "framer-motion";
 import type { Lang } from "@/data/questions";
@@ -29,6 +29,7 @@ const langNames: Record<Lang, string> = {
   gu: "Gujarati",
   vi: "Vietnamese",
   tl: "Tagalog",
+  es: "Español",
 };
 
 const topicIconMap: Record<string, React.ReactNode> = {
@@ -134,8 +135,8 @@ function TopicProgressBar({
 }) {
   const { lang } = useLanguage();
   const clean = mistakes === 0;
-  const l = (en: string, ml: string, gu?: string, vi?: string, tl?: string) =>
-    lang === "en" ? en : lang === "ml" ? ml : lang === "gu" ? (gu ?? en) : lang === "vi" ? (vi ?? en) : (tl ?? en);
+  const l = (en: string, ml: string, gu?: string, vi?: string, tl?: string, es?: string) =>
+    lang === "en" ? en : lang === "ml" ? ml : lang === "gu" ? (gu ?? en) : lang === "vi" ? (vi ?? en) : lang === "tl" ? (tl ?? en) : (es ?? en);
 
   return (
     <div
@@ -185,7 +186,7 @@ function TopicProgressBar({
 /* ═══════════════════════════════════════════════════════ */
 
 export default function DashboardPage() {
-  const { lang } = useLanguage();
+  const { lang, setLang } = useLanguage();
   const router = useRouter();
   const prefersReducedMotion = useReducedMotion();
   const shouldAnimate = !prefersReducedMotion;
@@ -195,8 +196,8 @@ export default function DashboardPage() {
   const [mistakeIds, setMistakeIds] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const l = (en: string, ml: string, gu?: string, vi?: string, tl?: string) =>
-    lang === "en" ? en : lang === "ml" ? ml : lang === "gu" ? (gu ?? en) : lang === "vi" ? (vi ?? en) : (tl ?? en);
+  const l = (en: string, ml: string, gu?: string, vi?: string, tl?: string, es?: string) =>
+    lang === "en" ? en : lang === "ml" ? ml : lang === "gu" ? (gu ?? en) : lang === "vi" ? (vi ?? en) : lang === "tl" ? (tl ?? en) : (es ?? en);
 
   useEffect(() => {
     const currentUser = getCurrentUser();
@@ -365,6 +366,34 @@ export default function DashboardPage() {
             `Lahat ng Tanong Â· Nag-aaral sa ${langNames[lang]}`
           )}
         </p>
+
+        {/* Language Picker */}
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginTop: 16 }}>
+          {(Object.keys(langNames) as Lang[]).map((code) => (
+            <button
+              key={code}
+              onClick={() => setLang(code)}
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 6,
+                padding: "6px 14px",
+                borderRadius: 999,
+                fontSize: 13,
+                fontWeight: lang === code ? 700 : 500,
+                fontFamily: FONT,
+                color: lang === code ? "#FFFFFF" : "#6B7280",
+                background: lang === code ? NAVY : "#F5F5F5",
+                border: lang === code ? `1px solid ${NAVY}` : "1px solid #E5E7EB",
+                cursor: "pointer",
+                transition: "all 0.15s",
+              }}
+            >
+              {lang === code && <Check size={12} />}
+              {langNames[code]}
+            </button>
+          ))}
+        </div>
 
         {hasAttempts && (
           <div style={{ marginTop: 24 }}>
@@ -612,8 +641,8 @@ export default function DashboardPage() {
           {hasPersonalized && (() => {
             const localMistakes = personalizedQs.filter((q) => mistakeIds.includes(q.id)).length;
             const clean = localMistakes === 0;
-            const ll = (en: string, ml: string, gu?: string, vi?: string, tl?: string) =>
-              lang === "en" ? en : lang === "ml" ? ml : lang === "gu" ? (gu ?? en) : lang === "vi" ? (vi ?? en) : (tl ?? en);
+            const ll = (en: string, ml: string, gu?: string, vi?: string, tl?: string, es?: string) =>
+              lang === "en" ? en : lang === "ml" ? ml : lang === "gu" ? (gu ?? en) : lang === "vi" ? (vi ?? en) : lang === "tl" ? (tl ?? en) : (es ?? en);
             return (
               <div
                 style={{

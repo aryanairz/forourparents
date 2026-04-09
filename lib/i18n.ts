@@ -113,7 +113,7 @@ export type TranslationKey =
   | "landingFooter"
   | "landingFooterSub";
 
-export const translations: Record<TranslationKey, Record<Lang, string>> = {
+export const translations: Record<TranslationKey, { en: string } & Partial<Record<Exclude<Lang, "en">, string>>> = {
   appName: {
     en: "For Our Parents",
     ml: "നമ്മുടെ മാതാപിതാക്കൾക്കായി",
@@ -500,5 +500,5 @@ export const translations: Record<TranslationKey, Record<Lang, string>> = {
 };
 
 export function t(key: TranslationKey, lang: Lang): string {
-  return translations[key]?.[lang] ?? key;
+  return translations[key]?.[lang] ?? translations[key]?.en ?? key;
 }

@@ -34,11 +34,13 @@ const fadeFromRight = {
 /* ─── Marquee data ─── */
 const marqueeItems = [
   { text: "English", native: "English" },
+  { text: "Spanish", native: "Español" },
   { text: "Malayalam", native: "മലയാളം" },
   { text: "Gujarati", native: "ગુજરાતી" },
   { text: "Vietnamese", native: "Tiếng Việt" },
   { text: "Tagalog", native: "Tagalog" },
   { text: "English", native: "English" },
+  { text: "Spanish", native: "Español" },
   { text: "Malayalam", native: "മലയാളം" },
   { text: "Gujarati", native: "ગુજરાતી" },
   { text: "Vietnamese", native: "Tiếng Việt" },
@@ -177,8 +179,8 @@ export default function HomePage() {
     return <AuthenticatedHome />;
   }
 
-  const l = (en: string, ml: string, gu: string, vi: string, tl?: string) =>
-    lang === "en" ? en : lang === "ml" ? ml : lang === "gu" ? gu : lang === "vi" ? vi : (tl ?? en);
+  const l = (en: string, ml: string, gu: string, vi: string, tl?: string, es?: string) =>
+    lang === "en" ? en : lang === "ml" ? ml : lang === "gu" ? gu : lang === "vi" ? vi : lang === "tl" ? (tl ?? en) : (es ?? en);
 
   return (
     <div className="landing-page" style={{ background: "#FFFFFF" }}>
@@ -911,8 +913,8 @@ export default function HomePage() {
 function AuthenticatedHome() {
   const { lang } = useLanguage();
 
-  const l = (en: string, ml: string, gu?: string, vi?: string, tl?: string) =>
-    lang === "en" ? en : lang === "ml" ? ml : lang === "gu" ? (gu ?? en) : lang === "vi" ? (vi ?? en) : (tl ?? en);
+  const l = (en: string, ml: string, gu?: string, vi?: string, tl?: string, es?: string) =>
+    lang === "en" ? en : lang === "ml" ? ml : lang === "gu" ? (gu ?? en) : lang === "vi" ? (vi ?? en) : lang === "tl" ? (tl ?? en) : (es ?? en);
 
   return (
     <div className="max-w-grid mx-auto px-4 sm:px-6">

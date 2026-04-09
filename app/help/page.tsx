@@ -17,7 +17,7 @@ const stagger = {
 };
 
 /* ── Trilingual content helpers ────────────────────── */
-type Tri = { en: string; ml: string; gu: string; vi: string; tl: string };
+type Tri = { en: string; ml: string; gu: string; vi: string; tl: string; es?: string };
 const tri = (en: string, ml: string, gu: string, vi: string, tl: string): Tri => ({ en, ml, gu, vi, tl });
 
 /* ── FAQ data ─────────────────────────────────────── */
@@ -227,8 +227,8 @@ export default function HelpPage() {
     );
   }
 
-  const l = (en: string, ml: string, gu?: string, vi?: string, tl?: string) =>
-    lang === "en" ? en : lang === "ml" ? ml : lang === "gu" ? (gu ?? en) : lang === "vi" ? (vi ?? en) : (tl ?? en);
+  const l = (en: string, ml: string, gu?: string, vi?: string, tl?: string, es?: string) =>
+    lang === "en" ? en : lang === "ml" ? ml : lang === "gu" ? (gu ?? en) : lang === "vi" ? (vi ?? en) : lang === "tl" ? (tl ?? en) : (es ?? en);
 
   return (
     <motion.div
@@ -380,8 +380,8 @@ export default function HelpPage() {
         </h2>
         <div className="space-y-2">
           {faqs.map((faq, i) => (
-            <Accordion key={i} title={faq.q[lang]}>
-              <p className="text-[0.9375rem] text-text-body leading-relaxed">{faq.a[lang]}</p>
+            <Accordion key={i} title={faq.q[lang] ?? faq.q.en}>
+              <p className="text-[0.9375rem] text-text-body leading-relaxed">{faq.a[lang] ?? faq.a.en}</p>
             </Accordion>
           ))}
         </div>
@@ -486,8 +486,8 @@ export default function HelpPage() {
         </h2>
         <div className="space-y-2">
           {troubleshooting.map((item, i) => (
-            <Accordion key={i} title={item.issue[lang]}>
-              <p className="text-[0.9375rem] text-text-body leading-relaxed">{item.fix[lang]}</p>
+            <Accordion key={i} title={item.issue[lang] ?? item.issue.en}>
+              <p className="text-[0.9375rem] text-text-body leading-relaxed">{item.fix[lang] ?? item.fix.en}</p>
             </Accordion>
           ))}
         </div>

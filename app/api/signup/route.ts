@@ -8,7 +8,7 @@ const supabase = createClient(
 
 export async function POST(req: NextRequest) {
   try {
-    const { firstName, lastName, email, pin, phone, state, district } = await req.json();
+    const { firstName, lastName, email, pin, phone, state, district, lang } = await req.json();
 
     const name = `${firstName.trim()} ${lastName.trim()}`;
     const { data, error } = await supabase
@@ -23,6 +23,7 @@ export async function POST(req: NextRequest) {
         phone: phone.trim(),
         state: state || null,
         district: district ?? null,
+        preferred_lang: lang || "en",
       })
       .select("id, name")
       .single<{ id: string; name: string }>();
