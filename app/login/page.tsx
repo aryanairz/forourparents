@@ -120,7 +120,7 @@ export default function LoginPage() {
       <div
         style={{
           flex: 1, background: "#FFF1F1",
-          display: "flex", alignItems: "center", justifyContent: "center",
+          alignItems: "center", justifyContent: "center",
           padding: 40, position: "relative", overflow: "hidden",
         }}
         className="hidden md:flex"
